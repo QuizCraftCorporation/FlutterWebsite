@@ -17,14 +17,28 @@ class ViewQuizScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       child: Scaffold(
-        appBar: MainAppBar(title: 'Quiz'),
+        appBar: const MainAppBar(title: 'Quiz'),
         // body: Body(),
-        body: SliderDrawer(
-          appBar: Container(),
-          slider: const SliderView(),
-          sliderOpenSize: 200,
-          sliderCloseSize: 200,
-          child: Body(quiz: quiz),
+        // body: SliderDrawer(
+        //   appBar: Container(),
+        //   slider: const MainDrawer(),
+        //   sliderOpenSize: 200,
+        //   sliderCloseSize: 200,
+        //   child: Body(quiz: quiz),
+        // ),
+        body: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(0, 0, 0, 0.02),
+              ),
+              width: 200,
+              child: MainDrawer(),
+            ),
+            Body(quiz: quiz,),
+          ],
         ),
       ),
       create: (BuildContext context) => ViewQuizBloc(),

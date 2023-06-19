@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
+import 'package:capstone_project/features/view_quiz/presentation/view_quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/styles/theme.dart';
@@ -35,19 +36,31 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<CreateQuizCubit, CreateQuizState>(
+      child: BlocConsumer<CreateQuizCubit, CreateQuizState>(
+        listener: (context, state){
+          if (state is CreateQuizLoaded){
+            // TODO: Navigate to ViewQuizScreen with auto_router
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => ViewQuizScreen(quiz: state.quiz),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is CreateQuizInitial || state is CreateQuizError) {
             return Container(
               // TODO: подумай как тут нормальные отступы сделать
+              width: MediaQuery.of(context).size.width / 2,
+              alignment: Alignment.topCenter,
               margin: EdgeInsets.only(
                   top: 35,
-                  bottom: 35,
-                  left: max(MediaQuery.of(context).size.width / 6, 20),
-                  right: MediaQuery.of(context).size.width / 6),
+                  left: min(MediaQuery.of(context).size.width / 10, 250),
+                  // right: MediaQuery.of(context).size.width / 6,
+                ),
               child: ListView(
-                padding: const EdgeInsets.only(
-                    top: 20, bottom: 20, left: 40, right: 40),
+                // padding: const EdgeInsets.only(
+                //     top: 20, left: 40),
                 children: [
                   const SizedBox(
                     height: 50,
@@ -72,7 +85,6 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   SizedBox(
-                    width: 50,
                     child: TextField(
                       controller: _titleController,
                       decoration: const InputDecoration(
@@ -169,15 +181,19 @@ class _BodyState extends State<Body> {
               ),
             );
           } else if (state is CreateQuizLoading) {
-            return const SizedBox(
-                height: 30,
-                width: 30,
-                child: CircularProgressIndicator());
-          } else {
+            return Container(
+              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3, left: MediaQuery.of(context).size.width / 3),
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is CreateQuizLoaded) {
             /// State is Loaded. Time to show a quiz
-            // TODO: Navigate to ViewQuizScreen
+            //
           }
+          // else {
           return Container();
+          // }
         },
       ),
     );

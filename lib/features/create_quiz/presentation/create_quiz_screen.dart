@@ -15,17 +15,30 @@ class CreateQuizScreen extends StatelessWidget {
     // bool isDesktop =
     return BlocProvider<CreateQuizCubit>(
       child: Scaffold(
-        appBar: const MainAppBar(
+        appBar: MainAppBar(
           title: 'Crafter',
         ),
-        // body: Body(),
-        body: SliderDrawer(
-          appBar: Container(),
-          slider: const SliderView(),
-          child: Body(),
-          sliderOpenSize: 200,
-          sliderCloseSize: 200,
+        body: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(0, 0, 0, 0.02),
+              ),
+              width: 200,
+              child: MainDrawer(),
+            ),
+            Body(),
+          ],
         ),
+        // body: SliderDrawer(
+        //   appBar: Container(),
+        //   slider: SliderView(),
+        //   child: Body(),
+        //   sliderOpenSize: 200,
+        //   sliderCloseSize: 0,
+        // ),
       ),
       create: (BuildContext context) => CreateQuizCubit(),
     );
