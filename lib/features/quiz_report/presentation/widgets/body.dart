@@ -18,7 +18,21 @@ class Body extends StatelessWidget {
     return BlocConsumer<QuizReportCubit, QuizReportState>(
       listener: (context, state) {},
       builder: (context, state) {
-        List<Widget> questions = [];
+        List<Widget> questions = [
+          Container(
+            padding: const EdgeInsets.only(
+              top: 35,
+              left: 35,
+            ),
+            child: SelectableText(
+              'Your total score is ${quizReport.totalScore} out of ${quiz.questions.length}',
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ];
         for (int i = 0; i < quiz.questions.length; i++) {
           if (quiz.questions[i] is MultipleAnswerQuestion) {
             Set<int> chosen = {};

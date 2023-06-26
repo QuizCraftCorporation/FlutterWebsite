@@ -22,13 +22,21 @@ class MAQReport extends StatelessWidget {
       text.add(
         Container(
           alignment: Alignment.topCenter,
-          child: const SelectableText(
-            'Your answer is correct',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-              fontSize: 21,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SelectableText(
+                'Your answer is correct.',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 21,
+                    color: Colors.green),
+              ),
+              Text(
+                '  Score: $score out of 1',
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
           ),
         ),
       );
@@ -36,13 +44,21 @@ class MAQReport extends StatelessWidget {
       text.add(
         Container(
           alignment: Alignment.topCenter,
-          child: const SelectableText(
-            'You made a mistake',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 21,
-              color: Colors.red
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SelectableText(
+                'You made a mistake.',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 21,
+                    color: Colors.red),
+              ),
+              Text(
+                '  Score: $score out of 1',
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
           ),
         ),
       );
@@ -69,7 +85,6 @@ class MAQReport extends StatelessWidget {
     );
     for (int i = 0; i < maq.options.length; i++) {
       Color textColor = Colors.black;
-      // print('Cur: ${maq.options[i].text}, true: ${maq.trueAnswer}');
       if (maq.options[i].text.compareTo(maq.trueAnswer) == 0) {
         textColor = Colors.green;
       }

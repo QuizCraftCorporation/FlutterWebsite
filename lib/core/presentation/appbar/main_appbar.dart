@@ -10,14 +10,23 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text(
-        'QuizCraft AI',
-      ),
-      titleTextStyle: const TextStyle(
-          color: Color.fromRGBO(0, 0, 33, 1.0),
-          fontSize: 28,
-          fontFamily: 'Literata',
-          fontWeight: FontWeight.w900),
+      title: Image.asset('assets/logo_image/logo.png', scale: 4,),
+      // leading: Image.asset('assets/logo_image/logo.png'),
+      // title: Text(title),
+      // titleTextStyle: const TextStyle(
+      //   fontSize: 25,
+      //   fontWeight: FontWeight.w900,
+      // ),
+      // centerTitle: true,
+      // title: const Text(
+      //   'QuizCraft AI',
+      // ),
+      // titleTextStyle: const TextStyle(
+      //   color: Color.fromRGBO(0, 0, 33, 1.0),
+      //   fontSize: 28,
+      //   fontFamily: 'Literata',
+      //   fontWeight: FontWeight.w900,
+      // ),
       backgroundColor: AppTheme.appbarBackgroundColor,
       shadowColor: Colors.black,
       actions: [
