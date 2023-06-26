@@ -1,21 +1,20 @@
-import 'package:auto_route/annotations.dart';
-import 'package:capstone_project/core/presentation/appbar/main_appbar.dart';
-import 'package:capstone_project/features/view_quiz/presentation/widgets/body.dart';
+import 'package:capstone_project/features/solve_quiz/presentation/cubit/solve_quiz_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/presentation/appbar/main_appbar.dart';
 import '../../../core/presentation/drawer/main_drawer.dart';
-import 'cubit/view_quiz_cubit.dart';
+import 'package:auto_route/annotations.dart';
+import 'widgets/body.dart';
 
 @RoutePage()
-class ViewQuizScreen extends StatelessWidget {
-  const ViewQuizScreen({Key? key, @PathParam('id') required this.quizId})
-      : super(key: key);
+class SolveQuizScreen extends StatelessWidget {
+  const SolveQuizScreen({super.key, @PathParam('id') required this.quizId});
 
   final int quizId;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ViewQuizCubit>(
+    return BlocProvider<SolveQuizCubit>(
       child: Scaffold(
         appBar: const MainAppBar(title: 'Quiz'),
         body: Row(
@@ -35,16 +34,7 @@ class ViewQuizScreen extends StatelessWidget {
           ],
         ),
       ),
-      create: (BuildContext context) => ViewQuizCubit(),
+      create: (BuildContext context) => SolveQuizCubit(),
     );
   }
 }
-
-// body: Body(),
-// body: SliderDrawer(
-//   appBar: Container(),
-//   slider: const MainDrawer(),
-//   sliderOpenSize: 200,
-//   sliderCloseSize: 200,
-//   child: Body(quiz: quiz),
-// ),

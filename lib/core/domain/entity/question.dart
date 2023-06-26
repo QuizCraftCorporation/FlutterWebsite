@@ -1,4 +1,6 @@
-abstract class Question{
+abstract class Question {
   final String questionText;
-  const Question({required this.questionText});
+  final int id;
+
+  const Question({required this.id, required this.questionText});
 }

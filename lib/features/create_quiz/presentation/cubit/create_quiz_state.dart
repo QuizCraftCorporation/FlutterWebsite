@@ -14,12 +14,26 @@ class CreateQuizLoading extends CreateQuizState {
 }
 
 class CreateQuizLoaded extends CreateQuizState {
-  final Quiz quiz;
-  const CreateQuizLoaded(this.quiz);
+  final int quizId;
+  const CreateQuizLoaded(this.quizId);
+}
 
+class CreateQuizGoToSolving extends CreateQuizState {
+  final int quizId;
+  const CreateQuizGoToSolving(this.quizId);
+}
+
+class CreateQuizGoToView extends CreateQuizState {
+  final int quizId;
+  const CreateQuizGoToView(this.quizId);
 }
 
 class CreateQuizError extends CreateQuizState {
-  final String message;
-  const CreateQuizError(this.message);
+  // final String message;
+  // const CreateQuizError(this.message);
+}
+
+class CreateQuizSendFile extends CreateQuizState {
+  final File file;
+  const CreateQuizSendFile(this.file);
 }

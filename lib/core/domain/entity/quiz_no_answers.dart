@@ -1,22 +1,21 @@
-import 'package:capstone_project/core/domain/entity/multiple_answer_question.dart';
 import 'package:capstone_project/core/domain/entity/question.dart';
+import 'multiple_answer_question_no_answer.dart';
 
-class Quiz {
-  const Quiz(
+class QuizNoAnswers {
+  const QuizNoAnswers(
       {required this.id,
-      required this.title,
-      required this.description,
-      required this.questions});
+        required this.title,
+        required this.description,
+        required this.questions});
 
   final int id;
   final String title;
   final String description;
   final List<Question> questions;
 
-  factory Quiz.fromJson(json) {
-    //   Map<String, dynamic> quiz = jsonDecode(jsonString);
+  factory QuizNoAnswers.fromJson(json) {
     List<dynamic> questionsRaw = json['questions']
-        .map((data) => MultipleAnswerQuestion.fromJson(data))
+        .map((data) => MultipleAnswerQuestionNoAnswer.fromJson(data))
         .toList();
 
     List<Question> questions = [];
@@ -24,7 +23,7 @@ class Quiz {
       questions.add(questionsRaw[i] as Question);
     }
 
-    return Quiz(
+    return QuizNoAnswers(
       id: json['id'],
       title: json['title'],
       // description: json['description'],

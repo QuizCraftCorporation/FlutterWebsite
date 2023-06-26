@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import '../../../core/presentation/appbar/main_appbar.dart';
 import '../../../core/presentation/drawer/main_drawer.dart';
 import 'widgets/body.dart';
 
+@RoutePage()
 class CreateQuizScreen extends StatelessWidget {
   const CreateQuizScreen({Key? key}) : super(key: key);
 
@@ -15,7 +16,7 @@ class CreateQuizScreen extends StatelessWidget {
     // bool isDesktop =
     return BlocProvider<CreateQuizCubit>(
       child: Scaffold(
-        appBar: MainAppBar(
+        appBar: const MainAppBar(
           title: 'Crafter',
         ),
         body: Row(
@@ -23,22 +24,15 @@ class CreateQuizScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(0, 0, 0, 0.02),
               ),
               width: 200,
-              child: MainDrawer(),
+              child: const MainDrawer(),
             ),
-            Body(),
+            const Body(),
           ],
         ),
-        // body: SliderDrawer(
-        //   appBar: Container(),
-        //   slider: SliderView(),
-        //   child: Body(),
-        //   sliderOpenSize: 200,
-        //   sliderCloseSize: 0,
-        // ),
       ),
       create: (BuildContext context) => CreateQuizCubit(),
     );

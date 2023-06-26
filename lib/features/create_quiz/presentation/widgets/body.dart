@@ -1,10 +1,10 @@
-import 'dart:html';
-import 'dart:math';
+import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project/core/presentation/loading/loading.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
-import 'package:capstone_project/features/view_quiz/presentation/view_quiz_screen.dart';
+import 'package:capstone_project/features/create_quiz/presentation/widgets/text_field_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/styles/theme.dart';
+import 'dart:io';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -17,6 +17,7 @@ class _BodyState extends State<Body> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _inputController;
+  List<File> files = [];
 
   @override
   void initState() {
@@ -38,27 +39,23 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocConsumer<CreateQuizCubit, CreateQuizState>(
-        listener: (context, state){
-          if (state is CreateQuizLoaded){
-            // TODO: Navigate to ViewQuizScreen with auto_router
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => ViewQuizScreen(quiz: state.quiz),
-              ),
-            );
+        listener: (context, state) {
+          if (state is CreateQuizGoToView) {
+            AutoRouter.of(context).replaceNamed('/quiz/${state.quizId}');
+          } else if (state is CreateQuizGoToSolving) {
+            AutoRouter.of(context).replaceNamed('/quiz/solve/${state.quizId}');
           }
         },
         builder: (context, state) {
-          if (state is CreateQuizInitial || state is CreateQuizError) {
+          if (state is CreateQuizInitial) {
             return Container(
-              // TODO: подумай как тут нормальные отступы сделать
               width: MediaQuery.of(context).size.width / 2,
               alignment: Alignment.topCenter,
               margin: EdgeInsets.only(
-                  top: 35,
-                  left: min(MediaQuery.of(context).size.width / 10, 250),
-                  // right: MediaQuery.of(context).size.width / 6,
-                ),
+                top: 35,
+                left: MediaQuery.of(context).size.width / 10,
+                // right: MediaQuery.of(context).size.width / 6,
+              ),
               child: ListView(
                 // padding: const EdgeInsets.only(
                 //     top: 20, left: 40),
@@ -85,39 +82,18 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    child: TextField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(
-                        hintText: 'Title',
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                      ),
-                    ),
+                  TextFieldCircular(
+                    controller: _titleController,
+                    lines: 1,
+                    hint: 'Title',
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
-                    // width: max(MediaQuery.of(context).size.width / 4, 100),
-                    child: TextField(
-                      controller: _descriptionController,
-                      decoration: const InputDecoration(
-                        hintText: 'Description (optional)',
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                      ),
-                      maxLines: 4,
-                      minLines: 4,
-                    ),
+                  TextFieldCircular(
+                    controller: _descriptionController,
+                    lines: 4,
+                    hint: 'Description (optional)',
                   ),
                   const SizedBox(
                     height: 20,
@@ -133,23 +109,10 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    // width: max(MediaQuery.of(context).size.width / 4, 100),
-                    child: TextField(
-                      controller: _inputController,
-                      decoration: const InputDecoration(
-                        hintText:
-                            'Input text (use only this field or file attachment)',
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                      ),
-                      maxLines: 8,
-                      minLines: 8,
-                    ),
+                  TextFieldCircular(
+                    controller: _inputController,
+                    lines: 10,
+                    hint: 'Input text',
                   ),
                   const SizedBox(
                     height: 20,
@@ -172,10 +135,12 @@ class _BodyState extends State<Body> {
                   TextButton(
                     onPressed: () {
                       final cubit = BlocProvider.of<CreateQuizCubit>(context);
-                      cubit.quizRequest(_titleController.text,
-                          // File(),
-                          description: _descriptionController.text,
-                          rawText: _inputController.text);
+                      cubit.quizRequest(
+                        _titleController.text,
+                        _descriptionController.text,
+                        _inputController.text,
+                        files,
+                      );
                     },
                     child: const Text('Complete'),
                   ),
@@ -183,19 +148,46 @@ class _BodyState extends State<Body> {
               ),
             );
           } else if (state is CreateQuizLoading) {
-            return Container(
-              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3, left: MediaQuery.of(context).size.width / 3),
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(),
+            return const Loading(
+              text: 'Do magic for quiz creation',
             );
           } else if (state is CreateQuizLoaded) {
-            /// State is Loaded. Time to show a quiz
-            //
+            /// Loaded => navigate to ViewQuiz in listener
+            return Container(
+              alignment: Alignment.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                  ),
+                  TextButton(
+                    onPressed: () => BlocProvider.of<CreateQuizCubit>(context)
+                        .goToView(state.quizId),
+                    child: const Text(
+                      'View the quiz',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 35,
+                  ),
+                  TextButton(
+                    onPressed: () => BlocProvider.of<CreateQuizCubit>(context)
+                        .goToSolving(state.quizId),
+                    child: const Text(
+                      'Solving the quiz',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is CreateQuizError) {
+            // TODO: Error handling
           }
-          // else {
+          // Return something
           return Container();
-          // }
         },
       ),
     );

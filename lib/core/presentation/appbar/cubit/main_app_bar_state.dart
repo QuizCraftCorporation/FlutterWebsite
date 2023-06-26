@@ -1,4 +1,4 @@
-part of 'main_app_bar_bloc.dart';
+part of 'main_app_bar_cubit.dart';
 
 @immutable
 abstract class MainAppBarState {}

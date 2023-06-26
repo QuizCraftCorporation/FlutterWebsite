@@ -1,22 +1,19 @@
-import 'package:capstone_project/features/create_quiz/presentation/create_quiz_screen.dart';
 import 'package:flutter/material.dart';
+import '../core/domain/app_router.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}) : super(key: key);
+
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'QuizCraft',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CreateQuizScreen(),
-      // initialRoute: '/crafter',
-      // routes: {
-      //   '/crafter': (context) => const CreateQuizScreen(),
-      //   '/second': (context) => const ,
-      // },
+      routerConfig: _appRouter.config(),
     );
   }
 }

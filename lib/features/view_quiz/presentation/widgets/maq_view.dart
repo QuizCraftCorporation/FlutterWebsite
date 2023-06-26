@@ -2,45 +2,49 @@ import 'package:capstone_project/core/domain/entity/multiple_answer_question.dar
 import 'package:flutter/material.dart';
 
 class MAQView extends StatelessWidget {
-  const MAQView({Key? key, required this.maq}) : super(key: key);
+  const MAQView({Key? key, required this.maq, required this.number}) : super(key: key);
 
   final MultipleAnswerQuestion maq;
+  final int number;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> text = [
       SelectableText(
-        maq.questionText,
+        'Q$number. ${maq.questionText}',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 19,
-          // height: 1.5,
+          fontSize: 21,
         ),
-      )
+      ),
+      const SizedBox(
+        height: 10,
+      ),
     ];
-    for (int i = 0; i < maq.answers.length; i++) {
+    for (int i = 0; i < maq.options.length; i++) {
       Color textColor = Colors.black;
-      if (maq.answers[i] == maq.trueAnswer) {
+      if (maq.options[i].text == maq.trueAnswer) {
         textColor = Colors.green;
       }
       text.add(
         SelectableText(
-          '\t${i + 1}. ${maq.answers[i]}',
+          '${String.fromCharCode('A'.codeUnits[0] + i)}. ${maq.options[i].text}',
+          // textAlign: TextAlign.center,
           style: TextStyle(
             color: textColor,
-            fontSize: 18,
-            // height: 1.3,
+            fontSize: 20,
+            height: 1.3,
           ),
         ),
       );
     }
     return Container(
-      margin: EdgeInsets.only(top: 40),
-      // width: MediaQuery.of(context).size.width / 3.5,
+      margin: const EdgeInsets.only(top: 40, left: 35,),
+      width: MediaQuery.of(context).size.width / 2,
       // height: 150,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 25, left: 30),
       decoration: BoxDecoration(
-        color: Color(0xFFE5DFF2),
+        color: const Color(0xFFE5DFF2),
         borderRadius: BorderRadius.circular(25),
       ),
       child: Column(
