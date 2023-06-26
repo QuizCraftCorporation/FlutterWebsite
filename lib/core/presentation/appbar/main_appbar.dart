@@ -10,7 +10,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Image.asset('assets/logo_image/logo.png', scale: 4,),
+      title: Image.asset('assets/logo_image/logo.png', scale: 4.5,),
       // leading: Image.asset('assets/logo_image/logo.png'),
       // title: Text(title),
       // titleTextStyle: const TextStyle(
