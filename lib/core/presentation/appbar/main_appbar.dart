@@ -10,14 +10,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Image.asset('assets/logo_image/logo.png', scale: 4.5,),
-      // leading: Image.asset('assets/logo_image/logo.png'),
-      // title: Text(title),
-      // titleTextStyle: const TextStyle(
-      //   fontSize: 25,
-      //   fontWeight: FontWeight.w900,
-      // ),
-      // centerTitle: true,
       // title: const Text(
       //   'QuizCraft AI',
       // ),
@@ -27,6 +19,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       //   fontFamily: 'Literata',
       //   fontWeight: FontWeight.w900,
       // ),
+      title: Image.asset('assets/logo_image/logo.png', scale: 4.5,),
       backgroundColor: AppTheme.appbarBackgroundColor,
       shadowColor: Colors.black,
       actions: [
@@ -36,6 +29,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {},
           icon: const Icon(
             Icons.notifications,
+            color: Colors.black,
+          ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.person,
             color: Colors.black,
           ),
         ),

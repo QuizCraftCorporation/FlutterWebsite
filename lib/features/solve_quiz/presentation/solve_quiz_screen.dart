@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project/core/domain/main_auth_cubit/main_auth_cubit.dart';
 import 'package:capstone_project/features/solve_quiz/presentation/cubit/solve_quiz_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/presentation/appbar/main_appbar.dart';
 import '../../../core/presentation/drawer/main_drawer.dart';
-import 'package:auto_route/annotations.dart';
 import 'widgets/body.dart';
 
 @RoutePage()
@@ -14,27 +15,38 @@ class SolveQuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SolveQuizCubit>(
-      child: Scaffold(
-        appBar: const MainAppBar(title: 'Quiz'),
-        body: Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.02),
-              ),
-              width: 200,
-              child: const MainDrawer(),
+    return BlocConsumer<MainAuthCubit, MainAuthState>(
+      listener: (context, state) {
+        if (state is MainAuthOut){
+          AutoRouter.of(context).navigateNamed('/login');
+        }
+      },
+      builder: (context, state) {
+        BlocProvider.of<MainAuthCubit>(context).checkAuth();
+
+        return BlocProvider<SolveQuizCubit>(
+          child: Scaffold(
+            appBar: const MainAppBar(title: 'Quiz'),
+            body: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 0, 0, 0.02),
+                  ),
+                  width: 200,
+                  child: const MainDrawer(),
+                ),
+                Body(
+                  quizId: quizId,
+                ),
+              ],
             ),
-            Body(
-              quizId: quizId,
-            ),
-          ],
-        ),
-      ),
-      create: (BuildContext context) => SolveQuizCubit(),
+          ),
+          create: (BuildContext context) => SolveQuizCubit(),
+        );
+      },
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/domain/app_router.dart';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question_no_answer.dart';
 import 'package:capstone_project/core/domain/entity/quiz_no_answers.dart';
-import 'package:capstone_project/core/presentation/loading/loading.dart';
+import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/solve_quiz/presentation/cubit/solve_quiz_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

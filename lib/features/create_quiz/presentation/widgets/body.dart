@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:capstone_project/core/presentation/loading/loading.dart';
+import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
-import 'package:capstone_project/features/create_quiz/presentation/widgets/text_field_circular.dart';
+import 'package:capstone_project/core/presentation/text_field_circular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
@@ -152,7 +152,7 @@ class _BodyState extends State<Body> {
               text: 'Do magic for quiz creation',
             );
           } else if (state is CreateQuizLoaded) {
-            /// Loaded => navigate to ViewQuiz in listener
+            // TODO: Somehow rewrite this buttons. Or not. idk
             return Container(
               alignment: Alignment.center,
               child: Row(

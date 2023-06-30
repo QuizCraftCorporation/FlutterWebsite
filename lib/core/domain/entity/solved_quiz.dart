@@ -10,7 +10,7 @@ class SolvedQuiz {
       if (optionIds.containsKey(k)) {
         answers.add({
           'question_id': k,
-          'chosen_option_id': optionIds[k]?.first,
+          'chosen_option_ids': optionIds[k]!.toList(),
         });
       }
     }

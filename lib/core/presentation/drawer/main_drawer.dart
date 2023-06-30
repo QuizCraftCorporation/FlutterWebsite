@@ -16,8 +16,8 @@ class MainDrawer extends StatelessWidget {
             AutoRouter.of(context).replaceNamed('/crafter');
           } else if (state is MainDrawerToMyQuizzesState) {
             AutoRouter.of(context).replaceNamed('/my_quizzes');
-          } else if (state is MainDrawerToSettingsState) {
-            AutoRouter.of(context).replaceNamed('/settings');
+          // } else if (state is MainDrawerToSettingsState) {
+          //   AutoRouter.of(context).replaceNamed('/settings');
           } else if (state is MainDrawerToHelpState) {
             AutoRouter.of(context).replaceNamed('/help');
           }
@@ -43,14 +43,14 @@ class MainDrawer extends StatelessWidget {
                   BlocProvider.of<MainDrawerCubit>(context).goToMyQuizzes();
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
-                contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
-                onTap: () {
-                  BlocProvider.of<MainDrawerCubit>(context).goToSettings();
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.settings),
+              //   title: Text('Settings'),
+              //   contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+              //   onTap: () {
+              //     BlocProvider.of<MainDrawerCubit>(context).goToSettings();
+              //   },
+              // ),
               ListTile(
                 leading: Icon(Icons.help_outline_rounded),
                 title: Text('Help'),

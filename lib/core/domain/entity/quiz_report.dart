@@ -19,8 +19,15 @@ class QuizReport {
     Map<int, double> scores = {};
     for (Map<String, dynamic> answer in json['scored_answers']) {
       scores[answer['question_id']] = answer['score'];
-      correctOptionIds[answer['question_id']] = {answer['correct_answer_id']};
-      chosenOptionIds[answer['question_id']] = {answer['chosen_option_id']};
+      Set<int> correct = {}, chosen = {};
+      for (int i = 0; i < answer['correct_answer_ids'].length; i++){
+        correct.add(answer['correct_answer_ids'][i]);
+      }
+      for (int i = 0; i < answer['chosen_option_ids'].length; i++){
+        chosen.add(answer['chosen_option_ids'][i]);
+      }
+      correctOptionIds[answer['question_id']] = correct;
+      chosenOptionIds[answer['question_id']] = chosen;
     }
     return QuizReport(
       quizId: json['quiz_id'],

@@ -85,10 +85,10 @@ class MAQReport extends StatelessWidget {
     );
     for (int i = 0; i < maq.options.length; i++) {
       Color textColor = Colors.black;
-      if (maq.options[i].text.compareTo(maq.trueAnswer) == 0) {
+      if (maq.answers.contains(maq.options[i].id)) {
         textColor = Colors.green;
       }
-      if (maq.options[i].id == chosenOptions.first && score == 0) {
+      if (chosenOptions.contains(maq.options[i].id) && score == 0) {
         textColor = Colors.red;
       }
       text.add(

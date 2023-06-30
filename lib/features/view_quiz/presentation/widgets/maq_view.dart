@@ -23,7 +23,7 @@ class MAQView extends StatelessWidget {
     ];
     for (int i = 0; i < maq.options.length; i++) {
       Color textColor = Colors.black;
-      if (maq.options[i].text == maq.trueAnswer) {
+      if (maq.answers.contains(maq.options[i].id)) {
         textColor = Colors.green;
       }
       text.add(

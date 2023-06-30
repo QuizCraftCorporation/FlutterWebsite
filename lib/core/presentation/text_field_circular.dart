@@ -5,11 +5,12 @@ class TextFieldCircular extends StatelessWidget {
       {super.key,
       required this.controller,
       required this.lines,
-      required this.hint});
+      required this.hint, this.password=false});
 
   final TextEditingController controller;
   final int lines;
   final String hint;
+  final bool password;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class TextFieldCircular extends StatelessWidget {
         ),
         maxLines: lines,
         minLines: lines,
+        obscureText: password,
       ),
     );
   }

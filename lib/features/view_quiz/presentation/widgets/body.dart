@@ -1,5 +1,5 @@
 import 'package:capstone_project/core/domain/entity/multiple_answer_question.dart';
-import 'package:capstone_project/core/presentation/loading/loading.dart';
+import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/view_quiz/presentation/cubit/view_quiz_cubit.dart';
 import 'package:capstone_project/features/view_quiz/presentation/widgets/maq_view.dart';
 import 'package:flutter/material.dart';

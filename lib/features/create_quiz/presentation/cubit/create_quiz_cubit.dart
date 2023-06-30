@@ -1,7 +1,8 @@
+import 'package:capstone_project/core/data/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:capstone_project/core/data/api/api.dart';
+import 'package:capstone_project/core/data/api.dart';
 import '../../../../core/domain/entity/quiz.dart';
 
 part 'create_quiz_state.dart';
@@ -12,7 +13,11 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
   Future<void> quizRequest(String title, String description, String rawText, List<File> files) async {
     emit(const CreateQuizLoading());
 
-    Quiz? quiz = await API.createQuiz(title, description, rawText, files);
+    String? access = await Storage.getAccess();
+    if (access == null){
+      // TODO: user don't have auth. Navigate them to auth.
+    }
+    Quiz? quiz = await API.createQuiz(title, description, rawText, files, access!);
 
     if (quiz != null){
       emit(CreateQuizLoaded(quiz.id));
