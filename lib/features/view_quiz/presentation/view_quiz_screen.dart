@@ -18,12 +18,13 @@ class ViewQuizScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
-        if (state is MainAuthOut){
-          AutoRouter.of(context).navigateNamed('/login');
-        }
+        /// If QuizView will be private screen, then uncomment these sections
+        // if (state is MainAuthOut){
+        //   AutoRouter.of(context).navigateNamed('/login');
+        // }
       },
       builder: (context, state) {
-        BlocProvider.of<MainAuthCubit>(context).checkAuth();
+        // BlocProvider.of<MainAuthCubit>(context).checkAuth();
 
         return BlocProvider<ViewQuizCubit>(
           child: Scaffold(

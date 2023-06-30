@@ -112,20 +112,19 @@ class API {
     }
   }
 
-  static Future<void> userMe(String refresh, String access) async {
+  static Future<void> userMe(String access) async {
     try {
-      Uri uri = Uri.parse('$baseUrl/auth/logout/');
+      Uri uri = Uri.parse('$baseUrl/auth/user-me/');
       final response = await http.get(
         uri,
         headers: {
-          'refresh': refresh,
           'Authorization': 'Bearer $access',
         },
       );
-      print('logout. Status Code: ${response.statusCode}');
+      print('userMe. Status Code: ${response.statusCode}');
       return;
     } catch (e) {
-      print('logout. Error: $e');
+      print('userMe. Error: $e');
     }
   }
 

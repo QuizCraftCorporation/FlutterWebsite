@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:capstone_project/core/data/api.dart';
 import 'package:capstone_project/core/data/local_storage.dart';
 import 'package:meta/meta.dart';
 
@@ -9,7 +10,13 @@ class MainAuthCubit extends Cubit<MainAuthState> {
 
   Future<void> checkAuth() async {
     if (await Storage.getAccess() != null){
-      emit(MainAuthIn());
+      try{
+        String access = (await Storage.getAccess())!;
+        await API.userMe(access);
+        emit(MainAuthIn());
+      } catch (e){
+        emit(MainAuthOut());
+      }
     } else {
       emit(MainAuthOut());
     }
