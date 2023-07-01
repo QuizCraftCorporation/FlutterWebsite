@@ -62,6 +62,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    MyQuizzesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyQuizzesScreen(),
+      );
+    },
   };
 }
 
@@ -212,4 +218,18 @@ class ViewQuizRouteArgs {
   String toString() {
     return 'ViewQuizRouteArgs{key: $key, quizId: $quizId}';
   }
+}
+
+/// generated route for
+/// [MyQuizzesScreen]
+class MyQuizzesRoute extends PageRouteInfo<void> {
+  const MyQuizzesRoute({List<PageRouteInfo>? children})
+      : super(
+          MyQuizzesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyQuizzesRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

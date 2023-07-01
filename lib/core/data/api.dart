@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
+
 import '../domain/entity/quiz.dart';
 import 'package:http/http.dart' as http;
 import '../domain/entity/quiz_no_answers.dart';
@@ -95,7 +97,7 @@ class API {
   // TODO: wait for implementation
   static Future<void> logoutAll(String refresh, String access) async {
     try {
-      Uri uri = Uri.parse('$baseUrl/auth/logout/');
+      Uri uri = Uri.parse('$baseUrl/auth/logout_all/');
       final response = await http.post(
         uri,
         headers: {
@@ -217,5 +219,19 @@ class API {
       print('getQuizWithAnswers. Error: $e');
     }
     return null;
+  }
+
+  static Future<List<QuizPreview>> getMyQuizzes(String access) async {
+    Uri uri = Uri.parse('$baseUrl/quiz/me/');
+    final response = await http.get(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $access',
+      },
+    );
+    print('getMyQuizzes. Status code: ${response.statusCode}');
+    // TODO: Check json format
+    List<QuizPreview> quizzes = jsonDecode(response.body)['quizzes'].map((data) => QuizPreview.fromJson(data)).toList();
+    return quizzes;
   }
 }

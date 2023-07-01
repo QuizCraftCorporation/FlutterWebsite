@@ -9,6 +9,9 @@ class MainAuthCubit extends Cubit<MainAuthState> {
   MainAuthCubit() : super(MainAuthOut());
 
   Future<void> checkAuth() async {
+    if (state is MainAuthIn){
+      return;
+    }
     if (await Storage.getAccess() != null){
       try{
         String access = (await Storage.getAccess())!;
