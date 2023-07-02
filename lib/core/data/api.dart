@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../domain/entity/quiz.dart';
 import 'package:http/http.dart' as http;
@@ -131,7 +132,7 @@ class API {
   }
 
   static Future<Quiz?> createQuiz(String title, String description,
-      String rawText, List<File> files, String access) async {
+      String rawText, List<PlatformFile> files, String access) async {
     try {
       var request =
           http.MultipartRequest('POST', Uri.parse('$baseUrl/quiz/create/'));
@@ -145,8 +146,8 @@ class API {
       for (int i = 0; i < files.length; i++) {
         request.files.add(http.MultipartFile.fromBytes(
           'files',
-          files[i].readAsBytesSync(),
-          filename: files[i].path.split('/').last,
+          files[i].bytes!,
+          filename: files[i].name,
         ));
       }
       request.headers['Authorization'] = 'Bearer $access';

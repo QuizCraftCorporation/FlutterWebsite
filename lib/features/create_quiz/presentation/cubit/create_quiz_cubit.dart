@@ -1,4 +1,5 @@
 import 'package:capstone_project/core/data/local_storage.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
@@ -10,7 +11,7 @@ part 'create_quiz_state.dart';
 class CreateQuizCubit extends Cubit<CreateQuizState> {
   CreateQuizCubit() : super(const CreateQuizInitial());
 
-  Future<void> quizRequest(String title, String description, String rawText, List<File> files) async {
+  Future<void> quizRequest(String title, String description, String rawText, List<PlatformFile> files) async {
     emit(const CreateQuizLoading());
 
     String? access = await Storage.getAccess();

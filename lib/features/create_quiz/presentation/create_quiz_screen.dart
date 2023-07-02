@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/domain/main_auth_cubit/main_auth_cubit.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
+import 'package:capstone_project/features/create_quiz/presentation/widgets/file_titles_cubit/file_titles_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/presentation/appbar/main_appbar.dart';
@@ -17,14 +18,22 @@ class CreateQuizScreen extends StatelessWidget {
     // bool isDesktop =
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
-        if (state is MainAuthOut){
+        if (state is MainAuthOut) {
           AutoRouter.of(context).navigateNamed('/login');
         }
       },
       builder: (context, state) {
         BlocProvider.of<MainAuthCubit>(context).checkAuth();
 
-        return BlocProvider<CreateQuizCubit>(
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<CreateQuizCubit>(
+              create: (BuildContext context) => CreateQuizCubit(),
+            ),
+            BlocProvider(
+              create: (context) => FileTitlesCubit(),
+            ),
+          ],
           child: Scaffold(
             appBar: const MainAppBar(
               title: 'Crafter',
@@ -44,7 +53,6 @@ class CreateQuizScreen extends StatelessWidget {
               ],
             ),
           ),
-          create: (BuildContext context) => CreateQuizCubit(),
         );
       },
     );

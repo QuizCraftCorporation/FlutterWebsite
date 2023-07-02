@@ -25,6 +25,7 @@ class Body extends StatelessWidget {
         }
         if (state is ViewQuizLoaded) {
           Quiz quiz = state.quiz;
+          print(quiz.title);
           List<Widget> questions = [];
           for (int i = 0; i < quiz.questions.length; i++) {
             if (quiz.questions[i] is MultipleAnswerQuestion) {
