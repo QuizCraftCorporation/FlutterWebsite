@@ -108,14 +108,14 @@ class _BodyState extends State<Body> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Mode: ',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'private',
                         style: TextStyle(
                           fontSize: 20,
@@ -136,7 +136,7 @@ class _BodyState extends State<Body> {
                           },
                         ),
                       ),
-                      Text(
+                      const Text(
                         'public',
                         style: TextStyle(
                           fontSize: 20,
@@ -275,7 +275,7 @@ class _BodyState extends State<Body> {
             );
           } else if (state is CreateQuizLoading) {
             return const Loading(
-              text: 'Do magic for quiz creation',
+              text: 'Do magic for quiz creation\nYou can leave this page',
             );
           } else if (state is CreateQuizLoaded) {
             return const Text(

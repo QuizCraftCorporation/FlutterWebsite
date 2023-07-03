@@ -9,8 +9,9 @@ class MainAppBarCubit extends Cubit<MainAppBarState> {
   MainAppBarCubit() : super(MainAppBarInitial());
 
   Future<void> logout() async {
-    String refresh = (await Storage.getRefresh())!;
-    String access = (await Storage.getAccess())!;
+    String refresh = (await Storage.getRefresh());
+    String access = (await Storage.getAccess());
+    await Storage.deleteTokens();
     API.logout(refresh, access);
     emit(MainAppBarLogout());
   }

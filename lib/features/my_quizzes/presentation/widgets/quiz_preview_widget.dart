@@ -36,14 +36,14 @@ class QuizPreviewWidget extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton(
-                    onPressed: () => BlocProvider.of<QuizPreviewCubit>(context)
-                        .goToViewAnswers(),
-                    child: const Text(
-                      'View with answers',
-                      style: TextStyle(fontSize: 20),
+                  if (quizPreview.ready)...[TextButton(
+                      onPressed: () => BlocProvider.of<QuizPreviewCubit>(context)
+                          .goToViewAnswers(),
+                      child: const Text(
+                        'View with answers',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
-                  ),
                   TextButton(
                     onPressed: () =>
                         BlocProvider.of<QuizPreviewCubit>(context).goToSolver(),
@@ -51,7 +51,7 @@ class QuizPreviewWidget extends StatelessWidget {
                       'Solve',
                       style: TextStyle(fontSize: 20),
                     ),
-                  ),
+                  )] else...[Text('Quiz is not created yet')],
                 ],
               ),
               title: Text(
