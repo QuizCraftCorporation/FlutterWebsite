@@ -30,6 +30,7 @@ class Body extends StatelessWidget {
               for (QuizPreview quizPreview in state.quizzes){
                 prevs.add(QuizPreviewWidget(quizPreview: quizPreview));
               }
+              // print(prevs.length);
               return Column(
                 children: prevs,
               );

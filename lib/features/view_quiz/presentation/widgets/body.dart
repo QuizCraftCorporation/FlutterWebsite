@@ -38,6 +38,7 @@ class Body extends StatelessWidget {
               questions.add(Container());
             }
           }
+          questions.add(const SizedBox(height: 200,));
           return SingleChildScrollView(
             child: SizedBox(
               width: MediaQuery.of(context).size.width - 200,

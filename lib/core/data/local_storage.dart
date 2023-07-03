@@ -36,27 +36,21 @@ class Storage {
     await localStorage.setItem('tokens', m);
   }
 
-  static Future<String?> getRefresh() async {
+  static Future<String> getRefresh() async {
     await localStorage.ready;
     if (localStorage.getItem('tokens') == null) {
       await createTokens();
     }
     Map<String, dynamic> m = localStorage.getItem('tokens');
-    if (m.containsKey('refresh')) {
-      return m['refresh'];
-    }
-    return null;
+    return m['refresh'];
   }
 
-  static Future<String?> getAccess() async {
+  static Future<String> getAccess() async {
     await localStorage.ready;
     if (localStorage.getItem('tokens') == null) {
       await createTokens();
     }
     Map<String, dynamic> m = localStorage.getItem('tokens');
-    if (m.containsKey('access')) {
-      return m['access'];
-    }
-    return null;
+    return m['access'];
   }
 }

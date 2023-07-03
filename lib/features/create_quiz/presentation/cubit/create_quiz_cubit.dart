@@ -11,20 +11,15 @@ part 'create_quiz_state.dart';
 class CreateQuizCubit extends Cubit<CreateQuizState> {
   CreateQuizCubit() : super(const CreateQuizInitial());
 
-  Future<void> quizRequest(String title, String description, String rawText, List<PlatformFile> files) async {
+  Future<void> quizRequest(String title, String description, String rawText, List<PlatformFile> files, int numberOfQuestions, bool public) async {
     emit(const CreateQuizLoading());
 
-    String? access = await Storage.getAccess();
-    if (access == null){
-      // TODO: user don't have auth. Navigate them to auth.
-    }
-    Quiz? quiz = await API.createQuiz(title, description, rawText, files, access!);
+    String access = await Storage.getAccess();
+    Quiz quiz = await API.createQuiz(title, description, rawText, files, numberOfQuestions, public, access);
 
-    if (quiz != null){
-      emit(CreateQuizLoaded(quiz.id));
-    } else{
-      emit(CreateQuizError());
-    }
+    emit(CreateQuizLoaded(quiz.id));
+    // TODO: Error handler
+    // emit(CreateQuizError());
   }
 
   void goToView(int quizId){

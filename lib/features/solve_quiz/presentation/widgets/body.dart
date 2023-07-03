@@ -77,7 +77,7 @@ class _BodyState extends State<Body> {
               ),
             ),
           ));
-          questions.add(const SizedBox(height: 100));
+          questions.add(const SizedBox(height: 200));
           return SingleChildScrollView(
             child: SizedBox(
               // TODO: Somehow fix this strict number of width

@@ -14,6 +14,7 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         if (state is MainAuthIn){
@@ -22,8 +23,10 @@ class AuthScreen extends StatelessWidget {
       },
       builder: (context, state) {
         // TODO: Check - is it good solution or not. Maybe good ¯\_(ツ)_/¯
-        BlocProvider.of<MainAuthCubit>(context).checkAuth();
-
+        if (first) {
+          first = false;
+          BlocProvider.of<MainAuthCubit>(context).checkAuth();
+        }
         return BlocProvider<AuthCubit>(
           child: Scaffold(
             appBar: const MainAppBar(title: 'Quiz'),

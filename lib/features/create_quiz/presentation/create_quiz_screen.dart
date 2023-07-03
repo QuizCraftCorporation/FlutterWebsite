@@ -16,15 +16,21 @@ class CreateQuizScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: check type of device and run specific design for each
     // bool isDesktop =
+    bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         if (state is MainAuthOut) {
-          AutoRouter.of(context).navigateNamed('/login');
+          AutoRouter.of(context).replaceNamed('/login');
         }
       },
       builder: (context, state) {
-        BlocProvider.of<MainAuthCubit>(context).checkAuth();
-
+        if (first) {
+          first = false;
+          BlocProvider.of<MainAuthCubit>(context).checkAuth();
+        }
+        if (state is! MainAuthIn){
+          return Container();
+        }
         return MultiBlocProvider(
           providers: [
             BlocProvider<CreateQuizCubit>(

@@ -29,7 +29,7 @@ class AppRouter extends _$AppRouter {
         // TODO: Think about nested routes for better architecture.
         AutoRoute(
           page: ViewQuizRoute.page,
-          path: '/quiz/:id',
+          path: '/quiz/:id/view',
           title: (context, routeData) {
             // routeData.
             return 'Quiz: ...';
@@ -37,14 +37,14 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(
           page: SolveQuizRoute.page,
-          path: '/quiz/solve/:id',
+          path: '/quiz/:id/solve',
           title: (context, routeData) {
             return 'Solve Quiz ...';
           },
         ),
         AutoRoute(
           page: QuizReportRoute.page,
-          path: '/quiz/report',
+          path: '/quiz/:id/report',
         ),
         AutoRoute(
           page: MyQuizzesRoute.page,

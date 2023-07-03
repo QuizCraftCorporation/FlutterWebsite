@@ -10,4 +10,9 @@ class FileTitlesCubit extends Cubit<FileTitlesState> {
     emit(FileTitlesAddingFiles());
     emit(FileTitlesInitial());
   }
+
+  Future<void> deleteFile() async {
+    emit(FileTitlesDeleteFile());
+    emit(FileTitlesInitial());
+  }
 }

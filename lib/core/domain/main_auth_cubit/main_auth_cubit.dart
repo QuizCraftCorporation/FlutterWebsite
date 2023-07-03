@@ -1,38 +1,45 @@
 import 'package:bloc/bloc.dart';
 import 'package:capstone_project/core/data/api.dart';
 import 'package:capstone_project/core/data/local_storage.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'main_auth_state.dart';
 
 class MainAuthCubit extends Cubit<MainAuthState> {
-  MainAuthCubit() : super(MainAuthOut());
+  MainAuthCubit() : super(MainAuthUnknown());
 
   Future<void> checkAuth() async {
-    if (state is MainAuthIn){
+    String access;
+    String refresh;
+    try{
+      access = (await Storage.getAccess());
+      refresh = (await Storage.getRefresh());
+      // emit(MainAuthIn(refresh: refresh, access: access));
+    } catch (e) {
+      emit(MainAuthOut());
       return;
     }
-    if (await Storage.getAccess() != null){
+    try{
+      await API.userMe(access);
+      emit(MainAuthIn(refresh: refresh, access: access));
+    } catch (e){
       try{
-        String access = (await Storage.getAccess())!;
-        await API.userMe(access);
-        emit(MainAuthIn());
+        String newAccess = (await API.refresh(refresh, access));
+        emit(MainAuthIn(refresh: refresh, access: newAccess));
       } catch (e){
         emit(MainAuthOut());
       }
-    } else {
-      emit(MainAuthOut());
     }
   }
 
-  Future<void> login() async {
-    // TODO: Is it enough?
-    emit(MainAuthIn());
-  }
+  // Future<void> login() async {
+  //   // TODO: Is it enough?
+  //   emit(MainAuthIn());
+  // }
 
-  Future<void> logout() async {
-    emit(MainAuthOut());
-  }
+  // Future<void> logout() async {
+  //   emit(MainAuthOut());
+  // }
 }
 
 

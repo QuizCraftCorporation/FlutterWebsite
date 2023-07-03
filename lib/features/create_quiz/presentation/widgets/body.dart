@@ -1,13 +1,13 @@
 import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
 import 'package:capstone_project/core/presentation/text_field_circular.dart';
-import 'package:capstone_project/features/create_quiz/presentation/widgets/file_titles.dart';
 import 'package:capstone_project/features/create_quiz/presentation/widgets/file_titles_cubit/file_titles_cubit.dart';
+import 'package:capstone_project/features/solve_quiz/presentation/widgets/checkbox_cubit/checkbox_cubit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 
@@ -22,7 +22,9 @@ class _BodyState extends State<Body> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _inputController;
+  late TextEditingController _numberOfQuestionsController;
   List<PlatformFile> files = [];
+  bool public = true;
 
   @override
   void initState() {
@@ -30,6 +32,7 @@ class _BodyState extends State<Body> {
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
     _inputController = TextEditingController();
+    _numberOfQuestionsController = TextEditingController();
   }
 
   @override
@@ -37,6 +40,7 @@ class _BodyState extends State<Body> {
     _titleController.dispose();
     _descriptionController.dispose();
     _inputController.dispose();
+    _numberOfQuestionsController.dispose();
     super.dispose();
   }
 
@@ -46,19 +50,20 @@ class _BodyState extends State<Body> {
       child: BlocConsumer<CreateQuizCubit, CreateQuizState>(
         listener: (context, state) {
           if (state is CreateQuizGoToView) {
-            AutoRouter.of(context).replaceNamed('/quiz/${state.quizId}');
+            AutoRouter.of(context).replaceNamed('/quiz/${state.quizId}/view');
           } else if (state is CreateQuizGoToSolving) {
-            AutoRouter.of(context).replaceNamed('/quiz/solve/${state.quizId}');
+            AutoRouter.of(context).replaceNamed('/quiz/${state.quizId}/solve');
           }
         },
         builder: (context, state) {
           if (state is CreateQuizInitial) {
             return Container(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width - 200,
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(
+              padding: EdgeInsets.only(
                 top: 35,
                 left: MediaQuery.of(context).size.width / 10,
+                right: MediaQuery.of(context).size.width / 10,
               ),
               child: Column(
                 children: [
@@ -100,6 +105,45 @@ class _BodyState extends State<Body> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Mode: ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'private',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      BlocProvider(
+                        create: (context) => CheckboxCubit(),
+                        child: BlocBuilder<CheckboxCubit, CheckboxState>(
+                          builder: (context, state) {
+                            return Switch(
+                              value: public,
+                              onChanged: (newValue) {
+                                public = newValue;
+                                BlocProvider.of<CheckboxCubit>(context)
+                                    .changeState();
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      Text(
+                        'public',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 50,
                     child: Text(
@@ -119,10 +163,27 @@ class _BodyState extends State<Body> {
                   const SizedBox(
                     height: 20,
                   ),
+                  SizedBox(
+                    width: 200,
+                    child: TextFieldCircular(
+                      controller: _numberOfQuestionsController,
+                      lines: 1,
+                      hint: 'Number of questions',
+                      textInputType: TextInputType.number,
+                      formatters: [FilteringTextInputFormatter.digitsOnly],
+                      maxLength: 3,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   TextButton(
                     onPressed: () async {
                       // TODO: Attach file. Run FilePicker!!!
-                      var picked = await FilePicker.platform.pickFiles();
+                      var picked = await FilePicker.platform.pickFiles(
+                          allowMultiple: true,
+                          allowedExtensions: ['txt', 'pdf'],
+                          type: FileType.custom);
                       if (picked != null) {
                         for (PlatformFile file in picked.files) {
                           files.add(file);
@@ -134,7 +195,7 @@ class _BodyState extends State<Body> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.upload),
-                        Text('Attach file'),
+                        Text('Attach files'),
                       ],
                     ),
                   ),
@@ -143,11 +204,43 @@ class _BodyState extends State<Body> {
                   ),
                   BlocBuilder<FileTitlesCubit, FileTitlesState>(
                     builder: (context, state) {
-                      if (state is FileTitlesInitial){
-                        return FileTitles(files: files);
+                      if (state is FileTitlesInitial) {
+                        List<Widget> names = [];
+                        for (PlatformFile file in files) {
+                          names.add(
+                            ListTile(
+                              // isThreeLine: true,
+                              shape: const Border(bottom: BorderSide()),
+                              title: Text(
+                                file.name,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  files.remove(file);
+                                  BlocProvider.of<FileTitlesCubit>(context)
+                                      .deleteFile();
+                                },
+                                icon:
+                                    const Icon(Icons.highlight_remove_outlined),
+                              ),
+                            ),
+                          );
+                        }
+                        return Column(
+                          // mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: names,
+                        );
                       }
                       if (state is FileTitlesAddingFiles) {
                         return const Loading(text: 'adding files');
+                      }
+                      if (state is FileTitlesDeleteFile) {
+                        return const Loading(text: 'deleting files');
                       }
                       return Container();
                     },
@@ -157,15 +250,25 @@ class _BodyState extends State<Body> {
                   ),
                   TextButton(
                     onPressed: () {
+                      int numberOfQuestions = 0;
+                      if (_numberOfQuestionsController.text.isNotEmpty) {
+                        numberOfQuestions =
+                            int.parse(_numberOfQuestionsController.text);
+                      }
                       final cubit = BlocProvider.of<CreateQuizCubit>(context);
                       cubit.quizRequest(
                         _titleController.text,
                         _descriptionController.text,
                         _inputController.text,
                         files,
+                        numberOfQuestions,
+                        public,
                       );
                     },
-                    child: const Text('Complete'),
+                    child: const Text('Create quiz'),
+                  ),
+                  const SizedBox(
+                    height: 200,
                   ),
                 ],
               ),
@@ -175,17 +278,10 @@ class _BodyState extends State<Body> {
               text: 'Do magic for quiz creation',
             );
           } else if (state is CreateQuizLoaded) {
-            return Container(
-              margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 3,
-                left: MediaQuery.of(context).size.width / 3,
-              ),
-              // alignment: Alignment.center,
-              child: const Text(
-                'Quiz created',
-                style: TextStyle(
-                  fontSize: 25,
-                ),
+            return const Text(
+              'Quiz created',
+              style: TextStyle(
+                fontSize: 25,
               ),
             );
           } else if (state is CreateQuizError) {
