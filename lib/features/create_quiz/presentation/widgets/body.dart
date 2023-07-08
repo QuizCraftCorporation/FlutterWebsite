@@ -58,7 +58,7 @@ class _BodyState extends State<Body> {
         builder: (context, state) {
           if (state is CreateQuizInitial) {
             return Container(
-              width: MediaQuery.of(context).size.width - 200,
+              width: MediaQuery.of(context).size.width,
               alignment: Alignment.topCenter,
               padding: EdgeInsets.only(
                 top: 35,
@@ -179,7 +179,6 @@ class _BodyState extends State<Body> {
                   ),
                   TextButton(
                     onPressed: () async {
-                      // TODO: Attach file. Run FilePicker!!!
                       var picked = await FilePicker.platform.pickFiles(
                           allowMultiple: true,
                           allowedExtensions: ['txt', 'pdf'],

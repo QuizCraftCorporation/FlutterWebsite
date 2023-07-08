@@ -68,6 +68,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MyQuizzesScreen(),
       );
     },
+    SearchRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<SearchRouteArgs>(
+          orElse: () => SearchRouteArgs(search: pathParams.getString('query')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchScreen(
+          key: args.key,
+          search: args.search,
+        ),
+      );
+    },
   };
 }
 
@@ -232,4 +244,42 @@ class MyQuizzesRoute extends PageRouteInfo<void> {
   static const String name = 'MyQuizzesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchScreen]
+class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
+  SearchRoute({
+    Key? key,
+    required String search,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchRoute.name,
+          args: SearchRouteArgs(
+            key: key,
+            search: search,
+          ),
+          rawPathParams: {'query': search},
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchRoute';
+
+  static const PageInfo<SearchRouteArgs> page = PageInfo<SearchRouteArgs>(name);
+}
+
+class SearchRouteArgs {
+  const SearchRouteArgs({
+    this.key,
+    required this.search,
+  });
+
+  final Key? key;
+
+  final String search;
+
+  @override
+  String toString() {
+    return 'SearchRouteArgs{key: $key, search: $search}';
+  }
 }

@@ -31,15 +31,6 @@ class MainAuthCubit extends Cubit<MainAuthState> {
       }
     }
   }
-
-  // Future<void> login() async {
-  //   // TODO: Is it enough?
-  //   emit(MainAuthIn());
-  // }
-
-  // Future<void> logout() async {
-  //   emit(MainAuthOut());
-  // }
 }
 
 

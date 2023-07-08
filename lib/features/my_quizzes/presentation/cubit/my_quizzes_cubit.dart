@@ -17,48 +17,13 @@ class MyQuizzesCubit extends Cubit<MyQuizzesState> {
       // print(quizzes);
       emit(MyQuizzesList(quizzes: quizzes));
     } catch (e) {
-      // List<QuizPreview> quizzes = [
-      //   QuizPreview(quizId: 1, title: 'title1', description: 'description1'),
-      //   QuizPreview(quizId: 2, title: 'title2', description: 'description2'),
-      //   QuizPreview(quizId: 3, title: 'title3', description: 'description3'),
-      //   QuizPreview(quizId: 4, title: 'title4', description: 'description4'),
-      //   QuizPreview(quizId: 5, title: 'title5', description: 'description5'),
-      //   QuizPreview(quizId: 6, title: 'title6', description: 'description6'),
-      //   QuizPreview(quizId: 7, title: 'title7', description: 'description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 '),
-      //   QuizPreview(quizId: 1, title: 'title1', description: 'description1'),
-      //   QuizPreview(quizId: 2, title: 'title2', description: 'description2'),
-      //   QuizPreview(quizId: 3, title: 'title3', description: 'description3'),
-      //   QuizPreview(quizId: 4, title: 'title4', description: 'description4'),
-      //   QuizPreview(quizId: 5, title: 'title5', description: 'description5'),
-      //   QuizPreview(quizId: 6, title: 'title6', description: 'description6'),
-      //   QuizPreview(quizId: 7, title: 'title7', description: 'description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 '),
-      //   QuizPreview(quizId: 1, title: 'title1', description: 'description1'),
-      //   QuizPreview(quizId: 2, title: 'title2', description: 'description2'),
-      //   QuizPreview(quizId: 3, title: 'title3', description: 'description3'),
-      //   QuizPreview(quizId: 4, title: 'title4', description: 'description4'),
-      //   QuizPreview(quizId: 5, title: 'title5', description: 'description5'),
-      //   QuizPreview(quizId: 6, title: 'title6', description: 'description6'),
-      //   QuizPreview(quizId: 7, title: 'title7', description: 'description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 '),
-      //   QuizPreview(quizId: 1, title: 'title1', description: 'description1'),
-      //   QuizPreview(quizId: 2, title: 'title2', description: 'description2'),
-      //   QuizPreview(quizId: 3, title: 'title3', description: 'description3'),
-      //   QuizPreview(quizId: 4, title: 'title4', description: 'description4'),
-      //   QuizPreview(quizId: 5, title: 'title5', description: 'description5'),
-      //   QuizPreview(quizId: 6, title: 'title6', description: 'description6'),
-      //   QuizPreview(quizId: 7, title: 'title7', description: 'description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 '),
-      //   QuizPreview(quizId: 1, title: 'title1', description: 'description1'),
-      //   QuizPreview(quizId: 2, title: 'title2', description: 'description2'),
-      //   QuizPreview(quizId: 3, title: 'title3', description: 'description3'),
-      //   QuizPreview(quizId: 4, title: 'title4', description: 'description4'),
-      //   QuizPreview(quizId: 5, title: 'title5', description: 'description5'),
-      //   QuizPreview(quizId: 6, title: 'title6', description: 'description6'),
-      //   QuizPreview(quizId: 7, title: 'title7', description: 'description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 description7 '),
-      //
-      // ];
-      // emit(MyQuizzesList(quizzes: quizzes));
       // TODO: Handle different errors
       print(e);
       emit(MyQuizzesError());
     }
+  }
+
+  Future<void> search(String search) async {
+    emit(MyQuizzesSearch(search: search));
   }
 }

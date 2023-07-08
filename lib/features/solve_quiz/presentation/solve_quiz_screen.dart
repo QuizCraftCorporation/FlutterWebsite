@@ -19,7 +19,7 @@ class SolveQuizScreen extends StatelessWidget {
 
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
-        if (state is MainAuthOut){
+        if (state is MainAuthOut) {
           AutoRouter.of(context).replaceNamed('/login');
         }
       },
@@ -28,12 +28,17 @@ class SolveQuizScreen extends StatelessWidget {
           first = false;
           BlocProvider.of<MainAuthCubit>(context).checkAuth();
         }
-        if (state is! MainAuthIn){
+        if (state is! MainAuthIn) {
           return Container();
         }
         return BlocProvider<SolveQuizCubit>(
           child: Scaffold(
-            appBar: const MainAppBar(title: 'Quiz'),
+            appBar: MainAppBar(
+              title: 'Quiz',
+              searchCallback: (String searchQuery) {
+                AutoRouter.of(context).replaceNamed('/search/$searchQuery');
+              },
+            ),
             body: Row(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -28,7 +28,7 @@ class CreateQuizScreen extends StatelessWidget {
           first = false;
           BlocProvider.of<MainAuthCubit>(context).checkAuth();
         }
-        if (state is! MainAuthIn){
+        if (state is! MainAuthIn) {
           return Container();
         }
         return MultiBlocProvider(
@@ -41,23 +41,31 @@ class CreateQuizScreen extends StatelessWidget {
             ),
           ],
           child: Scaffold(
-            appBar: const MainAppBar(
-              title: 'Crafter',
+            appBar: MainAppBar(
+              title: 'Quiz',
+              searchCallback: (String searchQuery) {
+                AutoRouter.of(context).replaceNamed('/search/$searchQuery');
+              },
             ),
-            body: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 0, 0.02),
-                  ),
-                  width: 200,
-                  child: const MainDrawer(),
-                ),
-                const Body(),
-              ],
+
+            drawer: Drawer(
+              child: const MainDrawer(),
             ),
+            body: Body(),
+            // body: Row(
+            //   mainAxisSize: MainAxisSize.max,
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Container(
+            //       decoration: const BoxDecoration(
+            //         color: Color.fromRGBO(0, 0, 0, 0.02),
+            //       ),
+            //       width: 200,
+            //       child: const MainDrawer(),
+            //     ),
+            //     const Body(),
+            //   ],
+            // ),
           ),
         );
       },

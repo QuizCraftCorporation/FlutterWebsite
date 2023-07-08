@@ -15,4 +15,8 @@ class MainAppBarCubit extends Cubit<MainAppBarState> {
     API.logout(refresh, access);
     emit(MainAppBarLogout());
   }
+
+  Future<void> search(String search) async {
+    emit(MainAppBarSearch(search: search));
+  }
 }

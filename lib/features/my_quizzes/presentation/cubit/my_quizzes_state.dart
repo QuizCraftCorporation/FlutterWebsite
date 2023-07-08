@@ -15,3 +15,8 @@ class MyQuizzesList extends MyQuizzesState {
 }
 
 class MyQuizzesError extends MyQuizzesState {}
+
+class MyQuizzesSearch extends MyQuizzesState {
+  final String search;
+  const MyQuizzesSearch({required this.search});
+}

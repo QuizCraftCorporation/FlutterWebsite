@@ -37,7 +37,6 @@ class _BodyState extends State<Body> {
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            // TODO: navigate to Crafter
             AutoRouter.of(context).replaceNamed('/crafter');
           }
         },

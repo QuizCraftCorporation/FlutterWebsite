@@ -14,12 +14,22 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
   Future<void> quizRequest(String title, String description, String rawText, List<PlatformFile> files, int numberOfQuestions, bool public) async {
     emit(const CreateQuizLoading());
 
-    String access = await Storage.getAccess();
-    Quiz quiz = await API.createQuiz(title, description, rawText, files, numberOfQuestions, public, access);
+    try {
+      String access = await Storage.getAccess();
+      Quiz quiz = await API.createQuiz(
+          title,
+          description,
+          rawText,
+          files,
+          numberOfQuestions,
+          public,
+          access);
 
-    emit(CreateQuizLoaded(quiz.id));
+      emit(CreateQuizLoaded(quiz.id));
+    } catch(e){
+      emit(CreateQuizError());
+    }
     // TODO: Error handler
-    // emit(CreateQuizError());
   }
 
   void goToView(int quizId){

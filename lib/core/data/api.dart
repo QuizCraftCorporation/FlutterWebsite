@@ -77,7 +77,6 @@ class API {
     return;
   }
 
-  // TODO: wait for implementation
   static Future<void> logoutAll(String refresh, String access) async {
     final response = await http.post(
       Uri.parse('$baseUrl/auth/logout_all/'),
@@ -186,7 +185,39 @@ class API {
     );
     print('getMyQuizzes. Status code: ${response.statusCode}');
     // print('getMyQuizzes. Body: ${response.body}');
-    // TODO: Check json format
+    List<QuizPreview> quizzes = [];
+    List<dynamic> body = jsonDecode(response.body)
+        .map((data) => QuizPreview.fromJson(data))
+        .toList();
+    for (int i = 0; i < body.length; i++){
+      quizzes.add(body[i] as QuizPreview);
+    }
+    return quizzes;
+  }
+
+  static Future<List<QuizPreview>> searchQuizzes(String search) async {
+    final response = await http.get(
+      // TODO: Wait for the true link and method
+      Uri.parse('$baseUrl/quiz/search/'),
+    );
+    print('searchQuizzes. Status code: ${response.statusCode}');
+    List<QuizPreview> quizzes = [];
+    List<dynamic> body = jsonDecode(response.body)
+        .map((data) => QuizPreview.fromJson(data))
+        .toList();
+    for (int i = 0; i < body.length; i++){
+      quizzes.add(body[i] as QuizPreview);
+    }
+    return quizzes;
+  }
+
+  // TODO: Wait for backend
+  static Future<List<QuizPreview>> getExploreCategory(String category) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/quiz/explore?category=$category'),
+
+    );
+    print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(response.body)
         .map((data) => QuizPreview.fromJson(data))

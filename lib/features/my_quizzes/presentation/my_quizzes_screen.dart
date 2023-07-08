@@ -16,7 +16,7 @@ class MyQuizzesScreen extends StatelessWidget {
     bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
-        if (state is MainAuthOut){
+        if (state is MainAuthOut) {
           AutoRouter.of(context).navigateNamed('/login');
         }
       },
@@ -25,12 +25,17 @@ class MyQuizzesScreen extends StatelessWidget {
           first = false;
           BlocProvider.of<MainAuthCubit>(context).checkAuth();
         }
-        if (state is! MainAuthIn){
+        if (state is! MainAuthIn) {
           return Container();
         }
         return BlocProvider<MyQuizzesCubit>(
           child: Scaffold(
-            appBar: const MainAppBar(title: 'Quiz'),
+            appBar: MainAppBar(
+              title: 'Quiz',
+              searchCallback: (String searchQuery) {
+                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
+              },
+            ),
             body: Row(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,8 +47,7 @@ class MyQuizzesScreen extends StatelessWidget {
                   width: 200,
                   child: const MainDrawer(),
                 ),
-                Body(
-                ),
+                Body(),
               ],
             ),
           ),

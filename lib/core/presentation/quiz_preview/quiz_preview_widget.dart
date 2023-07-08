@@ -1,8 +1,7 @@
 import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
-import 'package:capstone_project/features/my_quizzes/presentation/widgets/quiz_preview_widget_cubit/quiz_preview_cubit.dart';
+import 'package:capstone_project/core/presentation/quiz_preview/cubit/quiz_preview_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

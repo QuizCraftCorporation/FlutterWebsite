@@ -31,17 +31,15 @@ class SolveQuizCubit extends Cubit<SolveQuizState> {
   Future<void> sendAnswers(Map<int, Set<int>> answers, int quizId) async {
     emit(SolveQuizSendAnswers());
 
-    String? access = await Storage.getAccess();
-    if (access == null){
-      // TODO: user don't have auth. Navigate them to auth.
-    }
-    QuizReport? quizReport = await API.getQuizReport(quizId, answers, access!);
+    String access = await Storage.getAccess();
+
+    QuizReport quizReport = await API.getQuizReport(quizId, answers, access!);
     Quiz? quiz = await API.getQuizWithAnswers(quizId, access);
 
-    if (quizReport != null && quiz != null) {
-      emit(SolveQuizShowResults(quizReport: quizReport, quiz: quiz));
-    } else{
-      emit(SolveQuizError(message: 'SolveQuizCubit. sendAnswers. Error: '));
-    }
+    emit(SolveQuizShowResults(quizReport: quizReport, quiz: quiz));
+
+    // TODO: Wrap code above with try/catch and write error handler
+    emit(SolveQuizError(message: 'SolveQuizCubit. sendAnswers. Error: '));
+
   }
 }

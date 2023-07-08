@@ -28,7 +28,12 @@ class ViewQuizScreen extends StatelessWidget {
 
         return BlocProvider<ViewQuizCubit>(
           child: Scaffold(
-            appBar: const MainAppBar(title: 'Quiz'),
+            appBar: MainAppBar(
+              title: 'Quiz',
+              searchCallback: (String searchQuery) {
+                AutoRouter.of(context).replaceNamed('/search/$searchQuery');
+              },
+            ),
             body: Row(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
