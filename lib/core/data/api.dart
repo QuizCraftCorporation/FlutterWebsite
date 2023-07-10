@@ -252,7 +252,7 @@ class API {
     );
     print('isCrafterFree. Status Code: ${response.statusCode}');
     // TODO: Wait for Gleb's answer
-    if (jsonDecode(response.body)['quiz_id']){
+    if (response.statusCode == 200){
       return true;
     } else{
       return false;

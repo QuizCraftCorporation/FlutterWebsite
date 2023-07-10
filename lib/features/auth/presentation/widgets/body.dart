@@ -46,7 +46,7 @@ class _BodyState extends State<Body> {
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            AutoRouter.of(context).pushNamed('/my_quizzes');
+            AutoRouter.of(context).replaceNamed('/my_quizzes');
           }
         },
         builder: (context, state) {

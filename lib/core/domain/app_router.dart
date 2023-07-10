@@ -26,23 +26,23 @@ class AppRouter extends _$AppRouter {
           page: CreateQuizRoute.page,
           path: '/crafter',
           // initial: true,
-          title: (context, routeData) => 'Crafter',
+          // title: (context, routeData) => 'Crafter',
         ),
         // TODO: Think about nested routes for better architecture.
         AutoRoute(
           page: ViewQuizRoute.page,
           path: '/quiz/:id/view',
-          title: (context, routeData) {
-            // routeData.
-            return 'Quiz: ...';
-          },
+          // title: (context, routeData) {
+          //   // routeData.
+          //   return 'Quiz: ...';
+          // },
         ),
         AutoRoute(
           page: SolveQuizRoute.page,
           path: '/quiz/:id/solve',
-          title: (context, routeData) {
-            return 'Solve Quiz ...';
-          },
+          // title: (context, routeData) {
+          //   return 'Solve Quiz ...';
+          // },
         ),
         AutoRoute(
           page: QuizReportRoute.page,

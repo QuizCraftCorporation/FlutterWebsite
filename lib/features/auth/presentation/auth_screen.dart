@@ -17,7 +17,10 @@ class AuthScreen extends StatelessWidget {
     // bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
-        if (state is MainAuthIn){
+        if (state is MainAuthIn) {
+          // while (AutoRouter.of(context).pageCount > 1) {
+          //   AutoRouter.of(context).pop();
+          // }
           AutoRouter.of(context).replaceNamed('/my_quizzes');
         }
       },

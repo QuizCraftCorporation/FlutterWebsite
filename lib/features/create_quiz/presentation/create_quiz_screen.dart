@@ -14,6 +14,7 @@ class CreateQuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(AutoRouter.of(context).current);
     bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {

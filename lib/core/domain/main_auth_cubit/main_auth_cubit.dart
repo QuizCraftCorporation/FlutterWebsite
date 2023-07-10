@@ -21,7 +21,9 @@ class MainAuthCubit extends Cubit<MainAuthState> {
     }
     try{
       await API.userMe(access);
-      emit(MainAuthIn(refresh: refresh, access: access));
+      if (state is! MainAuthIn) {
+        emit(MainAuthIn(refresh: refresh, access: access));
+      }
     } catch (e){
       try{
         String newAccess = (await API.refresh(refresh, access));
