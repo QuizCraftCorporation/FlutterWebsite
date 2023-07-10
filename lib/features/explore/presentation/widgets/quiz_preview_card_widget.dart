@@ -16,7 +16,6 @@ class QuizPreviewCardWidget extends StatelessWidget {
       create: (context) => QuizPreviewCardCubit(),
       child: BlocConsumer<QuizPreviewCardCubit, QuizPreviewCardState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is QuizPreviewCardGoSolve){
             AutoRouter.of(context).pushNamed('/quiz/${quizPreview.quizId}/solve');
           }

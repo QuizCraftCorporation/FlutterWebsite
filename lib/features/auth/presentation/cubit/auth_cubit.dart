@@ -24,9 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> register(String username, String password, String firstName, String lastName) async {
     emit(AuthRegisterProcess(username: username, password: password, firstName: firstName, lastName: lastName));
     try {
-      // List<String> tokens = await API.register(username, password, firstName, lastName);
       emit(AuthRegisterSuccess());
-      // TODO: Maybe here should be additional login instead of AuthSuccess
       emit(AuthLogin());
     } catch (e) {
       emit(AuthRegisterError());
