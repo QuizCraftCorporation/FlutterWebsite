@@ -262,15 +262,34 @@ class _BodyState extends State<Body> {
                           numberOfQuestions =
                               int.parse(_numberOfQuestionsController.text);
                         }
-                        final cubit = BlocProvider.of<CreateQuizCubit>(context);
-                        cubit.quizRequest(
-                          _titleController.text,
-                          _descriptionController.text,
-                          _inputController.text,
-                          files,
-                          numberOfQuestions,
-                          public,
-                        );
+                        if (_titleController.text.length == 0){
+                          showDialog(
+                            context: context, builder: (context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Text("Title shouldn't be empty"),
+                            );
+                          },);
+                        } else if (files.length == 0 && _inputController.text.length == 0){
+                          showDialog(
+                            context: context, builder: (context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Text("Pass at least 1 file or Input text"),
+                            );
+                          },);
+                        } else {
+                          final cubit =
+                              BlocProvider.of<CreateQuizCubit>(context);
+                          cubit.quizRequest(
+                            _titleController.text,
+                            _descriptionController.text,
+                            _inputController.text,
+                            files,
+                            numberOfQuestions,
+                            public,
+                          );
+                        }
                       },
                       child: const Text('Create quiz'),
                     ),

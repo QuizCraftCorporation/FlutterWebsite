@@ -27,8 +27,8 @@ class Quiz {
     return Quiz(
       id: json['id'],
       title: json['title'],
-      // description: json['description'],
-      description: 'privet',
+      description: json['description'],
+      // description: 'privet',
       questions: questions,
     );
   }

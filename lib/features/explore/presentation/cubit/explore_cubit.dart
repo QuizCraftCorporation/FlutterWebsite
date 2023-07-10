@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:capstone_project/core/data/api.dart';
+import 'package:capstone_project/core/data/local_storage.dart';
 import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
 import 'package:meta/meta.dart';
 
@@ -8,7 +9,7 @@ part 'explore_state.dart';
 class ExploreCubit extends Cubit<ExploreState> {
   ExploreCubit() : super(ExploreInitial());
 
-  Future<void> getAllLists() async {
+  Future<void> getAllLists({bool login = false}) async {
     emit(ExploreLoading());
     try {
       List<QuizPreview> passes = await API.getExploreCategory('passes');
@@ -17,9 +18,12 @@ class ExploreCubit extends Cubit<ExploreState> {
       List<QuizPreview> newest = await API.getExploreCategory('generations');
 
       // TODO: Check is user login or not. If yes, then show the history
-      // List<QuizPreview> history = await API.getExploreCategory('passes');
-
-      emit(ExploreLoaded(uniqueViews, passes, newest, views: views));
+      List<QuizPreview> recent = [];
+      if (login) {
+        String access = await Storage.getAccess();
+        recent = await API.getExploreHistory(access);
+      }
+      emit(ExploreLoaded(uniqueViews, passes, newest, views, recent));
     } catch (e) {
       emit(ExploreError());
     }

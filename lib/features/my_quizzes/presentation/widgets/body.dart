@@ -28,7 +28,7 @@ class Body extends StatelessWidget {
                 prevs.add(QuizPreviewWidget(quizPreview: quizPreview));
               }
               if (prevs.length == 0){
-                return const Center(child: Text("You don't have any quizzes. Go and generate some", style: TextStyle(fontSize: 25),),);
+                return Container(margin: EdgeInsets.only(top: 100), alignment: Alignment.center, child: Text("You don't have any quizzes. Go and generate some", style: TextStyle(fontSize: 25),),);
               }
               return Column(
                 children: prevs,

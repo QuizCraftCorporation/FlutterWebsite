@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Body extends StatelessWidget {
-  const Body({super.key});
+  const Body({super.key, required this.login});
+
+  final bool login;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class Body extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ExploreInitial) {
-          BlocProvider.of<ExploreCubit>(context).getAllLists();
+          BlocProvider.of<ExploreCubit>(context).getAllLists(login: login);
         }
         if (state is ExploreLoading) {
           return Loading(text: 'Loading lists');
@@ -93,6 +95,25 @@ class Body extends StatelessWidget {
                       children: convertToWidgets(state.passes),
                     ),
                   ),
+                  login
+                      ? Container(
+                          margin: const EdgeInsets.only(
+                              top: 35, left: 50, bottom: 20),
+                          // alignment: Alignment.topCenter,
+                          child: const Text(
+                            'Recent viewed',
+                            style: TextStyle(fontSize: 25),
+                          ),
+                        )
+                      : Container(),
+                  login
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: convertToWidgets(state.passes),
+                          ),
+                        )
+                      : Container(),
                   SizedBox(
                     height: 50,
                   ),

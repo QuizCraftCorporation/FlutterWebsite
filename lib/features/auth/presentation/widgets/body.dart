@@ -110,6 +110,13 @@ class _BodyState extends State<Body> {
                           if (_usernameController.text.length < 4 ||
                               _passwordController.text.length < 4) {
                             // TODO: inform about error
+                            showDialog(
+                              context: context, builder: (context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text('Username and passwords should have at least 4 symbols'),
+                              );
+                            },);
                           } else {
                             BlocProvider.of<AuthCubit>(context).login(
                                 _usernameController.text,
@@ -137,6 +144,17 @@ class _BodyState extends State<Body> {
           }
           if (state is AuthError) {
             // TODO: handle errors
+            // BlocProvider.of<AuthCubit>(context).loginView();
+            return AlertDialog(
+              title: Text('Error'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('No username with such password'),
+                  TextButton(onPressed: () => BlocProvider.of<AuthCubit>(context).loginView(), child: Text('Login again'))
+                ],
+              ),
+            );
           }
           if (state is AuthRegister) {
             return SingleChildScrollView(
@@ -239,17 +257,25 @@ class _BodyState extends State<Body> {
                       child: TextButton(
                         onPressed: () {
                           if (_usernameController.text.length < 4 ||
-                              _passwordController.text.length < 4 ||
-                              _passwordController.text !=
-                                  _secondPasswordController.text
+                              _passwordController.text.length < 4
                           ) {
                             showDialog(
                               context: context, builder: (context) {
                               return AlertDialog(
                                 title: Text('Error'),
+                                content: Text('Username and passwords should have at least 4 symbols'),
                               );
                             },);
                             // TODO: inform about error
+                          } else if (_passwordController.text !=
+                              _secondPasswordController.text){
+                            showDialog(
+                              context: context, builder: (context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text('Check passwords'),
+                              );
+                            },);
                           } else {
                             BlocProvider.of<AuthCubit>(context).register(
                                 _usernameController.text,

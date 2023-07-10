@@ -1,6 +1,6 @@
 class QuizReport {
   final int quizId;
-  // final Map<int, Set<int>> correctOptionIds;
+  final Map<int, Set<int>> correctOptionIds;
   final Map<int, Set<int>> chosenOptionIds;
   final Map<int, double> scores;
   final double totalScore;
@@ -8,7 +8,7 @@ class QuizReport {
   const QuizReport({
     required this.quizId,
     required this.chosenOptionIds,
-    // required this.correctOptionIds,
+    required this.correctOptionIds,
     required this.scores,
     required this.totalScore,
   });
@@ -17,12 +17,12 @@ class QuizReport {
     Map<int, Set<int>> chosenOptionIds = {};
     Map<int, Set<int>> correctOptionIds = {};
     Map<int, double> scores = {};
-    for (Map<String, dynamic> answer in json['answers']) {
+    for (Map<String, dynamic> answer in json['scored_answers']) {
       scores[answer['question_id']] = answer['score'];
       Set<int> correct = {}, chosen = {};
-      // for (int i = 0; i < answer['correct_answer_ids'].length; i++){
-      //   correct.add(answer['correct_answer_ids'][i]);
-      // }
+      for (int i = 0; i < answer['correct_answer'].length; i++){
+        correct.add(answer['correct_answer'][i]);
+      }
       for (int i = 0; i < answer['user_answer'].length; i++){
         chosen.add(answer['user_answer'][i]);
       }
@@ -33,7 +33,7 @@ class QuizReport {
       quizId: json['quiz_id'],
       totalScore: json['total_score'],
       chosenOptionIds: chosenOptionIds,
-      // correctOptionIds: correctOptionIds,
+      correctOptionIds: correctOptionIds,
       scores: scores,
     );
   }

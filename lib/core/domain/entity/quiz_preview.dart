@@ -15,8 +15,8 @@ class QuizPreview {
     return QuizPreview(
       quizId: json['id'],
       title: json['name'],
-      // description: json['description'],
-      description: 'Description',
+      description: json['description'],
+      // description: 'Description',
       ready: json['ready'],
     );
   }

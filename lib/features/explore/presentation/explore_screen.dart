@@ -37,7 +37,7 @@ class ExploreScreen extends StatelessWidget {
               },
             ),
             drawer: const MainDrawer(),
-            body: const Body(),
+            body: Body(login: state is MainAuthIn),
           ),
           create: (BuildContext context) => ExploreCubit(),
         );

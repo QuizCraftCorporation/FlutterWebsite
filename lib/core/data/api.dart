@@ -210,11 +210,29 @@ class API {
     return quizzes;
   }
 
-  static Future<List<QuizPreview>> getExploreCategory(String category) async {
+  static Future<List<QuizPreview>> getExploreCategory(String category, {String? access}) async {
     final response = await http.get(
       Uri.parse('$baseUrl/quiz/?sort=$category&limit=10'),
     );
     print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
+    List<QuizPreview> quizzes = [];
+    List<dynamic> body = jsonDecode(response.body)
+        .map((data) => QuizPreview.fromJson(data))
+        .toList();
+    for (int i = 0; i < body.length; i++){
+      quizzes.add(body[i] as QuizPreview);
+    }
+    return quizzes;
+  }
+
+  static Future<List<QuizPreview>> getExploreHistory(String access) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/quiz/?sort=last_viewed&limit=10'),
+      headers: {
+        'Authorization': 'Bearer $access',
+      }
+    );
+    print('getExploreHistory. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(response.body)
         .map((data) => QuizPreview.fromJson(data))
