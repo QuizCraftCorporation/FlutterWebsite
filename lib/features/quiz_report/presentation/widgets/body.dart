@@ -15,7 +15,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      alignment: Alignment.topCenter,
       child: BlocConsumer<QuizReportCubit, QuizReportState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -57,16 +58,16 @@ class Body extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(
                       top: 35,
                     ),
-                    margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 4,
-                    ),
+                    // margin: EdgeInsets.only(
+                    //   left: MediaQuery.of(context).size.width / 4,
+                    // ),
                     child: SelectableText(
                       quiz.title,
                       style: const TextStyle(
@@ -77,8 +78,8 @@ class Body extends StatelessWidget {
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: questions,
                   ),
                 ],
