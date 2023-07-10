@@ -14,19 +14,19 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool first = true;
+    // bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         if (state is MainAuthIn){
-          AutoRouter.of(context).pushNamed('/my_quizzes');
+          AutoRouter.of(context).replaceNamed('/my_quizzes');
         }
       },
       builder: (context, state) {
         // TODO: Check - is it good solution or not. Maybe good ¯\_(ツ)_/¯
-        if (first) {
-          first = false;
-          BlocProvider.of<MainAuthCubit>(context).checkAuth();
-        }
+        // if (first) {
+        //   first = false;
+        //   BlocProvider.of<MainAuthCubit>(context).checkAuth();
+        // }
         return BlocProvider<AuthCubit>(
           child: Scaffold(
             appBar: MainAppBar(
