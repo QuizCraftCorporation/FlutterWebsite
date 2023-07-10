@@ -31,7 +31,26 @@ class Body extends StatelessWidget {
                 return Container(margin: EdgeInsets.only(top: 100), alignment: Alignment.center, child: Text("You don't have any quizzes. Go and generate some", style: TextStyle(fontSize: 25),),);
               }
               return Column(
-                children: prevs,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    child: const Text(
+                      'My Quizzes',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 6, right: MediaQuery.of(context).size.width / 6, top: 25),
+                    child: Column(
+                      children: prevs,
+                    ),
+                  ),
+                ],
               );
             }
             if (state is MyQuizzesError) {

@@ -172,10 +172,13 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   ),
-                  TextFieldCircular(
-                    controller: _inputController,
-                    lines: 10,
-                    hint: 'Input text',
+                  SizedBox(
+                    width: 450,
+                    child: TextFieldCircular(
+                      controller: _inputController,
+                      lines: 10,
+                      hint: 'Input text',
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
