@@ -9,10 +9,8 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        // bottom: MediaQuery.of(context).size.height / 2,
-        // right: MediaQuery.of(context).size.width / 2,
-        top: MediaQuery.of(context).size.height / 2 - 50,
-        left: MediaQuery.of(context).size.width / 2 - 100,
+        top: MediaQuery.of(context).size.height / 2,
+        left: MediaQuery.of(context).size.width / 2,
       ),
       child: Column(
         children: [

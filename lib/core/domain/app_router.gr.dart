@@ -27,6 +27,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CreateQuizScreen(),
       );
     },
+    ExploreRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ExploreScreen(),
+      );
+    },
+    MyQuizzesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyQuizzesScreen(),
+      );
+    },
     QuizReportRoute.name: (routeData) {
       final args = routeData.argsAs<QuizReportRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -35,6 +47,18 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           quiz: args.quiz,
           quizReport: args.quizReport,
+        ),
+      );
+    },
+    SearchRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<SearchRouteArgs>(
+          orElse: () => SearchRouteArgs(search: pathParams.getString('query')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchScreen(
+          key: args.key,
+          search: args.search,
         ),
       );
     },
@@ -59,24 +83,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: ViewQuizScreen(
           key: args.key,
           quizId: args.quizId,
-        ),
-      );
-    },
-    MyQuizzesRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MyQuizzesScreen(),
-      );
-    },
-    SearchRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<SearchRouteArgs>(
-          orElse: () => SearchRouteArgs(search: pathParams.getString('query')));
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SearchScreen(
-          key: args.key,
-          search: args.search,
         ),
       );
     },
@@ -107,6 +113,34 @@ class CreateQuizRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CreateQuizRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ExploreScreen]
+class ExploreRoute extends PageRouteInfo<void> {
+  const ExploreRoute({List<PageRouteInfo>? children})
+      : super(
+          ExploreRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ExploreRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MyQuizzesScreen]
+class MyQuizzesRoute extends PageRouteInfo<void> {
+  const MyQuizzesRoute({List<PageRouteInfo>? children})
+      : super(
+          MyQuizzesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyQuizzesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -151,6 +185,44 @@ class QuizReportRouteArgs {
   @override
   String toString() {
     return 'QuizReportRouteArgs{key: $key, quiz: $quiz, quizReport: $quizReport}';
+  }
+}
+
+/// generated route for
+/// [SearchScreen]
+class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
+  SearchRoute({
+    Key? key,
+    required String search,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchRoute.name,
+          args: SearchRouteArgs(
+            key: key,
+            search: search,
+          ),
+          rawPathParams: {'query': search},
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchRoute';
+
+  static const PageInfo<SearchRouteArgs> page = PageInfo<SearchRouteArgs>(name);
+}
+
+class SearchRouteArgs {
+  const SearchRouteArgs({
+    this.key,
+    required this.search,
+  });
+
+  final Key? key;
+
+  final String search;
+
+  @override
+  String toString() {
+    return 'SearchRouteArgs{key: $key, search: $search}';
   }
 }
 
@@ -229,57 +301,5 @@ class ViewQuizRouteArgs {
   @override
   String toString() {
     return 'ViewQuizRouteArgs{key: $key, quizId: $quizId}';
-  }
-}
-
-/// generated route for
-/// [MyQuizzesScreen]
-class MyQuizzesRoute extends PageRouteInfo<void> {
-  const MyQuizzesRoute({List<PageRouteInfo>? children})
-      : super(
-          MyQuizzesRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MyQuizzesRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SearchScreen]
-class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
-  SearchRoute({
-    Key? key,
-    required String search,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SearchRoute.name,
-          args: SearchRouteArgs(
-            key: key,
-            search: search,
-          ),
-          rawPathParams: {'query': search},
-          initialChildren: children,
-        );
-
-  static const String name = 'SearchRoute';
-
-  static const PageInfo<SearchRouteArgs> page = PageInfo<SearchRouteArgs>(name);
-}
-
-class SearchRouteArgs {
-  const SearchRouteArgs({
-    this.key,
-    required this.search,
-  });
-
-  final Key? key;
-
-  final String search;
-
-  @override
-  String toString() {
-    return 'SearchRouteArgs{key: $key, search: $search}';
   }
 }

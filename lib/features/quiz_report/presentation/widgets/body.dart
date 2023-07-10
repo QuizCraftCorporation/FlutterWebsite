@@ -54,7 +54,7 @@ class Body extends StatelessWidget {
         }
         return SingleChildScrollView(
           child: SizedBox(
-            width: MediaQuery.of(context).size.width - 200,
+            width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

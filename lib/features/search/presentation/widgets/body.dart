@@ -6,22 +6,21 @@ import 'package:capstone_project/core/presentation/quiz_preview/quiz_preview_wid
 import '../cubit/search_cubit.dart';
 
 class Body extends StatelessWidget {
-  const Body({super.key, required this.search, });
+  const Body({
+    super.key,
+    required this.search,
+  });
 
   final String search;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        // TODO: replace const size of drawer (200) with some dynamic size
-        width: MediaQuery
-            .of(context)
-            .size
-            .width - 200,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
         child: BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
-            if (state is SearchInitial){
+            if (state is SearchInitial) {
               BlocProvider.of<SearchCubit>(context).searchQuizzes(search);
             }
             if (state is SearchLoading) {
@@ -29,7 +28,7 @@ class Body extends StatelessWidget {
             }
             if (state is SearchResult) {
               List<Widget> prevs = [];
-              for (QuizPreview quizPreview in state.quizzes){
+              for (QuizPreview quizPreview in state.quizzes) {
                 prevs.add(QuizPreviewWidget(quizPreview: quizPreview));
               }
               // print(prevs.length);

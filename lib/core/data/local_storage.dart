@@ -16,7 +16,7 @@ class Storage {
     await localStorage.deleteItem('tokens');
   }
 
-  static Future<void> updateRefreshToken(String refresh) async {
+  static Future<void> updateRefresh(String refresh) async {
     await localStorage.ready;
     if (localStorage.getItem('tokens') == null) {
       await createTokens();
@@ -24,9 +24,10 @@ class Storage {
     Map<String, dynamic> m = localStorage.getItem('tokens');
     m['refresh'] = refresh;
     await localStorage.setItem('tokens', m);
+    print('updateRefresh. Success');
   }
 
-  static Future<void> updateAccessToken(String access) async {
+  static Future<void> updateAccess(String access) async {
     await localStorage.ready;
     if (localStorage.getItem('tokens') == null) {
       await createTokens();
@@ -34,6 +35,7 @@ class Storage {
     Map<String, dynamic> m = localStorage.getItem('tokens');
     m['access'] = access;
     await localStorage.setItem('tokens', m);
+    print('updateAccess. Success');
   }
 
   static Future<String> getRefresh() async {

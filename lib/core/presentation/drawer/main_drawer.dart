@@ -8,60 +8,62 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MainDrawerCubit>(
-      create: (context) => MainDrawerCubit(),
-      child: BlocConsumer<MainDrawerCubit, MainDrawerState>(
-        listener: (context, state) {
-          if (state is MainDrawerToCreateQuizState) {
-            AutoRouter.of(context).replaceNamed('/crafter');
-          } else if (state is MainDrawerToMyQuizzesState) {
-            AutoRouter.of(context).replaceNamed('/my_quizzes');
-          // } else if (state is MainDrawerToSettingsState) {
-          //   AutoRouter.of(context).replaceNamed('/settings');
-          } else if (state is MainDrawerToHelpState) {
-            AutoRouter.of(context).replaceNamed('/help');
-          }
-        },
-        builder: (context, state) {
-          return ListView(
-            // mainAxisSize: MainAxisSize.max,
-            children: [
-              // const SizedBox(height: kToolbarHeight,),
-              ListTile(
-                leading: Icon(Icons.add_rounded),
-                title: Text('Generate Quiz'),
-                contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
-                onTap: () {
-                  BlocProvider.of<MainDrawerCubit>(context).goToCreateQuiz();
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.folder_copy),
-                title: Text('My Quizes'),
-                contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
-                onTap: () {
-                  BlocProvider.of<MainDrawerCubit>(context).goToMyQuizzes();
-                },
-              ),
-              // ListTile(
-              //   leading: Icon(Icons.settings),
-              //   title: Text('Settings'),
-              //   contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
-              //   onTap: () {
-              //     BlocProvider.of<MainDrawerCubit>(context).goToSettings();
-              //   },
-              // ),
-              ListTile(
-                leading: Icon(Icons.help_outline_rounded),
-                title: Text('Help'),
-                contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
-                onTap: () {
-                  BlocProvider.of<MainDrawerCubit>(context).goToHelp();
-                },
-              ),
-            ],
-          );
-        },
+    return Drawer(
+      child: BlocProvider<MainDrawerCubit>(
+        create: (context) => MainDrawerCubit(),
+        child: BlocConsumer<MainDrawerCubit, MainDrawerState>(
+          listener: (context, state) {
+            if (state is MainDrawerToCreateQuizState) {
+              AutoRouter.of(context).pushNamed('/crafter');
+            } else if (state is MainDrawerToMyQuizzesState) {
+              AutoRouter.of(context).pushNamed('/my_quizzes');
+            } else if (state is MainDrawerToExploreState) {
+              AutoRouter.of(context).pushNamed('/explore');
+            } else if (state is MainDrawerToHelpState) {
+              // AutoRouter.of(context).pushNamed('/help');
+            }
+          },
+          builder: (context, state) {
+            return ListView(
+              // mainAxisSize: MainAxisSize.max,
+              children: [
+                // const SizedBox(height: kToolbarHeight,),
+                ListTile(
+                  leading: Icon(Icons.add_rounded),
+                  title: Text('Generate Quiz'),
+                  contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  onTap: () {
+                    BlocProvider.of<MainDrawerCubit>(context).goToCreateQuiz();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.folder_copy),
+                  title: Text('My Quizes'),
+                  contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  onTap: () {
+                    BlocProvider.of<MainDrawerCubit>(context).goToMyQuizzes();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.explore),
+                  title: Text('Explore'),
+                  contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  onTap: () {
+                    BlocProvider.of<MainDrawerCubit>(context).goToExplore();
+                  },
+                ),
+                // ListTile(
+                //   leading: Icon(Icons.help_outline_rounded),
+                //   title: Text('Help'),
+                //   contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                //   onTap: () {
+                //     BlocProvider.of<MainDrawerCubit>(context).goToHelp();
+                //   },
+                // ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:capstone_project/core/domain/entity/quiz_report.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project/features/my_quizzes/presentation/my_quizzes_screen.dart';
 import 'package:capstone_project/features/search/presentation/search_screen.dart';
+import 'package:capstone_project/features/explore/presentation/explore_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -54,6 +55,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: SearchRoute.page,
           path: '/search/:query',
+        ),
+        AutoRoute(
+          page: ExploreRoute.page,
+          path: '/explore',
         ),
       ];
 }

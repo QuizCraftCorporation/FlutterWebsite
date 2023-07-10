@@ -18,7 +18,7 @@ class AuthScreen extends StatelessWidget {
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         if (state is MainAuthIn){
-          AutoRouter.of(context).navigateNamed('/my_quizzes');
+          AutoRouter.of(context).pushNamed('/my_quizzes');
         }
       },
       builder: (context, state) {
@@ -29,21 +29,14 @@ class AuthScreen extends StatelessWidget {
         }
         return BlocProvider<AuthCubit>(
           child: Scaffold(
-            appBar: MainAppBar(title: 'Quiz', searchCallback: (){},),
-            body: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 0, 0.02),
-                  ),
-                  width: 200,
-                  child: const MainDrawer(),
-                ),
-                const Body(),
-              ],
+            appBar: MainAppBar(
+              title: 'Quiz',
+              searchCallback: (String searchQuery) {
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
+              },
             ),
+            drawer: const MainDrawer(),
+            body: const Body(),
           ),
           create: (BuildContext context) => AuthCubit(),
         );

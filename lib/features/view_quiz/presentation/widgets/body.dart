@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
           questions.add(const SizedBox(height: 200,));
           return SingleChildScrollView(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width - 200,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

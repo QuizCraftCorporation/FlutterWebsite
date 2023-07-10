@@ -9,6 +9,6 @@ class MainDrawerToCreateQuizState extends MainDrawerState {}
 
 class MainDrawerToMyQuizzesState extends MainDrawerState {}
 
-// class MainDrawerToSettingsState extends MainDrawerState {}
+class MainDrawerToExploreState extends MainDrawerState {}
 
 class MainDrawerToHelpState extends MainDrawerState {}

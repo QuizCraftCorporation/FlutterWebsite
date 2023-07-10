@@ -1,15 +1,16 @@
 import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
 import 'package:capstone_project/core/presentation/text_field_circular.dart';
 import 'package:capstone_project/features/create_quiz/presentation/widgets/file_titles_cubit/file_titles_cubit.dart';
-import 'package:capstone_project/features/solve_quiz/presentation/widgets/checkbox_cubit/checkbox_cubit.dart';
+import 'package:capstone_project/core/presentation/checkbox_cubit/checkbox_cubit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:io';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class _BodyState extends State<Body> {
   late TextEditingController _numberOfQuestionsController;
   List<PlatformFile> files = [];
   bool public = true;
+  int numberOfQuestion = 1;
 
   @override
   void initState() {
@@ -50,9 +52,9 @@ class _BodyState extends State<Body> {
       child: BlocConsumer<CreateQuizCubit, CreateQuizState>(
         listener: (context, state) {
           if (state is CreateQuizGoToView) {
-            AutoRouter.of(context).replaceNamed('/quiz/${state.quizId}/view');
+            AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/view');
           } else if (state is CreateQuizGoToSolving) {
-            AutoRouter.of(context).replaceNamed('/quiz/${state.quizId}/solve');
+            AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/solve');
           }
         },
         builder: (context, state) {
@@ -66,10 +68,13 @@ class _BodyState extends State<Body> {
                 right: MediaQuery.of(context).size.width / 10,
               ),
               child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
+                  Container(
+                    alignment: Alignment.center,
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Crafter',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -81,7 +86,7 @@ class _BodyState extends State<Body> {
                   const SizedBox(
                     height: 50,
                     child: Text(
-                      'Quiz Info',
+                      'Quiz Settings',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 20,
@@ -89,34 +94,49 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   ),
-                  TextFieldCircular(
-                    controller: _titleController,
-                    lines: 1,
-                    hint: 'Title',
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    width: 450,
+                    child: TextFieldCircular(
+                      controller: _titleController,
+                      lines: 1,
+                      hint: 'Title',
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    // alignment: Alignment.topLeft,
+                    width: 450,
+                    child: TextFieldCircular(
+                      controller: _descriptionController,
+                      lines: 4,
+                      hint: 'Description (optional)',
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFieldCircular(
-                    controller: _descriptionController,
-                    lines: 4,
-                    hint: 'Description (optional)',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  // Slider(value: numberOfQuestion.toDouble(), min: 1.0, max: 45.0, onChanged: (newValue){numberOfQuestion = newValue.toInt();}),
                   Row(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Mode: ',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(
+                        width: 200,
+                        child: TextFieldCircular(
+                          controller: _numberOfQuestionsController,
+                          lines: 1,
+                          hint: 'Questions [1, 45]',
+                          textInputType: TextInputType.number,
+                          formatters: [FilteringTextInputFormatter.digitsOnly],
+                          maxLength: 2,
                         ),
                       ),
+                      SizedBox(
+                        width: min(165, MediaQuery.of(context).size.width / 10),
+                      ),
                       const Text(
-                        'private',
+                        'Public',
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -125,9 +145,10 @@ class _BodyState extends State<Body> {
                         create: (context) => CheckboxCubit(),
                         child: BlocBuilder<CheckboxCubit, CheckboxState>(
                           builder: (context, state) {
-                            return Switch(
+                            return Checkbox(
                               value: public,
                               onChanged: (newValue) {
+                                newValue ??= false;
                                 public = newValue;
                                 BlocProvider.of<CheckboxCubit>(context)
                                     .changeState();
@@ -136,13 +157,10 @@ class _BodyState extends State<Body> {
                           },
                         ),
                       ),
-                      const Text(
-                        'public',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                   const SizedBox(
                     height: 50,
@@ -163,39 +181,27 @@ class _BodyState extends State<Body> {
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
-                    width: 200,
-                    child: TextFieldCircular(
-                      controller: _numberOfQuestionsController,
-                      lines: 1,
-                      hint: 'Number of questions',
-                      textInputType: TextInputType.number,
-                      formatters: [FilteringTextInputFormatter.digitsOnly],
-                      maxLength: 3,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      var picked = await FilePicker.platform.pickFiles(
-                          allowMultiple: true,
-                          allowedExtensions: ['txt', 'pdf'],
-                          type: FileType.custom);
-                      if (picked != null) {
-                        for (PlatformFile file in picked.files) {
-                          files.add(file);
+                  Center(
+                    child: TextButton(
+                      onPressed: () async {
+                        var picked = await FilePicker.platform.pickFiles(
+                            allowMultiple: true,
+                            allowedExtensions: ['txt', 'pdf'],
+                            type: FileType.custom);
+                        if (picked != null) {
+                          for (PlatformFile file in picked.files) {
+                            files.add(file);
+                          }
+                          BlocProvider.of<FileTitlesCubit>(context).addFile();
                         }
-                        BlocProvider.of<FileTitlesCubit>(context).addFile();
-                      }
-                    },
-                    child: const ButtonBar(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.upload),
-                        Text('Attach files'),
-                      ],
+                      },
+                      child: const ButtonBar(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.upload),
+                          Text('Attach files'),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -247,24 +253,27 @@ class _BodyState extends State<Body> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      int numberOfQuestions = 0;
-                      if (_numberOfQuestionsController.text.isNotEmpty) {
-                        numberOfQuestions =
-                            int.parse(_numberOfQuestionsController.text);
-                      }
-                      final cubit = BlocProvider.of<CreateQuizCubit>(context);
-                      cubit.quizRequest(
-                        _titleController.text,
-                        _descriptionController.text,
-                        _inputController.text,
-                        files,
-                        numberOfQuestions,
-                        public,
-                      );
-                    },
-                    child: const Text('Create quiz'),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TextButton(
+                      onPressed: () {
+                        int numberOfQuestions = 0;
+                        if (_numberOfQuestionsController.text.isNotEmpty) {
+                          numberOfQuestions =
+                              int.parse(_numberOfQuestionsController.text);
+                        }
+                        final cubit = BlocProvider.of<CreateQuizCubit>(context);
+                        cubit.quizRequest(
+                          _titleController.text,
+                          _descriptionController.text,
+                          _inputController.text,
+                          files,
+                          numberOfQuestions,
+                          public,
+                        );
+                      },
+                      child: const Text('Create quiz'),
+                    ),
                   ),
                   const SizedBox(
                     height: 200,
@@ -272,18 +281,51 @@ class _BodyState extends State<Body> {
                 ],
               ),
             );
-          } else if (state is CreateQuizLoading) {
+          } else if (state is CreateQuizLoading || state is CreateQuizWaiting) {
             return const Loading(
               text: 'Do magic for quiz creation\nYou can leave this page',
             );
           } else if (state is CreateQuizLoaded) {
-            return const Text(
-              'Quiz created',
-              style: TextStyle(
-                fontSize: 25,
+            return Container(
+              alignment: Alignment.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                  ),
+                  TextButton(
+                    onPressed: () => BlocProvider.of<CreateQuizCubit>(context)
+                        .goToView(state.quizId),
+                    child: const Text(
+                      'View the quiz',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 35,
+                  ),
+                  TextButton(
+                    onPressed: () => BlocProvider.of<CreateQuizCubit>(context)
+                        .goToSolving(state.quizId),
+                    child: const Text(
+                      'Solving the quiz',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
               ),
             );
+            // return const Center(
+            //   child: Text(
+            //     'Quiz created',
+            //     style: TextStyle(
+            //       fontSize: 25,
+            //     ),
+            //   ),
+            // );
           } else if (state is CreateQuizError) {
+            return CustomError(message: state.message);
             // TODO: Error handling
           }
           // Return something

@@ -20,7 +20,7 @@ class ViewQuizScreen extends StatelessWidget {
       listener: (context, state) {
         /// If QuizView will be private screen, then uncomment these sections
         // if (state is MainAuthOut){
-        //   AutoRouter.of(context).navigateNamed('/login');
+        //   AutoRouter.of(context).replaceNamed('/login');
         // }
       },
       builder: (context, state) {
@@ -31,24 +31,12 @@ class ViewQuizScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).replaceNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
-            body: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 0, 0.02),
-                  ),
-                  width: 200,
-                  child: const MainDrawer(),
-                ),
-                Body(
-                  quizId: quizId,
-                ),
-              ],
+            drawer: const MainDrawer(),
+            body: Body(
+              quizId: quizId,
             ),
           ),
           create: (BuildContext context) => ViewQuizCubit(),
@@ -57,12 +45,3 @@ class ViewQuizScreen extends StatelessWidget {
     );
   }
 }
-
-// body: Body(),
-// body: SliderDrawer(
-//   appBar: Container(),
-//   slider: const MainDrawer(),
-//   sliderOpenSize: 200,
-//   sliderCloseSize: 200,
-//   child: Body(quiz: quiz),
-// ),

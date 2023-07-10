@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'appbar/main_appbar.dart';
 import 'drawer/main_drawer.dart';
 
 class ScreenTemplate extends StatelessWidget {
@@ -10,36 +11,15 @@ class ScreenTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // if (MediaQuery.of(context).size.height / MediaQuery.of(context).size.width > 1){
-    //   return SliderDrawer(
-    //     appBar: Container(),
-    //     slider: SliderView(), // TODO: recreate widget!!!
-    //     sliderOpenSize: 200,
-    //     sliderCloseSize: 200,
-    //     child: body,
-    //   );
-    // }
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(0, 0, 0, 0.02),
-          ),
-          width: 200,
-          child: const MainDrawer(),
-        ),
-        body,
-      ],
+    return Scaffold(
+      appBar: MainAppBar(
+        title: 'Quiz',
+        searchCallback: (String searchQuery) {
+          AutoRouter.of(context).pushNamed('/search/$searchQuery');
+        },
+      ),
+      drawer: const MainDrawer(),
+      body: body,
     );
   }
 }
-
-// body: SliderDrawer(
-//   appBar: Container(),
-//   slider: SliderView(),
-//   child: Body(),
-//   sliderOpenSize: 200,
-//   sliderCloseSize: 200,
-// ),

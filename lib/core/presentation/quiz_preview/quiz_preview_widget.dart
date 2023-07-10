@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
 import 'package:capstone_project/core/presentation/quiz_preview/cubit/quiz_preview_cubit.dart';
@@ -18,11 +17,11 @@ class QuizPreviewWidget extends StatelessWidget {
         listener: (context, state) {
           if (state is QuizPreviewToViewAnswers) {
             AutoRouter.of(context)
-                .replaceNamed('/quiz/${quizPreview.quizId}/view');
+                .pushNamed('/quiz/${quizPreview.quizId}/view');
           }
           if (state is QuizPreviewToSolver) {
             AutoRouter.of(context)
-                .replaceNamed('/quiz/${quizPreview.quizId}/solve');
+                .pushNamed('/quiz/${quizPreview.quizId}/solve');
           }
         },
         builder: (context, state) {

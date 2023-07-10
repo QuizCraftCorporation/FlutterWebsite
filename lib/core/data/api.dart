@@ -13,15 +13,11 @@ class API {
   static Future<List<String>> login(String username, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/auth/login/'),
-      // headers: {
-      //   // 'Content-Type': 'multipart/form-data',
-      // },
       body: {
         'username': username,
         'password': password,
       },
     );
-    // print('login. Body: ${response.body}');
     print('login. Status Code: ${response.statusCode}');
     List<String> tokens = [
       jsonDecode(response.body)['refresh'],
@@ -56,11 +52,15 @@ class API {
       },
     );
     print('register. Status Code: ${response.statusCode}');
-    List<String> tokens = [
-      jsonDecode(response.body)['refresh'],
-      jsonDecode(response.body)['access']
+    // print(response.body);
+    // print(jsonDecode(response.body));
+    List<String> data = [
+      jsonDecode(response.body)['id'].toString(),
+      jsonDecode(response.body)['username'].toString(),
+      jsonDecode(response.body)['first_name'].toString(),
+      jsonDecode(response.body)['last_name_name'].toString(),
     ];
-    return tokens;
+    return data;
   }
 
   static Future<void> logout(String refresh, String access) async {
@@ -102,7 +102,7 @@ class API {
     return;
   }
 
-  static Future<Quiz> createQuiz(String title, String description,
+  static Future<int> createQuiz(String title, String description,
       String rawText, List<PlatformFile> files, int numberOfQuestions, bool public, String access) async {
     var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/quiz/'));
     if (rawText.isNotEmpty) {
@@ -131,8 +131,7 @@ class API {
     final response = await request.send();
     String body = await response.stream.bytesToString();
     print('CreateQuiz. Status Code: ${response.statusCode}');
-    Quiz quiz = Quiz.fromJson(jsonDecode(body));
-    return quiz;
+    return jsonDecode(body)['id'];
   }
 
   static Future<QuizNoAnswers> getQuizWithoutAnswers(
@@ -178,7 +177,7 @@ class API {
 
   static Future<List<QuizPreview>> getMyQuizzes(String access) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/quiz/'),
+      Uri.parse('$baseUrl/quiz/me/'),
       headers: {
         'Authorization': 'Bearer $access',
       },
@@ -211,11 +210,9 @@ class API {
     return quizzes;
   }
 
-  // TODO: Wait for backend
   static Future<List<QuizPreview>> getExploreCategory(String category) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/quiz/explore?category=$category'),
-
+      Uri.parse('$baseUrl/quiz/?sort=$category&limit=10'),
     );
     print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
@@ -226,5 +223,21 @@ class API {
       quizzes.add(body[i] as QuizPreview);
     }
     return quizzes;
+  }
+  
+  static Future<bool> isCrafterFree(String access) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/quiz/check_generation'),
+      headers: {
+        'Authorization': 'Bearer $access',
+      }
+    );
+    print('isCrafterFree. Status Code: ${response.statusCode}');
+    // TODO: Wait for Gleb's answer
+    if (jsonDecode(response.body)['quiz_id']){
+      return true;
+    } else{
+      return false;
+    }
   }
 }

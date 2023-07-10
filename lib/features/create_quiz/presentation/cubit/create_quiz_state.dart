@@ -13,6 +13,11 @@ class CreateQuizLoading extends CreateQuizState {
   const CreateQuizLoading();
 }
 
+class CreateQuizWaiting extends CreateQuizState {
+  final int quizId;
+  const CreateQuizWaiting({required this.quizId});
+}
+
 class CreateQuizLoaded extends CreateQuizState {
   final int quizId;
   const CreateQuizLoaded(this.quizId);
@@ -29,8 +34,8 @@ class CreateQuizGoToView extends CreateQuizState {
 }
 
 class CreateQuizError extends CreateQuizState {
-  // final String message;
-  // const CreateQuizError(this.message);
+  final String message;
+  const CreateQuizError(this.message);
 }
 
 class CreateQuizSendFile extends CreateQuizState {

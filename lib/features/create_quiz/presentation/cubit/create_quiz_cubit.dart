@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:capstone_project/core/data/api.dart';
-import '../../../../core/domain/entity/quiz.dart';
 
 part 'create_quiz_state.dart';
 
@@ -13,10 +12,11 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
 
   Future<void> quizRequest(String title, String description, String rawText, List<PlatformFile> files, int numberOfQuestions, bool public) async {
     emit(const CreateQuizLoading());
-
+    String access = '';
+    int quizId = 1;
     try {
-      String access = await Storage.getAccess();
-      Quiz quiz = await API.createQuiz(
+      access = await Storage.getAccess();
+      quizId = await API.createQuiz(
           title,
           description,
           rawText,
@@ -24,10 +24,24 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
           numberOfQuestions,
           public,
           access);
-
-      emit(CreateQuizLoaded(quiz.id));
+      emit(CreateQuizWaiting(quizId: quizId));
     } catch(e){
-      emit(CreateQuizError());
+      emit(CreateQuizError(e.toString()));
+      return;
+    }
+    int time = 0;
+    while (true) {
+      try {
+        await API.getQuizWithoutAnswers(quizId, access);
+        emit(CreateQuizLoaded(quizId));
+        break;
+      } catch (e) {
+        await Future.delayed(const Duration(seconds: 15));
+        time += 16;
+        if (time >= 240){
+          break;
+        }
+      }
     }
     // TODO: Error handler
   }

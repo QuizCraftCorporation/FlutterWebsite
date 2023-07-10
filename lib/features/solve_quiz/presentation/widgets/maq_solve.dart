@@ -1,5 +1,5 @@
 import 'package:capstone_project/core/domain/entity/multiple_answer_question_no_answer.dart';
-import 'package:capstone_project/features/solve_quiz/presentation/widgets/checkbox_cubit/checkbox_cubit.dart';
+import 'package:capstone_project/core/presentation/checkbox_cubit/checkbox_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

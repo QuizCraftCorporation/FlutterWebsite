@@ -17,7 +17,7 @@ class MyQuizzesScreen extends StatelessWidget {
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         if (state is MainAuthOut) {
-          AutoRouter.of(context).navigateNamed('/login');
+          AutoRouter.of(context).replaceNamed('/login');
         }
       },
       builder: (context, state) {
@@ -33,23 +33,11 @@ class MyQuizzesScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
-            body: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 0, 0.02),
-                  ),
-                  width: 200,
-                  child: const MainDrawer(),
-                ),
-                Body(),
-              ],
-            ),
+            drawer: const MainDrawer(),
+            body: const Body(),
           ),
           create: (BuildContext context) => MyQuizzesCubit(),
         );

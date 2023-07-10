@@ -19,7 +19,7 @@ class MyQuizzesCubit extends Cubit<MyQuizzesState> {
     } catch (e) {
       // TODO: Handle different errors
       print(e);
-      emit(MyQuizzesError());
+      emit(MyQuizzesError(message: e.toString(), ));
     }
   }
 

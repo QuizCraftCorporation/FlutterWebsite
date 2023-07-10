@@ -27,6 +27,7 @@ class TextFieldCircular extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          counterText: '',
           hintText: hint,
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(25)),

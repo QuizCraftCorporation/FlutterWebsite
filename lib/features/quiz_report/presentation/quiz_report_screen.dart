@@ -41,25 +41,13 @@ class QuizReportScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).replaceNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
-            body: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 0, 0.02),
-                  ),
-                  width: 200,
-                  child: const MainDrawer(),
-                ),
-                Body(
-                  quiz: quiz,
-                  quizReport: quizReport,
-                )
-              ],
+            drawer: const MainDrawer(),
+            body: Body(
+              quiz: quiz,
+              quizReport: quizReport,
             ),
           ),
         );
@@ -67,12 +55,3 @@ class QuizReportScreen extends StatelessWidget {
     );
   }
 }
-
-// body: Body(),
-// body: SliderDrawer(
-//   appBar: Container(),
-//   slider: const MainDrawer(),
-//   sliderOpenSize: 200,
-//   sliderCloseSize: 200,
-//   child: Body(quiz: quiz),
-// ),

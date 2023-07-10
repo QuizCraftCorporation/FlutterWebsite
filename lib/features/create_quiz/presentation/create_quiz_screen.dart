@@ -14,8 +14,6 @@ class CreateQuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: check type of device and run specific design for each
-    // bool isDesktop =
     bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
@@ -44,40 +42,14 @@ class CreateQuizScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).replaceNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
-
-            drawer: Drawer(
-              child: const MainDrawer(),
-            ),
-            body: Body(),
-            // body: Row(
-            //   mainAxisSize: MainAxisSize.max,
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     Container(
-            //       decoration: const BoxDecoration(
-            //         color: Color.fromRGBO(0, 0, 0, 0.02),
-            //       ),
-            //       width: 200,
-            //       child: const MainDrawer(),
-            //     ),
-            //     const Body(),
-            //   ],
-            // ),
+            drawer: const MainDrawer(),
+            body: const Body(),
           ),
         );
       },
     );
   }
 }
-
-/// Drawer which is good for phones and tablets but not for desktop
-// body: SliderDrawer(
-//   appBar: Container(),
-//   slider: SliderView(),
-//   child: Body(),
-//   sliderOpenSize: 200,
-//   sliderCloseSize: 200,
-// ),
