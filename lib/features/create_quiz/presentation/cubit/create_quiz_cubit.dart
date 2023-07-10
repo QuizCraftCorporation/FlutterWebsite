@@ -16,6 +16,10 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
     int quizId = 1;
     try {
       access = await Storage.getAccess();
+      if (!(await API.isCrafterFree(access))){
+        emit(const CreateQuizInitial());
+        return;
+      }
       quizId = await API.createQuiz(
           title,
           description,

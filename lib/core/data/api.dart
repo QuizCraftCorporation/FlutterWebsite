@@ -245,14 +245,14 @@ class API {
   
   static Future<bool> isCrafterFree(String access) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/quiz/check_generation'),
+      Uri.parse('$baseUrl/quiz/check_generation/'),
       headers: {
         'Authorization': 'Bearer $access',
       }
     );
     print('isCrafterFree. Status Code: ${response.statusCode}');
     // TODO: Wait for Gleb's answer
-    if (response.statusCode == 200){
+    if (response.statusCode == 200 || jsonDecode(response.body)['detail'] == 'You have no quizzes generating for you.'){
       return true;
     } else{
       return false;

@@ -264,22 +264,28 @@ class _BodyState extends State<Body> {
                           numberOfQuestions =
                               int.parse(_numberOfQuestionsController.text);
                         }
-                        if (_titleController.text.length == 0){
+                        if (_titleController.text.length == 0) {
                           showDialog(
-                            context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Text('Error'),
-                              content: Text("Title shouldn't be empty"),
-                            );
-                          },);
-                        } else if (files.length == 0 && _inputController.text.length == 0){
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text("Title shouldn't be empty"),
+                              );
+                            },
+                          );
+                        } else if (files.length == 0 &&
+                            _inputController.text.length == 0) {
                           showDialog(
-                            context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Text('Error'),
-                              content: Text("Pass at least 1 file or Input text"),
-                            );
-                          },);
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content:
+                                    Text("Pass at least 1 file or Input text"),
+                              );
+                            },
+                          );
                         } else {
                           final cubit =
                               BlocProvider.of<CreateQuizCubit>(context);
