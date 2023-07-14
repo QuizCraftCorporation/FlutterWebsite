@@ -29,7 +29,7 @@ class ExploreScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Explore',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
             drawer: const MainDrawer(),

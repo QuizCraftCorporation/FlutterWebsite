@@ -31,7 +31,7 @@ class ViewQuizScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
             drawer: const MainDrawer(),

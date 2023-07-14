@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project/core/domain/app_router.dart';
 import 'package:capstone_project/core/domain/main_auth_cubit/main_auth_cubit.dart';
 import 'package:capstone_project/core/presentation/appbar/cubit/main_app_bar_cubit.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,11 @@ class _MainAppBarState extends State<MainAppBar> {
             AutoRouter.of(context).replaceNamed('/login');
           }
           if (state is MainAppBarExplore) {
-            AutoRouter.of(context).navigateNamed('/explore');
+            if (AutoRouter.of(context).isRouteActive(ExploreRoute.name)){
+              AutoRouter.of(context).navigateNamed('/explore');
+            } else {
+              AutoRouter.of(context).pushNamed('/explore');
+            }
           }
         },
         builder: (context, state) => AppBar(

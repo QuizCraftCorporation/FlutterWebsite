@@ -17,10 +17,10 @@ class QuizPreviewCardWidget extends StatelessWidget {
       child: BlocConsumer<QuizPreviewCardCubit, QuizPreviewCardState>(
         listener: (context, state) {
           if (state is QuizPreviewCardGoSolve){
-            AutoRouter.of(context).navigateNamed('/quiz/${quizPreview.quizId}/solve');
+            AutoRouter.of(context).pushNamed('/quiz/${quizPreview.quizId}/solve');
           }
           if (state is QuizPreviewCardGoView){
-            AutoRouter.of(context).navigateNamed('/quiz/${quizPreview.quizId}/view');
+            AutoRouter.of(context).pushNamed('/quiz/${quizPreview.quizId}/view');
           }
         },
         builder: (context, state) {

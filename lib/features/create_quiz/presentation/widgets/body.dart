@@ -52,9 +52,9 @@ class _BodyState extends State<Body> {
       child: BlocConsumer<CreateQuizCubit, CreateQuizState>(
         listener: (context, state) {
           if (state is CreateQuizGoToView) {
-            AutoRouter.of(context).navigateNamed('/quiz/${state.quizId}/view');
+            AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/view');
           } else if (state is CreateQuizGoToSolving) {
-            AutoRouter.of(context).navigateNamed('/quiz/${state.quizId}/solve');
+            AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/solve');
           }
         },
         builder: (context, state) {

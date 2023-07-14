@@ -35,7 +35,7 @@ class SearchScreen extends StatelessWidget {
               title: 'Quiz',
               searchCallback: (String searchQuery) {
                 // BlocProvider.of<SearchCubit>(context).searchQuizzes(searchQuery);
-                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
+                AutoRouter.of(context).pushNamed('/search/$searchQuery');
               },
             ),
             drawer: const MainDrawer(),

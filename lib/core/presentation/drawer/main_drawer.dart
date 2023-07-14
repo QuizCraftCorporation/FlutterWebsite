@@ -14,11 +14,11 @@ class MainDrawer extends StatelessWidget {
         child: BlocConsumer<MainDrawerCubit, MainDrawerState>(
           listener: (context, state) {
             if (state is MainDrawerToCreateQuizState) {
-              AutoRouter.of(context).navigateNamed('/crafter');
+              AutoRouter.of(context).pushNamed('/crafter');
             } else if (state is MainDrawerToMyQuizzesState) {
-              AutoRouter.of(context).navigateNamed('/my_quizzes');
+              AutoRouter.of(context).pushNamed('/my_quizzes');
             } else if (state is MainDrawerToExploreState) {
-              AutoRouter.of(context).navigateNamed('/explore');
+              AutoRouter.of(context).pushNamed('/explore');
             } else if (state is MainDrawerToHelpState) {
 
             }

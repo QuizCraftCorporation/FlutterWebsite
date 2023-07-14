@@ -22,11 +22,11 @@ class QuizPreviewWidget extends StatelessWidget {
           listener: (context, state) {
             if (state is QuizPreviewToViewAnswers) {
               AutoRouter.of(context)
-                  .navigateNamed('/quiz/${quizPreview.quizId}/view');
+                  .pushNamed('/quiz/${quizPreview.quizId}/view');
             }
             if (state is QuizPreviewToSolver) {
               AutoRouter.of(context)
-                  .navigateNamed('/quiz/${quizPreview.quizId}/solve');
+                  .pushNamed('/quiz/${quizPreview.quizId}/solve');
             }
           },
           builder: (context, state) {

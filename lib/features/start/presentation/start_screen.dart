@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+import 'dart:html' as html;
 
 @RoutePage()
 class StartScreen extends StatefulWidget {
@@ -12,20 +14,22 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-  final PlatformWebViewController _controller = PlatformWebViewController(
-    const PlatformWebViewControllerCreationParams(),
-  )..loadRequest(
-    LoadRequestParams(
-      uri: Uri.parse('http://127.0.0.1:8003'),
-    ),
-  );
+  // final PlatformWebViewController _controller = PlatformWebViewController(
+  //   const PlatformWebViewControllerCreationParams(),
+  // )..loadRequest(
+  //   LoadRequestParams(
+  //     uri: Uri.parse('http://10.90.138.70:8003'),
+  //   ),
+  // );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PlatformWebViewWidget(
-        PlatformWebViewWidgetCreationParams(controller: _controller),
-      ).build(context),
-    );
+    html.window.open('http://10.90.138.70:8003', '_self');
+    return Container();
+    // return Scaffold(
+    //   body: PlatformWebViewWidget(
+    //     PlatformWebViewWidgetCreationParams(controller: _controller),
+    //   ).build(context),
+    // );
   }
 }
