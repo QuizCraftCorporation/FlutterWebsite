@@ -55,10 +55,10 @@ class API {
     // print(response.body);
     // print(jsonDecode(response.body));
     List<String> data = [
-      jsonDecode(response.body)['id'].toString(),
-      jsonDecode(response.body)['username'].toString(),
-      jsonDecode(response.body)['first_name'].toString(),
-      jsonDecode(response.body)['last_name_name'].toString(),
+      jsonDecode(utf8.decode(response.bodyBytes))['id'].toString(),
+      jsonDecode(utf8.decode(response.bodyBytes))['username'].toString(),
+      jsonDecode(utf8.decode(response.bodyBytes))['first_name'].toString(),
+      jsonDecode(utf8.decode(response.bodyBytes))['last_name_name'].toString(),
     ];
     return data;
   }
@@ -143,7 +143,7 @@ class API {
       },
     );
     print('getQuizWithoutAnswers. Status Code: ${response.statusCode}');
-    return QuizNoAnswers.fromJson(jsonDecode(response.body));
+    return QuizNoAnswers.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   }
 
   static Future<QuizReport> getQuizReport(
@@ -159,7 +159,7 @@ class API {
       ),
     );
     print('getQuizReport. Status Code: ${response.statusCode}');
-    QuizReport quizReport = QuizReport.fromJson(jsonDecode(response.body));
+    QuizReport quizReport = QuizReport.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     return quizReport;
   }
 
@@ -173,7 +173,9 @@ class API {
       headers: headers,
     );
     print('getQuizWithAnswers. Status code: ${response.statusCode}');
-    Quiz quiz = Quiz.fromJson(jsonDecode(response.body));
+    // print('getQuizWithAnswers. Body: ${utf8.decode(response.bodyBytes)}');
+
+    Quiz quiz = Quiz.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     return quiz;
   }
 
@@ -187,7 +189,7 @@ class API {
     print('getMyQuizzes. Status code: ${response.statusCode}');
     // print('getMyQuizzes. Body: ${response.body}');
     List<QuizPreview> quizzes = [];
-    List<dynamic> body = jsonDecode(response.body)
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
         .map((data) => QuizPreview.fromJson(data))
         .toList();
     for (int i = 0; i < body.length; i++){
@@ -204,7 +206,7 @@ class API {
     );
     print('searchQuizzes. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
-    List<dynamic> body = jsonDecode(response.body)
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
         .map((data) => QuizPreview.fromJson(data))
         .toList();
     for (int i = 0; i < body.length; i++){
@@ -221,7 +223,7 @@ class API {
     // print('getExploreCategory. Category=$category. Body: ${response.body}');
 
     List<QuizPreview> quizzes = [];
-    List<dynamic> body = jsonDecode(response.body)
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
         .map((data) => QuizPreview.fromJson(data))
         .toList();
     for (int i = 0; i < body.length; i++){
@@ -239,7 +241,7 @@ class API {
     );
     print('getExploreHistory. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
-    List<dynamic> body = jsonDecode(response.body)
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
         .map((data) => QuizPreview.fromJson(data))
         .toList();
     for (int i = 0; i < body.length; i++){
