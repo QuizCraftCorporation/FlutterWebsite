@@ -52,9 +52,9 @@ class _BodyState extends State<Body> {
       child: BlocConsumer<CreateQuizCubit, CreateQuizState>(
         listener: (context, state) {
           if (state is CreateQuizGoToView) {
-            AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/view');
+            AutoRouter.of(context).navigateNamed('/quiz/${state.quizId}/view');
           } else if (state is CreateQuizGoToSolving) {
-            AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/solve');
+            AutoRouter.of(context).navigateNamed('/quiz/${state.quizId}/solve');
           }
         },
         builder: (context, state) {
@@ -85,24 +85,14 @@ class _BodyState extends State<Body> {
                     fontSize: 20,
                     height: 50,
                   ),
-                  const SizedBox(
-                    height: 50,
-                    child: Text(
-                      'Quiz Settings',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     width: 450,
                     child: TextFieldCircular(
                       controller: _titleController,
                       lines: 1,
-                      hint: 'Title',
+                      labelText: 'Title',
+                      hint: '',
                     ),
                   ),
                   Container(
@@ -112,7 +102,8 @@ class _BodyState extends State<Body> {
                     child: TextFieldCircular(
                       controller: _descriptionController,
                       lines: 4,
-                      hint: 'Description (optional)',
+                      labelText: 'Description',
+                      hint: '(optional. Can be generated automatically)',
                     ),
                   ),
                   // const SizedBox(
@@ -129,9 +120,9 @@ class _BodyState extends State<Body> {
                           controller: _numberOfQuestionsController,
                           lines: 1,
                           labelText: 'Number of Quiestions',
-                          hint: '[1, 45]',
+                          hint: ' [1, 45]',
                           textInputType: TextInputType.number,
-                          formatters: [FilteringTextInputFormatter.digitsOnly],
+                          formatters: [FilteringTextInputFormatter.allow(RegExp(r'(^0?[1-9]$)|(^1[0-9]$)|(^2[0-9]$)|(^3[0-9]$)|(^4[0-5]$)'))],
                           maxLength: 2,
                         ),
                       ),
@@ -181,7 +172,8 @@ class _BodyState extends State<Body> {
                     child: TextFieldCircular(
                       controller: _inputController,
                       lines: 10,
-                      hint: 'Input text',
+                      labelText: 'Input text',
+                      hint: '(you can attach files and also add raw text here)',
                     ),
                   ),
                   const SizedBox(
@@ -192,7 +184,7 @@ class _BodyState extends State<Body> {
                       onPressed: () async {
                         var picked = await FilePicker.platform.pickFiles(
                             allowMultiple: true,
-                            allowedExtensions: ['txt', 'pdf'],
+                            allowedExtensions: ['txt', 'pdf', 'html', 'docx', 'pptx', 'doc'],
                             type: FileType.custom);
                         if (picked != null) {
                           for (PlatformFile file in picked.files) {
@@ -253,7 +245,7 @@ class _BodyState extends State<Body> {
                       if (state is FileTitlesDeleteFile) {
                         return const Loading(text: 'deleting files');
                       }
-                      return Container();
+                      return const Loading(text: '');
                     },
                   ),
                   const SizedBox(
@@ -268,11 +260,11 @@ class _BodyState extends State<Body> {
                           numberOfQuestions =
                               int.parse(_numberOfQuestionsController.text);
                         }
-                        if (_titleController.text.length == 0) {
+                        if (_titleController.text.isEmpty) {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return AlertDialog(
+                              return const AlertDialog(
                                 title: Text('Error'),
                                 content: Text("Title shouldn't be empty"),
                               );
@@ -283,7 +275,7 @@ class _BodyState extends State<Body> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return AlertDialog(
+                              return const AlertDialog(
                                 title: Text('Error'),
                                 content:
                                     Text("Pass at least 1 file or Input text"),
@@ -360,7 +352,7 @@ class _BodyState extends State<Body> {
             // TODO: Error handling
           }
           // Return something
-          return Container();
+          return const Loading(text: '');
         },
       ),
     );

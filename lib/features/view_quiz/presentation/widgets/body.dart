@@ -80,7 +80,7 @@ class Body extends StatelessWidget {
             ),
           );
         }
-        return Container();
+        return const Loading(text: '');
       },
     );
   }

@@ -63,7 +63,7 @@ class Body extends StatelessWidget {
             if (state is MyQuizzesError) {
               return CustomError(message: state.message);
             }
-            return Container();
+            return const Loading(text: '');
           },
         ),
       ),

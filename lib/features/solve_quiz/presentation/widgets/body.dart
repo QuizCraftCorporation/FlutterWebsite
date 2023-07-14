@@ -110,7 +110,7 @@ class _BodyState extends State<Body> {
             text: 'We are checking your answers',
           );
         }
-        return Container();
+        return const Loading(text: '');
       },
     );
   }

@@ -74,6 +74,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    StartRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const StartScreen(),
+      );
+    },
     ViewQuizRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<ViewQuizRouteArgs>(
@@ -263,6 +269,20 @@ class SolveQuizRouteArgs {
   String toString() {
     return 'SolveQuizRouteArgs{key: $key, quizId: $quizId}';
   }
+}
+
+/// generated route for
+/// [StartScreen]
+class StartRoute extends PageRouteInfo<void> {
+  const StartRoute({List<PageRouteInfo>? children})
+      : super(
+          StartRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'StartRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

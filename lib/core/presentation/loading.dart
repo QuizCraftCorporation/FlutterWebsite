@@ -8,9 +8,10 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height / 2,
-        left: MediaQuery.of(context).size.width / 2,
+      alignment: Alignment.center,
+      margin: const EdgeInsets.only(
+        top: 150,
+      //   left: MediaQuery.of(context).size.width / 2,
       ),
       child: Column(
         children: [

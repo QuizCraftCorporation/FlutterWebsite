@@ -125,7 +125,7 @@ class Body extends StatelessWidget {
         if (state is ExploreError) {
           //TODO: Error!!!
         }
-        return Container();
+        return const Loading(text: '');
       },
     );
   }

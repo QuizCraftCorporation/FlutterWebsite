@@ -13,7 +13,6 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         // if (state is MainAuthOut) {
@@ -21,10 +20,7 @@ class ExploreScreen extends StatelessWidget {
         // }
       },
       builder: (context, state) {
-        // if (first) {
-        //   first = false;
-        //   BlocProvider.of<MainAuthCubit>(context).checkAuth();
-        // }
+        BlocProvider.of<MainAuthCubit>(context).checkAuth();
         // if (state is! MainAuthIn) {
         //   return Container();
         // }
@@ -33,7 +29,7 @@ class ExploreScreen extends StatelessWidget {
             appBar: MainAppBar(
               title: 'Explore',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).pushNamed('/search/$searchQuery');
+                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
               },
             ),
             drawer: const MainDrawer(),

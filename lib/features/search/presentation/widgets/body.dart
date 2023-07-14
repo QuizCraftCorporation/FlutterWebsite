@@ -64,10 +64,9 @@ class Body extends StatelessWidget {
               );
             }
             if (state is SearchError) {
-              // TODO: create "common error" widget
               return CustomError(message: state.message);
             }
-            return Container();
+            return const Loading(text: '');
           },
         ),
       ),

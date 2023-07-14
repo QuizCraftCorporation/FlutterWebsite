@@ -14,11 +14,11 @@ class MainDrawer extends StatelessWidget {
         child: BlocConsumer<MainDrawerCubit, MainDrawerState>(
           listener: (context, state) {
             if (state is MainDrawerToCreateQuizState) {
-              AutoRouter.of(context).pushNamed('/crafter');
+              AutoRouter.of(context).navigateNamed('/crafter');
             } else if (state is MainDrawerToMyQuizzesState) {
-              AutoRouter.of(context).pushNamed('/my_quizzes');
+              AutoRouter.of(context).navigateNamed('/my_quizzes');
             } else if (state is MainDrawerToExploreState) {
-              AutoRouter.of(context).pushNamed('/explore');
+              AutoRouter.of(context).navigateNamed('/explore');
             } else if (state is MainDrawerToHelpState) {
 
             }
@@ -38,7 +38,7 @@ class MainDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(Icons.folder_copy),
-                  title: Text('My Quizes'),
+                  title: Text('My Quizzes'),
                   contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
                   onTap: () {
                     BlocProvider.of<MainDrawerCubit>(context).goToMyQuizzes();

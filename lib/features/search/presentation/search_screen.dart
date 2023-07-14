@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/domain/main_auth_cubit/main_auth_cubit.dart';
@@ -15,7 +16,6 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
         // if (state is MainAuthOut) {
@@ -23,19 +23,19 @@ class SearchScreen extends StatelessWidget {
         // }
       },
       builder: (context, state) {
-        // if (first) {
-        //   first = false;
-        //   BlocProvider.of<MainAuthCubit>(context).checkAuth();
-        // }
+        BlocProvider.of<MainAuthCubit>(context).checkAuth();
+
         if (state is! MainAuthIn) {
-          return Container();
+          return const Loading(text: '');
         }
+
         return BlocProvider<SearchCubit>(
           child: Scaffold(
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).pushNamed('/search/$searchQuery');
+                // BlocProvider.of<SearchCubit>(context).searchQuizzes(searchQuery);
+                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
               },
             ),
             drawer: const MainDrawer(),

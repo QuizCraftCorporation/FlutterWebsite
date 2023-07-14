@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/presentation/appbar/main_appbar.dart';
 import '../../../core/presentation/drawer/main_drawer.dart';
+import '../../../core/presentation/loading.dart';
 import 'widgets/body.dart';
 
 @RoutePage()
@@ -26,14 +27,14 @@ class MyQuizzesScreen extends StatelessWidget {
           BlocProvider.of<MainAuthCubit>(context).checkAuth();
         // }
         if (state is! MainAuthIn) {
-          return Container();
+          return const Loading(text: '');
         }
         return BlocProvider<MyQuizzesCubit>(
           child: Scaffold(
             appBar: MainAppBar(
               title: 'Quiz',
               searchCallback: (String searchQuery) {
-                AutoRouter.of(context).pushNamed('/search/$searchQuery');
+                AutoRouter.of(context).navigateNamed('/search/$searchQuery');
               },
             ),
             drawer: const MainDrawer(),

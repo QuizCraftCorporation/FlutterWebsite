@@ -306,12 +306,12 @@ class _BodyState extends State<Body> {
             return const Loading(text: 'register');
           }
           if (state is AuthRegisterSuccess) {
-            return Container();
+            return const Loading(text: '');
           }
           if (state is AuthRegisterError) {
             // TODO: handle errors
           }
-          return Container();
+          return const Loading(text: '');
         },
       ),
     );

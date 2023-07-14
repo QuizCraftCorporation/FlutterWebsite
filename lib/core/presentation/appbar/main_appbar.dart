@@ -50,7 +50,7 @@ class _MainAppBarState extends State<MainAppBar> {
             AutoRouter.of(context).replaceNamed('/login');
           }
           if (state is MainAppBarExplore) {
-            AutoRouter.of(context).pushNamed('/explore');
+            AutoRouter.of(context).navigateNamed('/explore');
           }
         },
         builder: (context, state) => AppBar(
