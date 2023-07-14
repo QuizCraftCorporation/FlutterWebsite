@@ -23,12 +23,19 @@ class Body extends StatelessWidget {
               return const Loading(text: 'Loading quizzes');
             }
             if (state is MyQuizzesList) {
-              List<Widget> prevs = [];
+              List<Widget> previews = [];
               for (QuizPreview quizPreview in state.quizzes) {
-                prevs.add(QuizPreviewWidget(quizPreview: quizPreview));
+                previews.add(QuizPreviewWidget(quizPreview: quizPreview));
               }
-              if (prevs.length == 0){
-                return Container(margin: EdgeInsets.only(top: 100), alignment: Alignment.center, child: Text("You don't have any quizzes. Go and generate some", style: TextStyle(fontSize: 25),),);
+              if (previews.isEmpty) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 100),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "You don't have any quizzes. Go and generate some",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                );
               }
               return Column(
                 children: [
@@ -45,16 +52,15 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 6, right: MediaQuery.of(context).size.width / 6, top: 25),
+                    padding: const EdgeInsets.only(top: 25),
                     child: Column(
-                      children: prevs,
+                      children: previews,
                     ),
                   ),
                 ],
               );
             }
             if (state is MyQuizzesError) {
-              // TODO: create "common error" widget
               return CustomError(message: state.message);
             }
             return Container();

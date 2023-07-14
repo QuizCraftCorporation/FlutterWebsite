@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question_no_answer.dart';
 import 'package:capstone_project/core/presentation/checkbox_cubit/checkbox_cubit.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class MAQSolve extends StatelessWidget {
             child: BlocBuilder<CheckboxCubit, CheckboxState>(
               builder: (context, state) {
                 bool value = false;
-                if (state is CheckboxTrue){
+                if (state is CheckboxTrue) {
                   value = true;
                 }
                 return Checkbox(
@@ -63,13 +64,10 @@ class MAQSolve extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.only(
-        top: 40,
-        left: 35,
-      ),
-      width: MediaQuery.of(context).size.width / 2,
+      margin: const EdgeInsets.only(top: 40, right: 10, left: 10),
+      width: min(1200, MediaQuery.of(context).size.width),
       // height: 150,
-      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 25, left: 30),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 30, left: 30),
       decoration: BoxDecoration(
         color: const Color(0xFFE5DFF2),
         borderRadius: BorderRadius.circular(25),

@@ -7,9 +7,9 @@ class MainAppBarInitial extends MainAppBarState {}
 
 class MainAppBarLogout extends MainAppBarState {}
 
-class MainAppBarProfile extends MainAppBarState {}
+class MainAppBarLogin extends MainAppBarState {}
 
-class MainAppBarNotification extends MainAppBarState {}
+class MainAppBarExplore extends MainAppBarState {}
 
 class MainAppBarSearch extends MainAppBarState {
   final String search;

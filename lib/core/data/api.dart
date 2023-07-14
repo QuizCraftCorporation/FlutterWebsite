@@ -163,12 +163,14 @@ class API {
     return quizReport;
   }
 
-  static Future<Quiz> getQuizWithAnswers(int quizId, String access) async {
+  static Future<Quiz> getQuizWithAnswers(int quizId, String? access) async {
+    Map<String, String> headers = {};
+    if (access != null){
+      headers['Authorization'] = 'Bearer $access';
+    }
     final response = await http.get(
       Uri.parse('$baseUrl/quiz/$quizId/?answer=true'),
-      headers: {
-        'Authorization': 'Bearer $access',
-      },
+      headers: headers,
     );
     print('getQuizWithAnswers. Status code: ${response.statusCode}');
     Quiz quiz = Quiz.fromJson(jsonDecode(response.body));
@@ -195,9 +197,10 @@ class API {
   }
 
   static Future<List<QuizPreview>> searchQuizzes(String search) async {
+    print('Go into search with $search');
     final response = await http.get(
       // TODO: Wait for the true link and method
-      Uri.parse('$baseUrl/quiz/search/'),
+      Uri.parse('$baseUrl/quiz/search/?data=$search'),
     );
     print('searchQuizzes. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
@@ -215,6 +218,8 @@ class API {
       Uri.parse('$baseUrl/quiz/?sort=$category&limit=10'),
     );
     print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
+    // print('getExploreCategory. Category=$category. Body: ${response.body}');
+
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(response.body)
         .map((data) => QuizPreview.fromJson(data))
@@ -251,6 +256,7 @@ class API {
       }
     );
     print('isCrafterFree. Status Code: ${response.statusCode}');
+    print('isCrafterFree. Body: ${response.body}');
     // TODO: Wait for Gleb's answer
     if (response.statusCode == 200 || jsonDecode(response.body)['detail'] == 'You have no quizzes generating for you.'){
       return true;

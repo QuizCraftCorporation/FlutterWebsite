@@ -10,7 +10,8 @@ class TextFieldCircular extends StatelessWidget {
     this.password = false,
     this.formatters = const [],
     this.textInputType,
-    this.maxLength
+    this.maxLength,
+    this.labelText = '',
   });
 
   final TextEditingController controller;
@@ -20,29 +21,30 @@ class TextFieldCircular extends StatelessWidget {
   final List<TextInputFormatter> formatters;
   final TextInputType? textInputType;
   final int? maxLength;
+  final String labelText;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          counterText: '',
-          hintText: hint,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-          ),
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        label: Text(labelText),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        counterText: '',
+        hintText: hint,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
         ),
-        maxLines: lines,
-        minLines: lines,
-        obscureText: password,
-        inputFormatters: formatters,
-        keyboardType: textInputType,
-        maxLength: maxLength,
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+        ),
       ),
+      maxLines: lines,
+      minLines: lines,
+      obscureText: password,
+      inputFormatters: formatters,
+      keyboardType: textInputType,
+      maxLength: maxLength,
     );
   }
 }

@@ -28,10 +28,10 @@ class QuizReportScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (first) {
-          first = false;
+        // if (first) {
+        //   first = false;
           BlocProvider.of<MainAuthCubit>(context).checkAuth();
-        }
+        // }
         if (state is! MainAuthIn) {
           return Container();
         }

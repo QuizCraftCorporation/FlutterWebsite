@@ -14,7 +14,7 @@ class SearchCubit extends Cubit<SearchState> {
       List<QuizPreview> quizzes = await API.searchQuizzes(search);
       emit(SearchResult(quizzes: quizzes));
     } catch (e) {
-      emit(SearchError());
+      emit(SearchError(message: e.toString()));
       // TODO: Additional handling
     }
   }

@@ -1,8 +1,10 @@
+import 'dart:math';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question.dart';
 import 'package:flutter/material.dart';
 
 class MAQView extends StatelessWidget {
-  const MAQView({Key? key, required this.maq, required this.number}) : super(key: key);
+  const MAQView({Key? key, required this.maq, required this.number})
+      : super(key: key);
 
   final MultipleAnswerQuestion maq;
   final int number;
@@ -39,10 +41,10 @@ class MAQView extends StatelessWidget {
       );
     }
     return Container(
-      margin: const EdgeInsets.only(top: 40, left: 35,),
-      width: MediaQuery.of(context).size.width / 2,
+      margin: const EdgeInsets.only(top: 40, right: 10, left: 10),
+      width: min(1200, MediaQuery.of(context).size.width),
       // height: 150,
-      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 25, left: 30),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 30, left: 30),
       decoration: BoxDecoration(
         color: const Color(0xFFE5DFF2),
         borderRadius: BorderRadius.circular(25),

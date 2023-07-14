@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
+import 'package:capstone_project/core/presentation/title_widget.dart';
 import 'package:capstone_project/features/create_quiz/presentation/cubit/create_quiz_cubit.dart';
 import 'package:capstone_project/core/presentation/text_field_circular.dart';
 import 'package:capstone_project/features/create_quiz/presentation/widgets/file_titles_cubit/file_titles_cubit.dart';
@@ -58,6 +59,9 @@ class _BodyState extends State<Body> {
         },
         builder: (context, state) {
           if (state is CreateQuizInitial) {
+            BlocProvider.of<CreateQuizCubit>(context).isFree();
+          }
+          if (state is CreateQuizCraftView) {
             return Container(
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.topCenter,
@@ -70,17 +74,16 @@ class _BodyState extends State<Body> {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
+                  const TitleWidget(
+                    title: 'Crafter',
+                    fontSize: 30,
                     height: 50,
-                    child: const Text(
-                      'Crafter',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    alignment: Alignment.center,
+                  ),
+                  const TitleWidget(
+                    title: 'Quiz Settings',
+                    fontSize: 20,
+                    height: 50,
                   ),
                   const SizedBox(
                     height: 50,
@@ -103,7 +106,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 20, bottom: 20),
                     // alignment: Alignment.topLeft,
                     width: 450,
                     child: TextFieldCircular(
@@ -112,9 +115,9 @@ class _BodyState extends State<Body> {
                       hint: 'Description (optional)',
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
                   // Slider(value: numberOfQuestion.toDouble(), min: 1.0, max: 45.0, onChanged: (newValue){numberOfQuestion = newValue.toInt();}),
                   Row(
                     // crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,7 +128,8 @@ class _BodyState extends State<Body> {
                         child: TextFieldCircular(
                           controller: _numberOfQuestionsController,
                           lines: 1,
-                          hint: 'Questions [1, 45]',
+                          labelText: 'Number of Quiestions',
+                          hint: '[1, 45]',
                           textInputType: TextInputType.number,
                           formatters: [FilteringTextInputFormatter.digitsOnly],
                           maxLength: 2,

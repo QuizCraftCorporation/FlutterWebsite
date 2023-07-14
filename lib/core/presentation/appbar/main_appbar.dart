@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/domain/main_auth_cubit/main_auth_cubit.dart';
 import 'package:capstone_project/core/presentation/appbar/cubit/main_app_bar_cubit.dart';
@@ -45,21 +46,16 @@ class _MainAppBarState extends State<MainAppBar> {
           if (state is MainAppBarSearch) {
             widget.searchCallback(state.search);
           }
-          if (state is MainAppBarLogout) {
+          if (state is MainAppBarLogout || state is MainAppBarLogin) {
             AutoRouter.of(context).replaceNamed('/login');
+          }
+          if (state is MainAppBarExplore) {
+            AutoRouter.of(context).pushNamed('/explore');
           }
         },
         builder: (context, state) => AppBar(
-          // leading: AutoLeadingButton(
-          //   builder: (context, type, _) {
-          //     if (type.isDrawer){
-          //       return
-          //     }
-          //     return Container();
-          //   },
-          // ),
           leading: IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
           iconTheme: const IconThemeData(color: Colors.black),
@@ -70,51 +66,50 @@ class _MainAppBarState extends State<MainAppBar> {
           backgroundColor: AppTheme.appbarBackgroundColor,
           shadowColor: Colors.black,
           actions: [
-            // SizedBox(
-            //   width: 300,
-            //   child: TextField(
-            //     controller: _searchController,
-            //     onSubmitted: (String text) {
-            //       BlocProvider.of<MainAppBarCubit>(context)
-            //           .search(_searchController.text);
-            //     },
-            //     decoration: InputDecoration(
-            //       suffixIcon: IconButton(
-            //         onPressed: () {
-            //           BlocProvider.of<MainAppBarCubit>(context)
-            //               .search(_searchController.text);
-            //         },
-            //         icon: Icon(Icons.search),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width / 10,
-            // ),
-            // IconButton(
-            //   onPressed: () {
-            //     // BlocProvider.of<MainAppBarCubit>(context)
-            //   },
-            //   icon: const Icon(
-            //     Icons.notifications,
-            //     color: Colors.black,
-            //   ),
-            // ),
-            // IconButton(
-            //   onPressed: () {
-            //     // BlocProvider.of<MainAppBarCubit>(context)
-            //   },
-            //   icon: const Icon(
-            //     Icons.person,
-            //     color: Colors.black,
-            //   ),
-            // ),
-
+            MediaQuery.of(context).size.width > 650
+                ? Container(
+                    margin: EdgeInsets.only(
+                        right: min(35, MediaQuery.of(context).size.width / 10)),
+                    child: TextButton.icon(
+                      icon: const Icon(Icons.explore),
+                      label: const Text('Explore'),
+                      onPressed: () {
+                        BlocProvider.of<MainAppBarCubit>(context).goToExplore();
+                      },
+                    ),
+                  )
+                : Container(),
+            Container(
+              margin: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width / 10),
+              width: min(300, MediaQuery.of(context).size.width / 3),
+              child: TextField(
+                controller: _searchController,
+                onSubmitted: (String text) {
+                  BlocProvider.of<MainAppBarCubit>(context)
+                      .search(_searchController.text);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      BlocProvider.of<MainAppBarCubit>(context)
+                          .search(_searchController.text);
+                    },
+                    icon: const Icon(Icons.search),
+                  ),
+                ),
+              ),
+            ),
             BlocBuilder<MainAuthCubit, MainAuthState>(
               builder: (context, state) {
                 if (state is! MainAuthIn) {
-                  return Container();
+                  return TextButton(
+                    onPressed: () {
+                      BlocProvider.of<MainAppBarCubit>(context).login();
+                    },
+                    child: const Text('Login'),
+                  );
                 }
                 return TextButton(
                   onPressed: () {

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/view_quiz/presentation/cubit/view_quiz_cubit.dart';
@@ -13,70 +14,74 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // alignment: Alignment.topCenter,
-      child: BlocConsumer<ViewQuizCubit, ViewQuizState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is ViewQuizInitial) {
-            final cubit = BlocProvider.of<ViewQuizCubit>(context);
-            cubit.loadQuiz(quizId);
-          }
-          if (state is ViewQuizLoading) {
-            return const Loading(text: 'Loading',);
-          }
-          if (state is ViewQuizLoaded) {
-            Quiz quiz = state.quiz;
-            print(quiz.title);
-            List<Widget> questions = [];
-            for (int i = 0; i < quiz.questions.length; i++) {
-              if (quiz.questions[i] is MultipleAnswerQuestion) {
-                questions.add(MAQView(
-                  maq: quiz.questions[i] as MultipleAnswerQuestion,
-                  number: i + 1,
-                ));
-              } else {
-                // TODO: Show other types of questions
-                questions.add(Container());
-              }
+    return BlocConsumer<ViewQuizCubit, ViewQuizState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is ViewQuizInitial) {
+          final cubit = BlocProvider.of<ViewQuizCubit>(context);
+          cubit.loadQuiz(quizId);
+        }
+        if (state is ViewQuizLoading) {
+          return const Loading(
+            text: 'Loading',
+          );
+        }
+        if (state is ViewQuizLoaded) {
+          Quiz quiz = state.quiz;
+          List<Widget> questions = [];
+          for (int i = 0; i < quiz.questions.length; i++) {
+            if (quiz.questions[i] is MultipleAnswerQuestion) {
+              questions.add(MAQView(
+                maq: quiz.questions[i] as MultipleAnswerQuestion,
+                number: i + 1,
+              ));
+            } else {
+              // TODO: Show other types of questions
+              questions.add(Container());
             }
-            questions.add(const SizedBox(height: 200,));
-            return SingleChildScrollView(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                        top: 35,
-                      ),
-                      // margin: EdgeInsets.only(
-                      //   left: MediaQuery.of(context).size.width / 4,
-                      // ),
-                      child: SelectableText(
-                        quiz.title,
-                        style: const TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: questions,
-                    ),
-                  ],
-                ),
-              ),
-            );
           }
-          return Container();
-        },
-      ),
+          questions.add(const SizedBox(
+            height: 200,
+          ));
+          return SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 35,
+                    ),
+                    child: Text(
+                      quiz.title,
+                      style: const TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: min(1200, MediaQuery.of(context).size.width),
+                    padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                    child: Text(
+                      'Description: ${quiz.description}',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: questions,
+                  ),
+                  const SizedBox(
+                    height: 150,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }

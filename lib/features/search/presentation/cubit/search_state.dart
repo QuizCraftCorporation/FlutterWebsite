@@ -12,4 +12,7 @@ class SearchResult extends SearchState {
   SearchResult({required this.quizzes});
 }
 
-class SearchError extends SearchState {}
+class SearchError extends SearchState {
+  final String message;
+  SearchError({required this.message});
+}

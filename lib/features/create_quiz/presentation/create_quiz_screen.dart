@@ -14,7 +14,6 @@ class CreateQuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(AutoRouter.of(context).current);
     bool first = true;
     return BlocConsumer<MainAuthCubit, MainAuthState>(
       listener: (context, state) {
@@ -23,10 +22,10 @@ class CreateQuizScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (first) {
-          first = false;
+        // if (first) {
+        //   first = false;
           BlocProvider.of<MainAuthCubit>(context).checkAuth();
-        }
+        // }
         if (state is! MainAuthIn) {
           return Container();
         }

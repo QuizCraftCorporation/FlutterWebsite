@@ -1,35 +1,45 @@
 import 'package:capstone_project/core/data/local_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:capstone_project/core/data/api.dart';
 
 part 'create_quiz_state.dart';
 
 class CreateQuizCubit extends Cubit<CreateQuizState> {
-  CreateQuizCubit() : super(const CreateQuizInitial());
+  CreateQuizCubit() : super(CreateQuizInitial());
 
-  Future<void> quizRequest(String title, String description, String rawText, List<PlatformFile> files, int numberOfQuestions, bool public) async {
-    emit(const CreateQuizLoading());
+  Future<void> isFree() async {
+    emit(CreateQuizLoading());
+    String access = '';
+    try {
+      access = await Storage.getAccess();
+      if (!(await API.isCrafterFree(access))) {
+        emit(CreateQuizLoading());
+        return;
+      }
+      emit(CreateQuizCraftView());
+    } catch (e) {
+      emit(CreateQuizError(e.toString()));
+    }
+  }
+
+  Future<void> quizRequest(String title, String description, String rawText,
+      List<PlatformFile> files, int numberOfQuestions, bool public) async {
+    emit(CreateQuizLoading());
     String access = '';
     int quizId = 1;
     try {
       access = await Storage.getAccess();
-      if (!(await API.isCrafterFree(access))){
-        emit(const CreateQuizInitial());
-        return;
+      if (!(await API.isCrafterFree(access))) {
+        // emit(const CreateQuizInitial());
+        // return;
+        throw Exception('You already have quiz in progress.');
       }
-      quizId = await API.createQuiz(
-          title,
-          description,
-          rawText,
-          files,
-          numberOfQuestions,
-          public,
-          access);
+      quizId = await API.createQuiz(title, description, rawText, files,
+          numberOfQuestions, public, access);
       emit(CreateQuizWaiting(quizId: quizId));
-    } catch(e){
+    } catch (e) {
       emit(CreateQuizError(e.toString()));
       return;
     }
@@ -42,7 +52,7 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
       } catch (e) {
         await Future.delayed(const Duration(seconds: 15));
         time += 16;
-        if (time >= 240){
+        if (time >= 200) {
           break;
         }
       }
@@ -50,11 +60,11 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
     // TODO: Error handler
   }
 
-  void goToView(int quizId){
+  void goToView(int quizId) {
     emit(CreateQuizGoToView(quizId));
   }
 
-  void goToSolving(int quizId){
+  void goToSolving(int quizId) {
     emit(CreateQuizGoToSolving(quizId));
   }
 }

@@ -13,33 +13,27 @@ class SolveQuizCubit extends Cubit<SolveQuizState> {
 
   Future<void> getQuizForSolving(int quizId) async {
     emit(const SolveQuizLoading());
-
-    String? access = await Storage.getAccess();
-    if (access == null){
-      // TODO: user don't have auth. Navigate them to auth.
-    }
-    QuizNoAnswers? quizNoAnswers = await API.getQuizWithoutAnswers(quizId, access!);
-
-    if (quizNoAnswers != null) {
+    try {
+      String access = await Storage.getAccess();
+      QuizNoAnswers? quizNoAnswers =
+          await API.getQuizWithoutAnswers(quizId, access);
       emit(SolveQuizLoaded(quizNoAnswers: quizNoAnswers));
-    }
-    else {
-      emit(SolveQuizError(message: 'SolveQuizCubit. getQuizForSolving. Error: '));
+    } catch (e) {
+      emit(SolveQuizError(message: e.toString()));
     }
   }
 
   Future<void> sendAnswers(Map<int, Set<int>> answers, int quizId) async {
     emit(SolveQuizSendAnswers());
 
-    String access = await Storage.getAccess();
+    try {
+      String access = await Storage.getAccess();
+      QuizReport quizReport = await API.getQuizReport(quizId, answers, access);
+      Quiz quiz = await API.getQuizWithAnswers(quizId, access);
 
-    QuizReport quizReport = await API.getQuizReport(quizId, answers, access!);
-    Quiz? quiz = await API.getQuizWithAnswers(quizId, access);
-
-    emit(SolveQuizShowResults(quizReport: quizReport, quiz: quiz));
-
-    // TODO: Wrap code above with try/catch and write error handler
-    emit(SolveQuizError(message: 'SolveQuizCubit. sendAnswers. Error: '));
-
+      emit(SolveQuizShowResults(quizReport: quizReport, quiz: quiz));
+    } catch (e) {
+      emit(SolveQuizError(message: e.toString()));
+    }
   }
 }

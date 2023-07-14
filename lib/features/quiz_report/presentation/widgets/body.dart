@@ -78,9 +78,10 @@ class Body extends StatelessWidget {
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: questions,
+                  ),
+                  const SizedBox(
+                    height: 150,
                   ),
                 ],
               ),

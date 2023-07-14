@@ -12,16 +12,19 @@ class ViewQuizCubit extends Cubit<ViewQuizState> {
   Future<void> loadQuiz(int quizId) async {
     emit(ViewQuizLoading(quizId: quizId));
 
-    String? access = await Storage.getAccess();
-    if (access == null){
-      // TODO: user don't have auth. Navigate them to auth.
-    }
-    Quiz? quiz = await API.getQuizWithAnswers(quizId, access!);
+    String access = '';
 
-    if (quiz != null) {
+    try {
+      access = await Storage.getAccess();
+      Quiz quiz = await API.getQuizWithAnswers(quizId, access);
       emit(ViewQuizLoaded(quiz: quiz));
-    } else{
-      emit(ViewQuizError(message: 'SolveQuizCubit. sendAnswers. Error: '));
+    } catch (e) {
+      try {
+        Quiz quiz = await API.getQuizWithAnswers(quizId, null);
+        emit(ViewQuizLoaded(quiz: quiz));
+      } catch (e2) {
+        emit(ViewQuizError(message: 'SolveQuizCubit. sendAnswers. Error: ${e2.toString()}'));
+      }
     }
   }
 }

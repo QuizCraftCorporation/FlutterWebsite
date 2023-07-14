@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
           BlocProvider.of<ExploreCubit>(context).getAllLists(login: login);
         }
         if (state is ExploreLoading) {
-          return Loading(text: 'Loading lists');
+          return const Loading(text: 'Loading lists');
         }
         if (state is ExploreLoaded) {
           return SingleChildScrollView(
@@ -32,18 +32,18 @@ class Body extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: 35),
+                    margin: const EdgeInsets.only(top: 35),
                     // alignment: Alignment.topCenter,
-                    child: Text(
+                    child: const Text(
                       'Explore',
                       style: TextStyle(fontSize: 35),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 35, left: 50, bottom: 20),
+                    margin: const EdgeInsets.only(top: 35, left: 50, bottom: 20),
                     // alignment: Alignment.topCenter,
-                    child: Text(
-                      'The most viewed',
+                    child: const Text(
+                      'Top views',
                       style: TextStyle(fontSize: 25),
                     ),
                   ),
@@ -54,10 +54,10 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 35, left: 50, bottom: 20),
+                    margin: const EdgeInsets.only(top: 35, left: 50, bottom: 20),
                     // alignment: Alignment.topCenter,
                     child: const Text(
-                      'The most viewed by registered users',
+                      'Top unique views',
                       style: TextStyle(fontSize: 25),
                     ),
                   ),
@@ -68,10 +68,10 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 35, left: 50, bottom: 20),
+                    margin: const EdgeInsets.only(top: 35, left: 50, bottom: 20),
                     // alignment: Alignment.topCenter,
-                    child: Text(
-                      'The newest',
+                    child: const Text(
+                      'Newest',
                       style: TextStyle(fontSize: 25),
                     ),
                   ),
@@ -82,9 +82,9 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 35, left: 50, bottom: 20),
+                    margin: const EdgeInsets.only(top: 35, left: 50, bottom: 20),
                     // alignment: Alignment.topCenter,
-                    child: Text(
+                    child: const Text(
                       'Top by passes',
                       style: TextStyle(fontSize: 25),
                     ),
@@ -101,7 +101,7 @@ class Body extends StatelessWidget {
                               top: 35, left: 50, bottom: 20),
                           // alignment: Alignment.topCenter,
                           child: const Text(
-                            'Recent viewed',
+                            'You recently viewed',
                             style: TextStyle(fontSize: 25),
                           ),
                         )
@@ -110,7 +110,7 @@ class Body extends StatelessWidget {
                       ? SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
-                            children: convertToWidgets(state.passes),
+                            children: convertToWidgets(state.recent),
                           ),
                         )
                       : Container(),
@@ -138,74 +138,3 @@ class Body extends StatelessWidget {
     return result;
   }
 }
-
-/*
-
-         QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description ',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-          QuizPreviewCardWidget(
-              quizPreview: QuizPreview(
-                  quizId: 1,
-                  title: 'title',
-                  description: 'description',
-                  ready: true)),
-
- */

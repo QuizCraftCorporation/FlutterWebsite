@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question.dart';
 import 'package:flutter/material.dart';
 
@@ -87,8 +88,7 @@ class MAQReport extends StatelessWidget {
       Color textColor = Colors.black;
       if (maq.answers.contains(maq.options[i].id)) {
         textColor = Colors.green;
-      }
-      if (chosenOptions.contains(maq.options[i].id) && score == 0) {
+      } else if (chosenOptions.contains(maq.options[i].id) && score == 0) {
         textColor = Colors.red;
       }
       text.add(
@@ -104,13 +104,10 @@ class MAQReport extends StatelessWidget {
       );
     }
     return Container(
-      margin: const EdgeInsets.only(
-        top: 40,
-        left: 35,
-      ),
-      width: MediaQuery.of(context).size.width / 2,
+      margin: const EdgeInsets.only(top: 40, right: 10, left: 10),
+      width: min(1200, MediaQuery.of(context).size.width),
       // height: 150,
-      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 25, left: 30),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 30, left: 30),
       decoration: BoxDecoration(
         color: const Color(0xFFE5DFF2),
         borderRadius: BorderRadius.circular(25),

@@ -16,7 +16,15 @@ class MainAppBarCubit extends Cubit<MainAppBarState> {
     emit(MainAppBarLogout());
   }
 
+  Future<void> login() async {
+    emit(MainAppBarLogin());
+  }
+
   Future<void> search(String search) async {
     emit(MainAppBarSearch(search: search));
+  }
+
+  Future<void> goToExplore() async {
+    emit(MainAppBarExplore());
   }
 }

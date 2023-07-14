@@ -1,4 +1,5 @@
 import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
+import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,14 +32,40 @@ class Body extends StatelessWidget {
               for (QuizPreview quizPreview in state.quizzes) {
                 prevs.add(QuizPreviewWidget(quizPreview: quizPreview));
               }
-              // print(prevs.length);
+              if (prevs.isEmpty) {
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(35),
+                      child: Text(
+                        'Cannot found any quizzes related with $search',
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
+                  ],
+                );
+              }
               return Column(
-                children: prevs,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(35),
+                    child: Text(
+                      'Results for query: $search',
+                      style: const TextStyle(fontSize: 25),
+                    ),
+                  ),
+                  Column(
+                    children: prevs,
+                  ),
+                  const SizedBox(
+                    height: 150,
+                  ),
+                ],
               );
             }
             if (state is SearchError) {
               // TODO: create "common error" widget
-              return Container();
+              return CustomError(message: state.message);
             }
             return Container();
           },
