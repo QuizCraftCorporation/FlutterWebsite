@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
                     ),
                     TextButton(onPressed: () =>
                         BlocProvider.of<AuthCubit>(context).regView(),
-                      child: const Text("Don't have an account? Register"),),
+                      child: const Text("Don't have an account? Register", style: TextStyle(fontSize: 20)),),
                     Container(
                       margin: const EdgeInsets.only(
                         top: 20,
@@ -137,7 +137,7 @@ class _BodyState extends State<Body> {
             );
           }
           if (state is AuthLoginProcess) {
-            return const Loading(text: 'login');
+            return const Loading(text: 'Entering');
           }
           if (state is AuthSuccess) {
             // Everything fine
@@ -249,7 +249,7 @@ class _BodyState extends State<Body> {
                     ),
                     TextButton(onPressed: () =>
                         BlocProvider.of<AuthCubit>(context).loginView(),
-                      child: const Text("Have an account? Login"),),
+                      child: const Text("Have an account? Login", style: TextStyle(fontSize: 20)),),
                     Container(
                       margin: const EdgeInsets.only(
                         top: 20,

@@ -122,7 +122,10 @@ class API {
     request.headers['Authorization'] = 'Bearer $access';
     request.fields['quiz_name'] = title;
     request.fields['source_name'] = title;
-    if (numberOfQuestions > 0) {
+    if (numberOfQuestions >= 0) {
+      if (numberOfQuestions > 45 || numberOfQuestions == 0) {
+        numberOfQuestions = 45;
+      }
       request.fields['max_questions'] = numberOfQuestions.toString();
     }
     if (!public) {
@@ -199,7 +202,7 @@ class API {
   }
 
   static Future<List<QuizPreview>> searchQuizzes(String search) async {
-    print('Go into search with $search');
+    // print('Go into search with $search');
     final response = await http.get(
       // TODO: Wait for the true link and method
       Uri.parse('$baseUrl/quiz/search/?data=$search'),
@@ -250,7 +253,7 @@ class API {
     return quizzes;
   }
   
-  static Future<bool> isCrafterFree(String access) async {
+  static Future<int> isCrafterFree(String access) async {
     final response = await http.get(
       Uri.parse('$baseUrl/quiz/check_generation/'),
       headers: {
@@ -258,12 +261,24 @@ class API {
       }
     );
     print('isCrafterFree. Status Code: ${response.statusCode}');
-    print('isCrafterFree. Body: ${response.body}');
+    // print('isCrafterFree. Body: ${response.body}');
     // TODO: Wait for Gleb's answer
     if (response.statusCode == 200 || jsonDecode(response.body)['detail'] == 'You have no quizzes generating for you.'){
-      return true;
+      return -1;
     } else{
-      return false;
+      return jsonDecode(response.body)['quizzes'].first;
     }
+  }
+
+  static Future<(double, String)> checkProgress(int quizId, String access) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/quiz/$quizId/check_progress/'),
+      headers: {
+        'Authorization': 'Bearer $access',
+      },
+    );
+    print('checkProgress. Status Code: ${response.statusCode}');
+    var body = jsonDecode(response.body);
+    return (body['progress'] as double, body['state'].toString());
   }
 }

@@ -51,11 +51,14 @@ class _MainAppBarState extends State<MainAppBar> {
             AutoRouter.of(context).replaceNamed('/login');
           }
           if (state is MainAppBarExplore) {
-            if (AutoRouter.of(context).isRouteActive(ExploreRoute.name)){
+            if (AutoRouter.of(context).isRouteActive(ExploreRoute.name)) {
               AutoRouter.of(context).navigateNamed('/explore');
             } else {
               AutoRouter.of(context).pushNamed('/explore');
             }
+          }
+          if (state is MainAppBarStart) {
+            AutoRouter.of(context).pushNamed('/');
           }
         },
         builder: (context, state) => AppBar(
@@ -64,10 +67,14 @@ class _MainAppBarState extends State<MainAppBar> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
           iconTheme: const IconThemeData(color: Colors.black),
-          title: Image.asset(
-            'assets/logo_image/logo.png',
-            scale: 7,
-          ),
+          title: TextButton(
+              onPressed: () {
+                BlocProvider.of<MainAppBarCubit>(context).goToStart();
+              },
+              child: Image.asset(
+                'assets/logo_image/logo.png',
+                scale: 7,
+              )),
           backgroundColor: AppTheme.appbarBackgroundColor,
           shadowColor: Colors.black,
           actions: [
@@ -77,7 +84,7 @@ class _MainAppBarState extends State<MainAppBar> {
                         right: min(35, MediaQuery.of(context).size.width / 10)),
                     child: TextButton.icon(
                       icon: const Icon(Icons.explore),
-                      label: const Text('Explore'),
+                      label: const Text('Explore', style: TextStyle(fontSize: 20)),
                       onPressed: () {
                         BlocProvider.of<MainAppBarCubit>(context).goToExplore();
                       },
@@ -113,14 +120,14 @@ class _MainAppBarState extends State<MainAppBar> {
                     onPressed: () {
                       BlocProvider.of<MainAppBarCubit>(context).login();
                     },
-                    child: const Text('Login'),
+                    child: const Text('Login', style: TextStyle(fontSize: 20)),
                   );
                 }
                 return TextButton(
                   onPressed: () {
                     BlocProvider.of<MainAppBarCubit>(context).logout();
                   },
-                  child: const Text('Logout'),
+                  child: const Text('Logout', style: TextStyle(fontSize: 20)),
                 );
               },
             ),

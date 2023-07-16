@@ -27,4 +27,8 @@ class MainAppBarCubit extends Cubit<MainAppBarState> {
   Future<void> goToExplore() async {
     emit(MainAppBarExplore());
   }
+
+  Future<void> goToStart() async {
+    emit(MainAppBarStart());
+  }
 }

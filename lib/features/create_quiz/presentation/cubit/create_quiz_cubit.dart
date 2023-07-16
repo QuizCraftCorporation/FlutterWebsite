@@ -14,11 +14,19 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
     String access = '';
     try {
       access = await Storage.getAccess();
-      if (!(await API.isCrafterFree(access))) {
-        emit(CreateQuizLoading());
+      int quizId = await API.isCrafterFree(access);
+      if (quizId == -1) {
+        emit(CreateQuizCraftView());
         return;
       }
-      emit(CreateQuizCraftView());
+      var (value, message) = await API.checkProgress(quizId, access);
+      if (state is! CreateQuizWaiting) {
+        emit(CreateQuizWaiting(
+            quizId: quizId,
+            message:
+                'You have quiz in progress. Please wait unlit their completion.\nStatus: $message',
+            progress: value));
+      }
     } catch (e) {
       emit(CreateQuizError(e.toString()));
     }
@@ -28,36 +36,55 @@ class CreateQuizCubit extends Cubit<CreateQuizState> {
       List<PlatformFile> files, int numberOfQuestions, bool public) async {
     emit(CreateQuizLoading());
     String access = '';
-    int quizId = 1;
     try {
       access = await Storage.getAccess();
-      if (!(await API.isCrafterFree(access))) {
-        // emit(const CreateQuizInitial());
-        // return;
-        throw Exception('You already have quiz in progress.');
+      int quizId = await API.isCrafterFree(access);
+      if (quizId != -1) {
+        var (value, message) = await API.checkProgress(quizId, access);
+        emit(CreateQuizWaiting(
+            message:
+                'You already have quiz in progress. Please wait unlit their completion.\nStatus: $message',
+            quizId: quizId,
+            progress: value));
+        return;
       }
       quizId = await API.createQuiz(title, description, rawText, files,
           numberOfQuestions, public, access);
-      emit(CreateQuizWaiting(quizId: quizId));
+      if (state is CreateQuizWaiting) {
+        return;
+      }
+      emit(CreateQuizWaiting(
+          quizId: quizId, progress: 0, message: 'Do magic for quiz creation'));
+    } catch (e) {
+      emit(CreateQuizError(e.toString()));
+    }
+  }
+
+  Future<void> checkCompletion(int quizId) async {
+    // while (true) {
+    await Future.delayed(const Duration(seconds: 9, milliseconds: 500));
+    String access = '';
+    try {
+      access = await Storage.getAccess();
+      emit(CreateQuizLoading());
+      var (value, message) = await API.checkProgress(quizId, access);
+      if (message == 'SUCCESS') {
+        emit(CreateQuizLoaded(quizId));
+        return;
+      } else {
+        if (state is CreateQuizWaiting) {
+          return;
+        }
+        emit(CreateQuizWaiting(
+            message: 'Please wait unlit quiz completion.\nStatus: $message',
+            quizId: quizId,
+            progress: value));
+      }
     } catch (e) {
       emit(CreateQuizError(e.toString()));
       return;
     }
-    int time = 0;
-    while (true) {
-      try {
-        await API.getQuizWithoutAnswers(quizId, access);
-        emit(CreateQuizLoaded(quizId));
-        break;
-      } catch (e) {
-        await Future.delayed(const Duration(seconds: 15));
-        time += 16;
-        if (time >= 200) {
-          break;
-        }
-      }
-    }
-    // TODO: Error handler
+    // }
   }
 
   void goToView(int quizId) {

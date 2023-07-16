@@ -20,7 +20,7 @@ class MainDrawer extends StatelessWidget {
             } else if (state is MainDrawerToExploreState) {
               AutoRouter.of(context).pushNamed('/explore');
             } else if (state is MainDrawerToHelpState) {
-
+              AutoRouter.of(context).pushNamed('/');
             }
           },
           builder: (context, state) {
@@ -29,37 +29,37 @@ class MainDrawer extends StatelessWidget {
               children: [
                 // const SizedBox(height: kToolbarHeight,),
                 ListTile(
-                  leading: Icon(Icons.add_rounded),
-                  title: Text('Generate Quiz'),
-                  contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  leading: const Icon(Icons.add_rounded, color: Colors.blue),
+                  title: const Text('Generate Quiz', style: TextStyle(fontSize: 20)),
+                  contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),
                   onTap: () {
                     BlocProvider.of<MainDrawerCubit>(context).goToCreateQuiz();
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.folder_copy),
-                  title: Text('My Quizzes'),
-                  contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  leading: const Icon(Icons.folder_copy, color: Colors.blue),
+                  title: const Text('My Quizzes', style: TextStyle(fontSize: 20)),
+                  contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),
                   onTap: () {
                     BlocProvider.of<MainDrawerCubit>(context).goToMyQuizzes();
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.explore),
-                  title: Text('Explore'),
-                  contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  leading: const Icon(Icons.explore, color: Colors.blue),
+                  title: const Text('Explore', style: TextStyle(fontSize: 20)),
+                  contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),
                   onTap: () {
                     BlocProvider.of<MainDrawerCubit>(context).goToExplore();
                   },
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.help_outline_rounded),
-                //   title: Text('Help'),
-                //   contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
-                //   onTap: () {
-                //     BlocProvider.of<MainDrawerCubit>(context).goToHelp();
-                //   },
-                // ),
+                ListTile(
+                  leading: const Icon(Icons.help_outline_rounded, color: Colors.blue),
+                  title: const Text('Help', style: TextStyle(fontSize: 20)),
+                  contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  onTap: () {
+                    BlocProvider.of<MainDrawerCubit>(context).goToHelp();
+                  },
+                ),
               ],
             );
           },

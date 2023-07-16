@@ -4,14 +4,16 @@ import 'multiple_answer_question_no_answer.dart';
 class QuizNoAnswers {
   const QuizNoAnswers(
       {required this.id,
-        required this.title,
-        required this.description,
-        required this.questions});
+      required this.title,
+      required this.description,
+      required this.questions,
+      required this.private});
 
   final int id;
   final String title;
   final String description;
   final List<Question> questions;
+  final bool private;
 
   factory QuizNoAnswers.fromJson(json) {
     List<dynamic> questionsRaw = json['questions']
@@ -19,7 +21,7 @@ class QuizNoAnswers {
         .toList();
 
     List<Question> questions = [];
-    for (int i = 0; i < questionsRaw.length; i++){
+    for (int i = 0; i < questionsRaw.length; i++) {
       questions.add(questionsRaw[i] as Question);
     }
 
@@ -29,6 +31,7 @@ class QuizNoAnswers {
       // description: json['description'],
       description: 'privet',
       questions: questions,
+      private: json['private'],
     );
   }
 

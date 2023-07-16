@@ -14,7 +14,7 @@ class ExploreCubit extends Cubit<ExploreState> {
     try {
       List<QuizPreview> passes = await API.getExploreCategory('passes');
       List<QuizPreview> views = await API.getExploreCategory('views');
-      List<QuizPreview> uniqueViews = await API.getExploreCategory('unique_view');
+      List<QuizPreview> uniqueViews = await API.getExploreCategory('unique_views');
       List<QuizPreview> newest = await API.getExploreCategory('generations');
 
       // TODO: Check is user login or not. If yes, then show the history

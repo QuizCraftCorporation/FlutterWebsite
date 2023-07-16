@@ -11,7 +11,10 @@ class MainAppBarLogin extends MainAppBarState {}
 
 class MainAppBarExplore extends MainAppBarState {}
 
+class MainAppBarStart extends MainAppBarState {}
+
 class MainAppBarSearch extends MainAppBarState {
   final String search;
+
   MainAppBarSearch({required this.search});
 }

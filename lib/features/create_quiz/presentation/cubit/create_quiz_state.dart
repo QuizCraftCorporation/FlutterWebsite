@@ -13,8 +13,10 @@ class CreateQuizLoading extends CreateQuizState {}
 
 class CreateQuizWaiting extends CreateQuizState {
   final int quizId;
+  final String message;
+  final double progress;
 
-  const CreateQuizWaiting({required this.quizId});
+  const CreateQuizWaiting({required this.message, required this.quizId, required this.progress});
 }
 
 class CreateQuizLoaded extends CreateQuizState {

@@ -57,6 +57,9 @@ class Body extends StatelessWidget {
                       children: previews,
                     ),
                   ),
+                  const SizedBox(
+                    height: 150,
+                  ),
                 ],
               );
             }

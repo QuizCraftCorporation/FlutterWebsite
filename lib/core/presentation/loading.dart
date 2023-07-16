@@ -11,7 +11,6 @@ class Loading extends StatelessWidget {
       alignment: Alignment.center,
       margin: const EdgeInsets.only(
         top: 150,
-      //   left: MediaQuery.of(context).size.width / 2,
       ),
       child: Column(
         children: [
@@ -20,9 +19,12 @@ class Loading extends StatelessWidget {
             style: const TextStyle(fontSize: 20),
           ),
           const SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(),
+            height: 10,
+          ),
+          const SizedBox(
+            height: 30,
+            width: 30,
+            child: CircularProgressIndicator(),
           ),
         ],
       ),

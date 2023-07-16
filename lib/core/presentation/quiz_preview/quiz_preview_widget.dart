@@ -33,48 +33,54 @@ class QuizPreviewWidget extends StatelessWidget {
             return Card(
               child: ListTile(
                 visualDensity:
-                    VisualDensity(vertical: VisualDensity.maximumDensity),
+                    const VisualDensity(vertical: VisualDensity.maximumDensity),
                 trailing: Column(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   // mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (quizPreview.ready)...[TextButton(
-                        onPressed: () => BlocProvider.of<QuizPreviewCubit>(context)
-                            .goToViewAnswers(),
+                    if (quizPreview.ready) ...[
+                      TextButton(
+                        onPressed: () =>
+                            BlocProvider.of<QuizPreviewCubit>(context)
+                                .goToViewAnswers(),
                         child: const Text(
                           'View with answers',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
-                    TextButton(
-                      onPressed: () =>
-                          BlocProvider.of<QuizPreviewCubit>(context).goToSolver(),
-                      child: const Text(
-                        'Solve',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )] else...[Text('Quiz is not created yet')],
+                      TextButton(
+                        onPressed: () =>
+                            BlocProvider.of<QuizPreviewCubit>(context)
+                                .goToSolver(),
+                        child: const Text(
+                          'Solve',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )
+                    ] else ...[
+                      Text('Quiz is not created yet'),
+                      CircularProgressIndicator(),
+                    ],
                   ],
                 ),
                 title: Text(
                   quizPreview.title,
-                  style: TextStyle(
-                    fontSize: 25,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    decoration: TextDecoration.underline,
+                    overflow: TextOverflow.ellipsis,
+                    color: Colors.black,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
-                titleTextStyle: TextStyle(
-                    // TODO: Create textstyle in theme and use them
-                    ),
                 subtitle: Text(
                   quizPreview.description,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
+                  style: const TextStyle(
+                      fontSize: 20,
+                      overflow: TextOverflow.ellipsis,
+                      color: Color.fromRGBO(51, 51, 51, 0.7)),
+                  maxLines: 2,
                 ),
-                subtitleTextStyle: TextStyle(
-                    // TODO: Create textstyle in theme and use them
-                    ),
               ),
             );
           },

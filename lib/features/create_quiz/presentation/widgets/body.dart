@@ -11,6 +11,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -106,12 +107,7 @@ class _BodyState extends State<Body> {
                       hint: '(optional. Can be generated automatically)',
                     ),
                   ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Slider(value: numberOfQuestion.toDouble(), min: 1.0, max: 45.0, onChanged: (newValue){numberOfQuestion = newValue.toInt();}),
                   Row(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
@@ -122,7 +118,10 @@ class _BodyState extends State<Body> {
                           labelText: 'Number of Quiestions',
                           hint: ' [1, 45]',
                           textInputType: TextInputType.number,
-                          formatters: [FilteringTextInputFormatter.allow(RegExp(r'(^0?[1-9]$)|(^1[0-9]$)|(^2[0-9]$)|(^3[0-9]$)|(^4[0-5]$)'))],
+                          formatters: [
+                            FilteringTextInputFormatter.allow(RegExp(
+                                r'(^0?[1-9]$)|(^1[0-9]$)|(^2[0-9]$)|(^3[0-9]$)|(^4[0-5]$)'))
+                          ],
                           maxLength: 2,
                         ),
                       ),
@@ -184,7 +183,13 @@ class _BodyState extends State<Body> {
                       onPressed: () async {
                         var picked = await FilePicker.platform.pickFiles(
                             allowMultiple: true,
-                            allowedExtensions: ['txt', 'pdf', 'html', 'docx', 'pptx', 'doc'],
+                            allowedExtensions: [
+                              'txt',
+                              'pdf',
+                              'html',
+                              'docx',
+                              'pptx'
+                            ],
                             type: FileType.custom);
                         if (picked != null) {
                           for (PlatformFile file in picked.files) {
@@ -197,7 +202,7 @@ class _BodyState extends State<Body> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.upload),
-                          Text('Attach files'),
+                          Text('Attach files', style: TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -270,8 +275,8 @@ class _BodyState extends State<Body> {
                               );
                             },
                           );
-                        } else if (files.length == 0 &&
-                            _inputController.text.length == 0) {
+                        } else if (files.isEmpty &&
+                            _inputController.text.isEmpty) {
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -295,7 +300,7 @@ class _BodyState extends State<Body> {
                           );
                         }
                       },
-                      child: const Text('Create quiz'),
+                      child: const Text('Create quiz', style: TextStyle(fontSize: 20)),
                     ),
                   ),
                   const SizedBox(
@@ -304,49 +309,61 @@ class _BodyState extends State<Body> {
                 ],
               ),
             );
-          } else if (state is CreateQuizLoading || state is CreateQuizWaiting) {
-            return const Loading(
-              text: 'Do magic for quiz creation\nYou can leave this page',
+          } else if (state is CreateQuizWaiting) {
+            BlocProvider.of<CreateQuizCubit>(context)
+                .checkCompletion(state.quizId);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TitleWidget(title: state.message, fontSize: 25, margin: const EdgeInsets.only(top: 100, bottom: 30),),
+                LinearPercentIndicator(
+                  alignment: MainAxisAlignment.center,
+                  lineHeight: 25,
+                  progressColor: Colors.blue,
+                  width: 400,
+                  percent: state.progress / 100,
+                  center: Text('${state.progress.toInt()}%'),
+                ),
+              ],
             );
           } else if (state is CreateQuizLoaded) {
-            return Container(
-              alignment: Alignment.center,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 3,
-                  ),
-                  TextButton(
-                    onPressed: () => BlocProvider.of<CreateQuizCubit>(context)
-                        .goToView(state.quizId),
-                    child: const Text(
-                      'View the quiz',
-                      style: TextStyle(fontSize: 20),
+            return Column(
+              children: [
+                const TitleWidget(
+                  title: 'Quiz Created',
+                  fontSize: 30,
+                  margin: EdgeInsets.only(top: 100, bottom: 20),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () =>
+                          BlocProvider.of<CreateQuizCubit>(context)
+                              .goToView(state.quizId),
+                      child: const Text(
+                        'View the quiz',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 35,
-                  ),
-                  TextButton(
-                    onPressed: () => BlocProvider.of<CreateQuizCubit>(context)
-                        .goToSolving(state.quizId),
-                    child: const Text(
-                      'Solving the quiz',
-                      style: TextStyle(fontSize: 20),
+                    const SizedBox(
+                      width: 35,
                     ),
-                  ),
-                ],
-              ),
+                    TextButton(
+                      onPressed: () =>
+                          BlocProvider.of<CreateQuizCubit>(context)
+                              .goToSolving(state.quizId),
+                      child: const Text(
+                        'Solving the quiz',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             );
-            // return const Center(
-            //   child: Text(
-            //     'Quiz created',
-            //     style: TextStyle(
-            //       fontSize: 25,
-            //     ),
-            //   ),
-            // );
           } else if (state is CreateQuizError) {
             return CustomError(message: state.message);
             // TODO: Error handling

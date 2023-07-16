@@ -6,12 +6,14 @@ class Quiz {
       {required this.id,
       required this.title,
       required this.description,
-      required this.questions});
+      required this.questions,
+      required this.private});
 
   final int id;
   final String title;
   final String description;
   final List<Question> questions;
+  final bool private;
 
   factory Quiz.fromJson(json) {
     //   Map<String, dynamic> quiz = jsonDecode(jsonString);
@@ -20,7 +22,7 @@ class Quiz {
         .toList();
 
     List<Question> questions = [];
-    for (int i = 0; i < questionsRaw.length; i++){
+    for (int i = 0; i < questionsRaw.length; i++) {
       questions.add(questionsRaw[i] as Question);
     }
 
@@ -28,8 +30,8 @@ class Quiz {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      // description: 'privet',
       questions: questions,
+      private: json['private'],
     );
   }
 
