@@ -20,6 +20,8 @@ class MainDrawer extends StatelessWidget {
             } else if (state is MainDrawerToExploreState) {
               AutoRouter.of(context).pushNamed('/explore');
             } else if (state is MainDrawerToHelpState) {
+              AutoRouter.of(context).pushNamed('/all_quizzes');
+            } else if (state is MainDrawerToHelpState) {
               AutoRouter.of(context).pushNamed('/');
             }
           },
