@@ -18,6 +18,10 @@ class MainDrawerCubit extends Cubit<MainDrawerState> {
     emit(MainDrawerToExploreState());
   }
 
+  void goToAllQuizzes(){
+    emit(MainDrawerToAllQuizzesState());
+  }
+
   void goToHelp(){
     emit(MainDrawerToHelpState());
   }

@@ -7,12 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuizPreviewWidget extends StatelessWidget {
-  const QuizPreviewWidget({super.key, required this.quizPreview});
+  const QuizPreviewWidget({super.key, required this.quizPreview, this.isMine = false});
 
   final QuizPreview quizPreview;
+  final bool isMine;
 
   @override
   Widget build(BuildContext context) {
+    Widget? leading;
+    if (isMine){
+      if (quizPreview.private){
+        leading = const Tooltip(message: 'Private', child: Icon(Icons.lock, color: Colors.red,));
+      } else {
+        leading = const Tooltip(message: 'Public', child: Icon(Icons.public, color: Colors.blue,));
+      }
+    }
     return Container(
       margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
       width: min(1200, MediaQuery.of(context).size.width),
@@ -34,6 +43,7 @@ class QuizPreviewWidget extends StatelessWidget {
               child: ListTile(
                 visualDensity:
                     const VisualDensity(vertical: VisualDensity.maximumDensity),
+                leading: leading,
                 trailing: Column(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   // mainAxisAlignment: MainAxisAlignment.center,

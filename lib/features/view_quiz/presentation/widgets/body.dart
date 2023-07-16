@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question.dart';
+import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/view_quiz/presentation/cubit/view_quiz_cubit.dart';
 import 'package:capstone_project/features/view_quiz/presentation/widgets/maq_view.dart';
@@ -62,7 +63,8 @@ class Body extends StatelessWidget {
                   ),
                   Container(
                     width: min(1200, MediaQuery.of(context).size.width),
-                    padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                    padding:
+                        const EdgeInsets.only(top: 15, left: 15, right: 15),
                     child: Text(
                       'Description: ${quiz.description}',
                       style: const TextStyle(fontSize: 20),
@@ -79,6 +81,9 @@ class Body extends StatelessWidget {
               ),
             ),
           );
+        }
+        if (state is ViewQuizError) {
+          return CustomError(message: state.message);
         }
         return const Loading(text: '');
       },

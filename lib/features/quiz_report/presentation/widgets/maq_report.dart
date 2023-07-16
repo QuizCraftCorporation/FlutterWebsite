@@ -86,14 +86,19 @@ class MAQReport extends StatelessWidget {
     );
     for (int i = 0; i < maq.options.length; i++) {
       Color textColor = Colors.black;
+      String chosen = ' ';
       if (maq.answers.contains(maq.options[i].id)) {
         textColor = Colors.green;
+        if (chosenOptions.contains(maq.options[i].id)) {
+          chosen = '✔';
+        }
       } else if (chosenOptions.contains(maq.options[i].id) && score == 0) {
         textColor = Colors.red;
+        chosen = '❌';
       }
       text.add(
         SelectableText(
-          '${String.fromCharCode('A'.codeUnits[0] + i)}. ${maq.options[i].text}',
+          '$chosen ${String.fromCharCode('A'.codeUnits[0] + i)}. ${maq.options[i].text}',
           // textAlign: TextAlign.center,
           style: TextStyle(
             color: textColor,

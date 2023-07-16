@@ -53,6 +53,14 @@ class MainDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
+                  leading: const Icon(Icons.list, color: Colors.blue),
+                  title: const Text('All Quizzes', style: TextStyle(fontSize: 20)),
+                  contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                  onTap: () {
+                    BlocProvider.of<MainDrawerCubit>(context).goToAllQuizzes();
+                  },
+                ),
+                ListTile(
                   leading: const Icon(Icons.help_outline_rounded, color: Colors.blue),
                   title: const Text('Help', style: TextStyle(fontSize: 20)),
                   contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),

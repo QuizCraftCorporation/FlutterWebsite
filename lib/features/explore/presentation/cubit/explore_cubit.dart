@@ -25,7 +25,7 @@ class ExploreCubit extends Cubit<ExploreState> {
       }
       emit(ExploreLoaded(uniqueViews, passes, newest, views, recent));
     } catch (e) {
-      emit(ExploreError());
+      emit(ExploreError(message: e.toString()));
     }
   }
 }

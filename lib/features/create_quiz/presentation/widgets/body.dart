@@ -56,6 +56,8 @@ class _BodyState extends State<Body> {
             AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/view');
           } else if (state is CreateQuizGoToSolving) {
             AutoRouter.of(context).pushNamed('/quiz/${state.quizId}/solve');
+          } else if (state is CreateQuizLoaded) {
+            AutoRouter.of(context).pushNamed('/my_quizzes');
           }
         },
         builder: (context, state) {
@@ -238,10 +240,13 @@ class _BodyState extends State<Body> {
                             ),
                           );
                         }
-                        return Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: names,
+                        return SizedBox(
+                          width: 450,
+                          child: Column(
+                            // mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: names,
+                          ),
                         );
                       }
                       if (state is FileTitlesAddingFiles) {
@@ -366,7 +371,6 @@ class _BodyState extends State<Body> {
             );
           } else if (state is CreateQuizError) {
             return CustomError(message: state.message);
-            // TODO: Error handling
           }
           // Return something
           return const Loading(text: '');

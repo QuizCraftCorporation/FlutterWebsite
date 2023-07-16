@@ -12,4 +12,8 @@ class ExploreLoaded extends ExploreState {
   ExploreLoaded(this.uniqueViews, this.passes, this.newest, this.views, this.recent);
 }
 
-class ExploreError extends ExploreState {}
+class ExploreError extends ExploreState {
+  final String message;
+
+  ExploreError({required this.message});
+}

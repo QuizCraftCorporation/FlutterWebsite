@@ -93,7 +93,7 @@ class _MainAppBarState extends State<MainAppBar> {
                 : Container(),
             Container(
               margin: EdgeInsets.only(
-                  right: MediaQuery.of(context).size.width / 10),
+                  right: MediaQuery.of(context).size.width / 20),
               width: min(300, MediaQuery.of(context).size.width / 3),
               child: TextField(
                 controller: _searchController,

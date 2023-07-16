@@ -35,4 +35,8 @@ class AuthRegisterProcess extends AuthState {
 
 class AuthRegisterSuccess extends AuthState {}
 
-class AuthRegisterError extends AuthState {}
+class AuthRegisterError extends AuthState {
+  final String message;
+
+  const AuthRegisterError({required this.message});
+}

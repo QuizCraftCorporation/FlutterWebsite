@@ -1,11 +1,11 @@
-import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
 import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
-import 'package:capstone_project/core/presentation/title_widget.dart';
-import 'package:capstone_project/features/my_quizzes/presentation/cubit/my_quizzes_cubit.dart';
-import 'package:capstone_project/core/presentation/quiz_preview/quiz_preview_widget.dart';
+import 'package:capstone_project/features/all_quizzes/presentation/cubit/all_quizzes_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/domain/entity/quiz_preview.dart';
+import '../../../../core/presentation/quiz_preview/quiz_preview_widget.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -15,40 +15,40 @@ class Body extends StatelessWidget {
     return SingleChildScrollView(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: BlocBuilder<MyQuizzesCubit, MyQuizzesState>(
+        child: BlocBuilder<AllQuizzesCubit, AllQuizzesState>(
           builder: (context, state) {
-            if (state is MyQuizzesInitial) {
-              BlocProvider.of<MyQuizzesCubit>(context).getMyQuizzes();
-            }
-            if (state is MyQuizzesLoading) {
-              return const Loading(text: 'Loading quizzes');
-            }
-            if (state is MyQuizzesList) {
+            if (state is AllQuizzesInitial){
+              BlocProvider.of<AllQuizzesCubit>(context).getAllQuizzes();
+            } else if (state is AllQuizzesLoading) {
+              return const Loading(text: 'Loading all quizzes.');
+            } else if (state is AllQuizzesLoaded){
               List<Widget> previews = [];
               for (QuizPreview quizPreview in state.quizzes) {
-                previews.add(QuizPreviewWidget(
-                  quizPreview: quizPreview,
-                  isMine: true,
-                ));
+                previews.add(QuizPreviewWidget(quizPreview: quizPreview));
               }
               if (previews.isEmpty) {
                 return Container(
                   margin: const EdgeInsets.only(top: 100),
                   alignment: Alignment.center,
                   child: const Text(
-                    "You don't have any quizzes. Go and generate some",
+                    "No quizzes on hub..? Then go and generate some",
                     style: TextStyle(fontSize: 25),
                   ),
                 );
               }
               return Column(
                 children: [
-                  const TitleWidget(
-                    title: 'My Quizzes',
-                    fontSize: 35,
+                  Container(
                     alignment: Alignment.center,
                     height: 50,
-                    margin: EdgeInsets.only(top: 25),
+                    child: const Text(
+                      'All Quizzes',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(top: 25),
@@ -61,8 +61,7 @@ class Body extends StatelessWidget {
                   ),
                 ],
               );
-            }
-            if (state is MyQuizzesError) {
+            } else if (state is AllQuizzesError) {
               return CustomError(message: state.message);
             }
             return const Loading(text: '');

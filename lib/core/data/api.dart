@@ -52,8 +52,9 @@ class API {
       },
     );
     print('register. Status Code: ${response.statusCode}');
-    // print(response.body);
-    // print(jsonDecode(response.body));
+    if (response.statusCode != 200) {
+      throw Exception('Cannot register. Please try again with different username.');
+    }
     List<String> data = [
       jsonDecode(utf8.decode(response.bodyBytes))['id'].toString(),
       jsonDecode(utf8.decode(response.bodyBytes))['username'].toString(),
@@ -218,12 +219,17 @@ class API {
     return quizzes;
   }
 
-  static Future<List<QuizPreview>> getExploreCategory(String category, {String? access}) async {
+  static Future<List<QuizPreview>> getExploreCategory(String category, {String? access, int? limit}) async {
+    String uri = '$baseUrl/quiz/?sort$category';
+    if (limit == null){
+      uri += '&limit=10';
+    } else if (limit > 0){
+      uri += '&limit=${limit.toString()}';
+    }
     final response = await http.get(
-      Uri.parse('$baseUrl/quiz/?sort=$category&limit=10'),
+      Uri.parse(uri),
     );
     print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
-    // print('getExploreCategory. Category=$category. Body: ${response.body}');
 
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
@@ -261,8 +267,6 @@ class API {
       }
     );
     print('isCrafterFree. Status Code: ${response.statusCode}');
-    // print('isCrafterFree. Body: ${response.body}');
-    // TODO: Wait for Gleb's answer
     if (response.statusCode == 200 || jsonDecode(response.body)['detail'] == 'You have no quizzes generating for you.'){
       return -1;
     } else{

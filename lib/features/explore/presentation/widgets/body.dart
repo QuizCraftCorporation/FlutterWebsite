@@ -1,4 +1,5 @@
 import 'package:capstone_project/core/domain/entity/quiz_preview.dart';
+import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/core/presentation/title_widget.dart';
 import 'package:capstone_project/features/explore/presentation/cubit/explore_cubit.dart';
@@ -137,7 +138,7 @@ class _BodyState extends State<Body> {
           );
         }
         if (state is ExploreError) {
-          //TODO: Error!!!
+          return CustomError(message: state.message);
         }
         return const Loading(text: '');
       },

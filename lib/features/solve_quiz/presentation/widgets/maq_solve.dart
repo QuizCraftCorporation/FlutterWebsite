@@ -51,7 +51,7 @@ class MAQSolve extends StatelessWidget {
             ),
           ),
           title: SelectableText(
-            maq.options[i].text,
+            '${String.fromCharCode('A'.codeUnits[0] + i)}. ${maq.options[i].text}',
             // textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,

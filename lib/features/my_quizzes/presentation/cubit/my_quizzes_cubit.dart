@@ -14,11 +14,8 @@ class MyQuizzesCubit extends Cubit<MyQuizzesState> {
     try {
       String access = (await Storage.getAccess());
       List<QuizPreview> quizzes = await API.getMyQuizzes(access);
-      // print(quizzes);
       emit(MyQuizzesList(quizzes: quizzes));
     } catch (e) {
-      // TODO: Handle different errors
-      print(e);
       emit(MyQuizzesError(message: e.toString(), ));
     }
   }

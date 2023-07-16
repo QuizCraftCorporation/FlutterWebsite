@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project/core/domain/app_router.dart';
 import 'package:capstone_project/core/domain/entity/multiple_answer_question_no_answer.dart';
 import 'package:capstone_project/core/domain/entity/quiz_no_answers.dart';
+import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/features/solve_quiz/presentation/cubit/solve_quiz_cubit.dart';
 import 'package:flutter/material.dart';
@@ -109,6 +110,9 @@ class _BodyState extends State<Body> {
           return const Loading(
             text: 'We are checking your answers',
           );
+        }
+        if (state is SolveQuizError){
+          return CustomError(message: state.message);
         }
         return const Loading(text: '');
       },

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project/core/presentation/custom_error_widget.dart';
 import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:capstone_project/core/presentation/text_field_circular.dart';
 import 'package:capstone_project/features/auth/presentation/cubit/auth_cubit.dart';
@@ -62,8 +63,8 @@ class _BodyState extends State<Body> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 25),
-                      child: Text(
+                      margin: const EdgeInsets.only(top: 25),
+                      child: const Text(
                         'Login',
                         style: TextStyle(
                           fontSize: 35,
@@ -109,10 +110,9 @@ class _BodyState extends State<Body> {
                         onPressed: () {
                           if (_usernameController.text.length < 4 ||
                               _passwordController.text.length < 4) {
-                            // TODO: inform about error
                             showDialog(
                               context: context, builder: (context) {
-                              return AlertDialog(
+                              return const AlertDialog(
                                 title: Text('Error'),
                                 content: Text('Username and passwords should have at least 4 symbols'),
                               );
@@ -143,15 +143,13 @@ class _BodyState extends State<Body> {
             // Everything fine
           }
           if (state is AuthError) {
-            // TODO: handle errors
-            // BlocProvider.of<AuthCubit>(context).loginView();
             return AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('No username with such password'),
-                  TextButton(onPressed: () => BlocProvider.of<AuthCubit>(context).loginView(), child: Text('Login again'))
+                  const Text('No username with such password'),
+                  TextButton(onPressed: () => BlocProvider.of<AuthCubit>(context).loginView(), child: const Text('Login again'))
                 ],
               ),
             );
@@ -168,8 +166,8 @@ class _BodyState extends State<Body> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 25),
-                      child: Text(
+                      margin: const EdgeInsets.only(top: 25),
+                      child: const Text(
                         'Registration',
                         style: TextStyle(
                           fontSize: 35,
@@ -261,17 +259,16 @@ class _BodyState extends State<Body> {
                           ) {
                             showDialog(
                               context: context, builder: (context) {
-                              return AlertDialog(
+                              return const AlertDialog(
                                 title: Text('Error'),
                                 content: Text('Username and passwords should have at least 4 symbols'),
                               );
                             },);
-                            // TODO: inform about error
                           } else if (_passwordController.text !=
                               _secondPasswordController.text){
                             showDialog(
                               context: context, builder: (context) {
-                              return AlertDialog(
+                              return const AlertDialog(
                                 title: Text('Error'),
                                 content: Text('Check passwords'),
                               );
@@ -309,7 +306,7 @@ class _BodyState extends State<Body> {
             return const Loading(text: '');
           }
           if (state is AuthRegisterError) {
-            // TODO: handle errors
+            return CustomError(message: state.message);
           }
           return const Loading(text: '');
         },
