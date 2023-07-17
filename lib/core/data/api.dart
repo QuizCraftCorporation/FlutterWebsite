@@ -242,7 +242,7 @@ class API {
 
   static Future<List<QuizPreview>> getExploreHistory(String access) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/quiz/?sort=last_viewed&limit=10'),
+      Uri.parse('$baseUrl/quiz/me/?sort=last_viewed&limit=10'),
       headers: {
         'Authorization': 'Bearer $access',
       }
