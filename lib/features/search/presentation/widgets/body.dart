@@ -16,13 +16,14 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String beautySearch = search.replaceAll('%20', ' ');
     return SingleChildScrollView(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
             if (state is SearchInitial) {
-              BlocProvider.of<SearchCubit>(context).searchQuizzes(search);
+              BlocProvider.of<SearchCubit>(context).searchQuizzes(beautySearch);
             }
             if (state is SearchLoading) {
               return const Loading(text: 'Searching');
@@ -38,7 +39,7 @@ class Body extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.all(35),
                       child: Text(
-                        'Cannot found any quizzes related with $search',
+                        'Cannot found any quizzes related with $beautySearch',
                         style: const TextStyle(fontSize: 25),
                       ),
                     ),
@@ -50,7 +51,7 @@ class Body extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.all(35),
                     child: Text(
-                      'Results for query: $search',
+                      'Results for query: $beautySearch',
                       style: const TextStyle(fontSize: 25),
                     ),
                   ),
