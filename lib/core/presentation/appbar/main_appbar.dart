@@ -43,7 +43,6 @@ class _MainAppBarState extends State<MainAppBar> {
       create: (context) => MainAppBarCubit(),
       child: BlocConsumer<MainAppBarCubit, MainAppBarState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is MainAppBarSearch) {
             widget.searchCallback(state.search);
           }

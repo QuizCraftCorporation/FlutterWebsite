@@ -15,14 +15,18 @@ class AuthCubit extends Cubit<AuthState> {
       await Storage.updateRefresh(tokens[0]);
       await Storage.updateAccess(tokens[1]);
       emit(AuthSuccess());
-    } catch(e){
-      // TODO: Errors
-      emit(AuthError());
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
     }
   }
 
-  Future<void> register(String username, String password, String firstName, String lastName) async {
-    emit(AuthRegisterProcess(username: username, password: password, firstName: firstName, lastName: lastName));
+  Future<void> register(String username, String password, String firstName,
+      String lastName) async {
+    emit(AuthRegisterProcess(
+        username: username,
+        password: password,
+        firstName: firstName,
+        lastName: lastName));
     try {
       await API.register(username, password, firstName, lastName);
       emit(AuthRegisterSuccess());

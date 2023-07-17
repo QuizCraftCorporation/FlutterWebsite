@@ -205,7 +205,6 @@ class API {
   static Future<List<QuizPreview>> searchQuizzes(String search) async {
     // print('Go into search with $search');
     final response = await http.get(
-      // TODO: Wait for the true link and method
       Uri.parse('$baseUrl/quiz/search/?data=$search'),
     );
     print('searchQuizzes. Status code: ${response.statusCode}');
@@ -220,7 +219,7 @@ class API {
   }
 
   static Future<List<QuizPreview>> getExploreCategory(String category, {String? access, int? limit}) async {
-    String uri = '$baseUrl/quiz/?sort$category';
+    String uri = '$baseUrl/quiz/?sort=$category';
     if (limit == null){
       uri += '&limit=10';
     } else if (limit > 0){
