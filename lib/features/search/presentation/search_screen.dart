@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:capstone_project/core/presentation/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/domain/main_auth_cubit/main_auth_cubit.dart';
@@ -24,10 +23,6 @@ class SearchScreen extends StatelessWidget {
       },
       builder: (context, state) {
         BlocProvider.of<MainAuthCubit>(context).checkAuth();
-
-        if (state is! MainAuthIn) {
-          return const Loading(text: '');
-        }
 
         return BlocProvider<SearchCubit>(
           child: Scaffold(
