@@ -21,7 +21,7 @@ Welcome to our website, a one-stop platform that empowers users to create person
 
 ## How to use
 
-[Link to demo](#)
+[Link to demo](https://disk.yandex.ru/i/S-Q1DhJgOrRGbQ)
 
 ## Implementation details
 
