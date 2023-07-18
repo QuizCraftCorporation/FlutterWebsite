@@ -8,7 +8,7 @@ import '../domain/entity/quiz_report.dart';
 import '../domain/entity/solved_quiz.dart';
 
 class API {
-  static const baseUrl = 'http://10.90.138.70:8000/api';
+  static const baseUrl = 'http://127.0.0.1:8000/api';
 
   static Future<List<String>> login(String username, String password) async {
     final response = await http.post(
@@ -18,7 +18,7 @@ class API {
         'password': password,
       },
     );
-    print('login. Status Code: ${response.statusCode}');
+    // print('login. Status Code: ${response.statusCode}');
     List<String> tokens = [
       jsonDecode(response.body)['refresh'],
       jsonDecode(response.body)['access']
@@ -36,7 +36,7 @@ class API {
         'refresh': refresh,
       },
     );
-    print('refresh. Status Code: ${response.statusCode}');
+    // print('refresh. Status Code: ${response.statusCode}');
     return jsonDecode(response.body)['access'];
   }
 
@@ -51,7 +51,7 @@ class API {
         'last_name': lastName,
       },
     );
-    print('register. Status Code: ${response.statusCode}');
+    // print('register. Status Code: ${response.statusCode}');
     if (response.statusCode != 200) {
       throw Exception('Cannot register. Please try again with different username.');
     }
@@ -74,7 +74,7 @@ class API {
         'refresh': refresh,
       },
     );
-    print('logout. Status Code: ${response.statusCode}');
+    // print('logout. Status Code: ${response.statusCode}');
     return;
   }
 
@@ -88,7 +88,7 @@ class API {
         'refresh': refresh,
       },
     );
-    print('logout. Status Code: ${response.statusCode}');
+    // print('logout. Status Code: ${response.statusCode}');
     return;
   }
 
@@ -99,7 +99,7 @@ class API {
         'Authorization': 'Bearer $access',
       },
     );
-    print('userMe. Status Code: ${response.statusCode}');
+    // print('userMe. Status Code: ${response.statusCode}');
     return;
   }
 
@@ -134,7 +134,7 @@ class API {
     }
     final response = await request.send();
     String body = await response.stream.bytesToString();
-    print('CreateQuiz. Status Code: ${response.statusCode}');
+    // print('CreateQuiz. Status Code: ${response.statusCode}');
     return jsonDecode(body)['id'];
   }
 
@@ -146,7 +146,7 @@ class API {
         'Authorization': 'Bearer $access',
       },
     );
-    print('getQuizWithoutAnswers. Status Code: ${response.statusCode}');
+    // print('getQuizWithoutAnswers. Status Code: ${response.statusCode}');
     return QuizNoAnswers.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   }
 
@@ -162,7 +162,7 @@ class API {
         SolvedQuiz(quizId: quizId, optionIds: answers).toJson(),
       ),
     );
-    print('getQuizReport. Status Code: ${response.statusCode}');
+    // print('getQuizReport. Status Code: ${response.statusCode}');
     QuizReport quizReport = QuizReport.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     return quizReport;
   }
@@ -176,7 +176,7 @@ class API {
       Uri.parse('$baseUrl/quiz/$quizId/?answer=true'),
       headers: headers,
     );
-    print('getQuizWithAnswers. Status code: ${response.statusCode}');
+    // print('getQuizWithAnswers. Status code: ${response.statusCode}');
     // print('getQuizWithAnswers. Body: ${utf8.decode(response.bodyBytes)}');
 
     Quiz quiz = Quiz.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -190,7 +190,7 @@ class API {
         'Authorization': 'Bearer $access',
       },
     );
-    print('getMyQuizzes. Status code: ${response.statusCode}');
+    // print('getMyQuizzes. Status code: ${response.statusCode}');
     // print('getMyQuizzes. Body: ${response.body}');
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
@@ -207,7 +207,7 @@ class API {
     final response = await http.get(
       Uri.parse('$baseUrl/quiz/search/?data=$search'),
     );
-    print('searchQuizzes. Status code: ${response.statusCode}');
+    // print('searchQuizzes. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
         .map((data) => QuizPreview.fromJson(data))
@@ -228,7 +228,7 @@ class API {
     final response = await http.get(
       Uri.parse(uri),
     );
-    print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
+    // print('getExploreCategory. Category=$category. Status code: ${response.statusCode}');
 
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
@@ -247,7 +247,7 @@ class API {
         'Authorization': 'Bearer $access',
       }
     );
-    print('getExploreHistory. Status code: ${response.statusCode}');
+    // print('getExploreHistory. Status code: ${response.statusCode}');
     List<QuizPreview> quizzes = [];
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))
         .map((data) => QuizPreview.fromJson(data))
@@ -265,7 +265,7 @@ class API {
         'Authorization': 'Bearer $access',
       }
     );
-    print('isCrafterFree. Status Code: ${response.statusCode}');
+    // print('isCrafterFree. Status Code: ${response.statusCode}');
     if (response.statusCode == 200 || jsonDecode(response.body)['detail'] == 'You have no quizzes generating for you.'){
       return -1;
     } else{
@@ -280,7 +280,7 @@ class API {
         'Authorization': 'Bearer $access',
       },
     );
-    print('checkProgress. Status Code: ${response.statusCode}');
+    // print('checkProgress. Status Code: ${response.statusCode}');
     var body = jsonDecode(response.body);
     return (body['progress'] as double, body['state'].toString());
   }
