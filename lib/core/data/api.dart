@@ -8,7 +8,7 @@ import '../domain/entity/quiz_report.dart';
 import '../domain/entity/solved_quiz.dart';
 
 class API {
-  static const baseUrl = 'http://127.0.0.1:8000/api';
+  static const baseUrl = 'http://0.0.0.0:8000/api';
 
   static Future<List<String>> login(String username, String password) async {
     final response = await http.post(
