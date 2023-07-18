@@ -16,7 +16,9 @@ class MainAuthCubit extends Cubit<MainAuthState> {
       refresh = (await Storage.getRefresh());
       // emit(MainAuthIn(refresh: refresh, access: access));
     } catch (e) {
-      emit(MainAuthOut());
+      if (state is! MainAuthOut) {
+        emit(MainAuthOut());
+      }
       return;
     }
     try{
@@ -29,7 +31,9 @@ class MainAuthCubit extends Cubit<MainAuthState> {
         String newAccess = (await API.refresh(refresh, access));
         emit(MainAuthIn(refresh: refresh, access: newAccess));
       } catch (e){
-        emit(MainAuthOut());
+        if (state is! MainAuthOut) {
+          emit(MainAuthOut());
+        }
       }
     }
   }
